@@ -10,7 +10,7 @@ import astropy.units as u
 import pandas as pd
 import pyproj
 
-import geodetic_levelling.geophysical_parameters as geo_p
+import fire.api.geodetic_levelling.geophysical_parameters as geo_p
 
 
 def apply_tidal_corrections_to_height_diff(
@@ -536,6 +536,6 @@ def transform_height_diff_from_tidal_system_to_tidal_system(
     return height_diff_transformed
 
 
-from geodetic_levelling.metric_to_gpu_transformation import (
+from fire.api.geodetic_levelling.metric_to_gpu_transformation import (
     interpolate_gravity,
 )

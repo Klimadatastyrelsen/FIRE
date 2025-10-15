@@ -8,11 +8,11 @@ from pathlib import Path
 import pandas as pd
 import pyproj
 
-from geodetic_levelling.tidal_transformation import (
+from fire.api.geodetic_levelling.tidal_transformation import (
     transform_gravity_from_tidal_system_to_tidal_system,
 )
 
-import geodetic_levelling.geophysical_parameters as geo_p
+import fire.api.geodetic_levelling.geophysical_parameters as geo_p
 
 
 def interpolate_gravity(

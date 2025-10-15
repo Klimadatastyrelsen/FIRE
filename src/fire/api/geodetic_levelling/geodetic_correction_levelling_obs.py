@@ -4,15 +4,15 @@ from pathlib import Path
 
 import pandas as pd
 
-from geodetic_levelling.tidal_transformation import (
+from fire.api.geodetic_levelling.tidal_transformation import (
     apply_tidal_corrections_to_height_diff,
 )
 
-from geodetic_levelling.time_propagation import (
+from fire.api.geodetic_levelling.time_propagation import (
     propagate_height_diff_from_epoch_to_epoch,
 )
 
-from geodetic_levelling.metric_to_gpu_transformation import (
+from fire.api.geodetic_levelling.metric_to_gpu_transformation import (
     convert_metric_height_diff_to_geopotential_height_diff,
 )
 
