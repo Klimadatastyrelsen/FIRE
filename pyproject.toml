@@ -49,6 +49,11 @@ version = {attr = "fire.__version__"}
     # Bruges i `fire ts analyse-gnss`. Grid indholdende absolut uplift-rate (DTU 2016).
     # Dækker området 54.1-58° N, 7.7-13.1° E.
     "dtu2016_abs.tif",
+    # Grid-filer, der bruges i `fire niv regn`, se README.md i fire.data
+    "absg_DTU2016_PK.tif",
+    "DKup24geo_DTU2024_PK.tif",
+    "NKG2016_lev.tif",
+    "dk-g-direkte-fra-gri-thokn.tif",
 ]
 
 [tool.flake8]
