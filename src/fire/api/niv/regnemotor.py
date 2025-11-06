@@ -359,6 +359,12 @@ class RegneMotor(ABC):
         """En liste af filnavne som motoren producerer"""
         pass
 
+    @property
+    @abstractmethod
+    def parametre(self) -> dict:
+        """En dict af parametre brugt af motoren"""
+        pass
+
 
 class GamaRegn(RegneMotor):
     """
@@ -390,6 +396,11 @@ class GamaRegn(RegneMotor):
     def filer(self, nye_filnavne):
         """Sæt nye filnavne"""
         self.xml_in, self.xml_out, self.html_out = nye_filnavne
+
+    @property
+    def parametre(self) -> dict:
+        """En dict af parametre brugt i gama-local"""
+        return dict()
 
     def skriv_gama_inputfil(self):
         """
@@ -526,6 +537,11 @@ class DumRegn(RegneMotor):
     @filer.setter
     def filer(self, _):
         """En dum setter, der ikke ændrer noget."""
+
+    @property
+    def parametre(self) -> dict:
+        """En dict af parametre brugt i DumRegn"""
+        return dict()
 
 
 def _spredning(
