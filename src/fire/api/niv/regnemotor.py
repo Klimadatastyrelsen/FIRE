@@ -544,6 +544,56 @@ class DumRegn(RegneMotor):
         return dict()
 
 
+class GeodætiskRegn(GamaRegn):
+    """
+    En geodætisk regnemotor
+    TO DO: Dokumentér hvad GeodætiskRegn kan (i stil med det som
+    er lavet for den overordnede RegneMotor).
+    """
+
+    def __init__(
+        self,
+        tidal_system: str = None,
+        epoch_target: pd.Timestamp = None,
+        height_diff_unit: str = "metric",
+        output_height: str = None,
+        deformationmodel: str = None,
+        gravitymodel: str = None,
+        grid_inputfolder: Path = None,
+        **kwargs,
+    ):
+        # intitialiser parametre
+        self.tidal_system = tidal_system
+        if epoch_target is None:
+            self.epoch_target = epoch_target
+        else:
+            self.epoch_target = datetime(int(epoch_target), 1, 1)
+        self.height_diff_unit = height_diff_unit
+        self.output_height = output_height
+        self.deformationmodel = deformationmodel
+        self.gravitymodel = gravitymodel
+        if grid_inputfolder is None:
+            self.grid_inputfolder = grid_inputfolder
+        else:
+            self.grid_inputfolder = Path(grid_inputfolder)
+
+        # start GamaRegn med de resterende parametre
+        super().__init__(**kwargs)
+
+    @property
+    def parametre(self):
+
+        return dict(
+            tidal_system=self.tidal_system,
+            epoch_target=self.epoch_target,
+            height_diff_unit=self.height_diff_unit,
+            output_height=self.output_height,
+            deformationmodel=self.deformationmodel,
+            gravitymodel=self.gravitymodel,
+            grid_inputfolder=self.grid_inputfolder,
+        )
+
+
 def _spredning(
     observationstype: str,
     afstand_i_m: float,
