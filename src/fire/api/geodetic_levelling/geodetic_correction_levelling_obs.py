@@ -24,8 +24,8 @@ from fire.api.niv.regnemotor import (
 
 
 def apply_geodetic_corrections_to_height_diffs(
-    observations: list[InternNivObservation],
-    points: list[InternKote],
+    height_diff_objects: list[InternNivObservation],
+    height_objects: list[InternKote],
     height_diff_unit: str = "metric",
     epoch_target: pd.Timestamp = None,
     tidal_system: str = None,
@@ -33,10 +33,10 @@ def apply_geodetic_corrections_to_height_diffs(
     deformationmodel: str = None,
     gravitymodel: str = None,
 ) -> tuple[list[InternNivObservation], pd.DataFrame]:
-    """Apply various geodetic corrections to a list of InternNivObservation.
+    """Apply geodetic corrections to metric height differences.
 
-    Applies various geodetic corrections to the metric height differences contained in a list of
-    InternNivObservation.
+    Applies various geodetic corrections to the metric height differences in a list of
+    InternNivObservation objects.
 
     The metric height differences are tidally corrected if and only if the function is called
     with an argument for parameter tidal_system.
@@ -50,9 +50,9 @@ def apply_geodetic_corrections_to_height_diffs(
     for both parameter gravitymodel and grid_inputfolder.
 
     Args:
-    observations: list[InternNivObservation], list of InternNivObservation with metric height
-    differences to be corrected/converted
-    points: list[InternKote], list of InternKote with geographic coordinates of from/to points
+    height_diff_objects: list[InternNivObservation], list of InternNivObservation objects with
+    metric height differences to be corrected/converted
+    height_objects: list[InternKote], list of InternKote objects with geographic coordinates of from/to points
     height_diff_unit: str = "metric", optional parameter, determines whether or not metric
     input height differences are converted to geopotential units, "metric" for no conversion,
     "gpu" for conversion to gpu, default value is "metric"
@@ -69,20 +69,20 @@ def apply_geodetic_corrections_to_height_diffs(
 
     Returns:
     tuple[list[InternNivObservation], pd.DataFrame], a tuple containing a list of InternNivObservation
-    with corrected/converted height differences (a deep copy of the input list) and a DataFrame
-    with the corrections themselves.
+    objects with corrected/converted height differences (generated from deep copies of the
+    inputted InternNivObservation objects) and a DataFrame with the corrections themselves.
 
     Raises:
     ? Hvis input mappe eller filer ikke findes, hvis der mangler punkter i points?
     """
     # Output list for corrected/converted height differences
-    observations_corrected = []
+    height_diff_objects_corrected = []
 
     # Output DataFrame for applied corrections
     index = []
 
-    for observation in observations:
-        index.append(observation.id)
+    for height_diff_object in height_diff_objects:
+        index.append(height_diff_object.id)
 
     corrections_df = pd.DataFrame(
         columns=[
@@ -93,18 +93,22 @@ def apply_geodetic_corrections_to_height_diffs(
         index=index,
     )
 
-    for observation in observations:
-        height_diff = observation.deltaH
-        point_from = observation.fra
-        point_to = observation.til
-        epoch_obs = observation.dato
+    for height_diff_object in height_diff_objects:
+        height_diff = height_diff_object.deltaH
+        point_from = height_diff_object.fra
+        point_to = height_diff_object.til
+        epoch_obs = height_diff_object.dato
 
         # Geographic coordinates of point_from and point_to
         (point_from_lat, point_from_long) = [
-            (point.nord, point.øst) for point in points if point.punkt == point_from
+            (height_object.nord, height_object.øst)
+            for height_object in height_objects
+            if height_object.punkt == point_from
         ][0]
         (point_to_lat, point_to_long) = [
-            (point.nord, point.øst) for point in points if point.punkt == point_to
+            (height_object.nord, height_object.øst)
+            for height_object in height_objects
+            if height_object.punkt == point_to
         ][0]
 
         # The metric height differences are tidally corrected if the
@@ -124,7 +128,7 @@ def apply_geodetic_corrections_to_height_diffs(
             )
 
             corrections_df.at[
-                observation.id,
+                height_diff_object.id,
                 f"ΔH tidal correction (tidal system: {tidal_system}) [m]",
             ] = tidal_corr
 
@@ -149,7 +153,7 @@ def apply_geodetic_corrections_to_height_diffs(
             )
 
             corrections_df.at[
-                observation.id,
+                height_diff_object.id,
                 f"ΔH epoch correction (target epoch: {epoch_target}) [m]",
             ] = epoch_corr
 
@@ -176,7 +180,7 @@ def apply_geodetic_corrections_to_height_diffs(
             )
 
             corrections_df.at[
-                observation.id,
+                height_diff_object.id,
                 f"ΔH m2gpu multiplication factor (tidal system: {tidal_system}) [m/s^2]",
             ] = m2gpu_factor
 
@@ -189,9 +193,9 @@ def apply_geodetic_corrections_to_height_diffs(
             parameter height_diff_unit and/or gravitymodel and/or grid_inputfolder."
             )
 
-        # Update of observation_corrected and observations_corrected
-        observation_corrected = copy.deepcopy(observation)
-        observation_corrected.deltaH = height_diff
-        observations_corrected.append(observation_corrected)
+        # Update of height_diff_object_corrected and height_diff_objects_corrected
+        height_diff_object_corrected = copy.deepcopy(height_diff_object)
+        height_diff_object_corrected.deltaH = height_diff
+        height_diff_objects_corrected.append(height_diff_object_corrected)
 
-    return (observations_corrected, corrections_df)
+    return (height_diff_objects_corrected, corrections_df)
