@@ -4,6 +4,7 @@ to geopotential units or vice versa.
 
 from math import sin, pi, isnan
 from pathlib import Path
+import copy
 
 import pandas as pd
 import pyproj
@@ -13,6 +14,10 @@ from fire.api.geodetic_levelling.tidal_transformation import (
 )
 
 import fire.api.geodetic_levelling.geophysical_parameters as geo_p
+
+from fire.api.niv.regnemotor import (
+    InternKote,
+)
 
 
 def interpolate_gravity(
@@ -467,38 +472,35 @@ def convert_geopotential_height_to_helmert_height(
 
 
 def convert_geopotential_heights_to_metric_heights(
-    fire_project: str,
-    excel_inputfolder: Path,
-    outputfolder: Path,
+    height_objects: list[InternKote],
     conversion: str,
     grid_inputfolder: Path = None,
     gravitymodel: str = None,
     tidal_system: str = None,
     iterate: bool = True,
-) -> None:
+) -> tuple[list[InternKote], pd.DataFrame]:
     """Convert geopotential heights to metric heights or vice versa.
 
-    Converts geopotential heights of a FIRE project to metric heights or vice versa.
+    Converts the geopotential heights in a list of InternKote objects to metric heights
+    or vice versa.
 
-    If geopotential heights are to be converted to metric heights (Helmert heights or
-    normal heights) the input heights are taken from column "Ny kote" in the sheet
-    "Kontrolberegning" in the input excel-file and the converted heights are written to
-    column "Ny kote" in the sheet "Kontrolberegning" in the output excel-file.
+    # If geopotential heights are to be converted to metric heights (Helmert heights or
+    # normal heights) the input heights are taken from column "Ny kote" in the sheet
+    # "Kontrolberegning" in the input excel-file and the converted heights are written to
+    # column "Ny kote" in the sheet "Kontrolberegning" in the output excel-file.
 
-    The conversion of geopotential heights to metric heights (Helmert heights or
-    normal heights) requires a priori metric heights, which are taken from column "Kote"
-    in the sheet "Kontrolberegning" in the input excel-file.
+    # The conversion of geopotential heights to metric heights (Helmert heights or
+    # normal heights) requires a priori metric heights, which are taken from column "Kote"
+    # in the sheet "Kontrolberegning" in the input excel-file.
 
-    If Helmert heights or normal heights are to be converted to geopotential heights
-    the input heights are taken from column "Kote" in the sheet "Kontrolberegning" in the
-    input excel-file and the converted heights are written to column "Ny kote" in the
-    sheet "Kontrolberegning" in the output excel-file.
+    # If Helmert heights or normal heights are to be converted to geopotential heights
+    # the input heights are taken from column "Kote" in the sheet "Kontrolberegning" in the
+    # input excel-file and the converted heights are written to column "Ny kote" in the
+    # sheet "Kontrolberegning" in the output excel-file.
 
     Args:
-    fire_project: str, name of FIRE project with heights to be converted, must be in accordance
-    with the name of the input excel-file, e.g. "asmei_temp"
-    excel_inputfolder: Path, folder with input FIRE project/excel-file with heights to be converted
-    outputfolder: Path, folder for output FIRE project/excel-file with converted heights
+    height_objects: list[InternKote], list of InternKote objects with geopotential heights
+    or metric heights to be converted
     conversion: str, specification of source and target height, "geopot_to_helmert",
     "helmert_to_geopot", "geopot_to_normal" or "normal_to_geopot"
     grid_inputfolder: Path = None, optional parameter, folder for input grid, i.e. gravity model,
@@ -514,174 +516,84 @@ def convert_geopotential_heights_to_metric_heights(
     metric heights are calculated iteratively, default value is True
 
     Returns:
-    None
+    tuple[list[InternKote], pd.DataFrame], a tuple containing a list of InternKote objects
+    with converted heights (generated from deep copies of the inputted InternKote objects)
+    and a DataFrame with the conversion factors or average normal gravity values used for
+    height conversion
 
     Raises:
-    ? Hvis grid_inputfolder ikke findes, hvis grid-fil ikke findes, hvis input excel-fil ikke findes
+    ? Hvis grid_inputfolder ikke findes, hvis grid-fil ikke findes,
 
-    Input file:
-    FIRE project/excel-file with heights to be converted, e.g. "asmei_temp.xlsx"
-
-    Output file:
-    Excel-file with converted heights. This file contains the converted heights in column "Ny kote"
-    as well as the conversion factors or average normal gravity values used for height conversion.
-    Except for that the file is identical to the input excel-file.
-
+    TO DO: apriori_heights: list[InternKote]=[]?, try...?
     TO DO: Håndtering manglende a priori værdi?
     TO DO: Håndtering manglende inputhøjde?
+    TO DO: Specificer input/output enheder
     """
-    # Make sure that the output folder exists
-    outputfolder.mkdir(parents=True, exist_ok=True)
+    # Output list for converted heights
+    height_objects_converted = []
 
-    excel_inputfile = excel_inputfolder / f"{fire_project}.xlsx"
+    # Output DataFrame for conversion factors/average normal gravity values
+    index = []
 
-    # DataFrame with heights etc. from input fire project
-    points_df = pd.read_excel(excel_inputfile, sheet_name="Kontrolberegning")
+    for height_object in height_objects:
+        index.append(height_object.punkt)
 
-    if conversion == "geopot_to_normal":
-        for index in points_df.index:
-            h_adjusted = points_df.at[index, "Ny kote"]
-            h_db = points_df.at[index, "Kote"]
-            latitude = points_df.at[index, "Nord"]
+    conversion_factors_df = pd.DataFrame(
+        index=index,
+    )
 
+    for height_object in height_objects:
+        height = height_object.H
+        latitude = height_object.nord
+        longitude = height_object.øst
+
+        if conversion == "geopot_to_normal" or conversion == "normal_to_geopot":
             (height_converted, average_normal_gravity) = (
                 convert_geopotential_height_to_normal_height(
-                    h_adjusted,
+                    height,
                     latitude,
-                    "geopot_to_normal",
-                    approx_normal_height=h_db,
+                    conversion,
                     iterate=iterate,
                 )
             )
-            points_df.at[index, "Ny kote"] = height_converted
-            points_df.at[index, "Average normal gravity [10 m/s^2]"] = (
-                average_normal_gravity
-            )
 
-    elif conversion == "normal_to_geopot":
-        for index in points_df.index:
-            h_db = points_df.at[index, "Kote"]
-            latitude = points_df.at[index, "Nord"]
+            conversion_factors_df.at[
+                height_object.punkt,
+                "Average normal gravity [10 m/s^2]",
+            ] = average_normal_gravity
 
-            (height_converted, average_normal_gravity) = (
-                convert_geopotential_height_to_normal_height(
-                    h_db,
-                    latitude,
-                    "normal_to_geopot",
-                )
-            )
-            points_df.at[index, "Ny kote"] = height_converted
-            points_df.at[index, "Average normal gravity [10 m/s^2]"] = (
-                average_normal_gravity
-            )
-
-    elif (
-        conversion == "geopot_to_helmert"
-        and (grid_inputfolder is not None)
-        and (gravitymodel is not None)
-    ):
-        for index in points_df.index:
-            h_adjusted = points_df.at[index, "Ny kote"]
-            h_db = points_df.at[index, "Kote"]
-            latitude = points_df.at[index, "Nord"]
-            longitude = points_df.at[index, "Øst"]
-
+        elif (
+            (conversion == "geopot_to_helmert" or conversion == "helmert_to_geopot")
+            and (grid_inputfolder is not None)
+            and (gravitymodel is not None)
+        ):
             (height_converted, conversion_factor) = (
                 convert_geopotential_height_to_helmert_height(
-                    h_adjusted,
+                    height,
                     latitude,
                     longitude,
                     grid_inputfolder,
                     gravitymodel,
-                    "geopot_to_helmert",
+                    conversion,
                     tidal_system=tidal_system,
-                    approx_helmert_height=h_db,
                     iterate=iterate,
                 )
             )
-            points_df.at[index, "Ny kote"] = height_converted
-            points_df.at[index, "Conversion factor [10 m/s^2]"] = conversion_factor
 
-    elif (
-        conversion == "helmert_to_geopot"
-        and (grid_inputfolder is not None)
-        and (gravitymodel is not None)
-    ):
-        for index in points_df.index:
-            h_db = points_df.at[index, "Kote"]
-            latitude = points_df.at[index, "Nord"]
-            longitude = points_df.at[index, "Øst"]
+            conversion_factors_df.at[
+                height_object.punkt,
+                f"Conversion factor (tidal system: {tidal_system}) [10 m/s^2]",
+            ] = conversion_factor
 
-            (height_converted, conversion_factor) = (
-                convert_geopotential_height_to_helmert_height(
-                    h_db,
-                    latitude,
-                    longitude,
-                    grid_inputfolder,
-                    gravitymodel,
-                    "helmert_to_geopot",
-                    tidal_system=tidal_system,
-                )
+        else:
+            exit(
+                "Function convert_geopotential_heights_to_metric_heights: Wrong arguments for\n\
+            parameter conversion and/or grid_inputfolder and/or gravitymodel."
             )
-            points_df.at[index, "Ny kote"] = height_converted
-            points_df.at[index, "Conversion factor [10 m/s^2]"] = conversion_factor
 
-    else:
-        exit(
-            "Function convert_geopotential_heights_to_metric_heights: Wrong arguments for\n\
-        parameter conversion and/or grid_inputfolder and/or gravitymodel."
-        )
+        # Update of height_object_converted and height_objects_converted
+        height_object_converted = copy.deepcopy(height_object)
+        height_object_converted.H = height_converted
+        height_objects_converted.append(height_object_converted)
 
-    # DataFrame with parameters of output fire project
-    parameters_df = pd.read_excel(excel_inputfile, sheet_name="Parametre")
-
-    if conversion == "geopot_to_normal" or conversion == "normal_to_geopot":
-        parameters_new_df = pd.DataFrame(
-            {
-                "Navn": [
-                    "Conversion of heights",
-                ],
-                "Værdi": [conversion],
-            },
-        )
-
-    if conversion == "geopot_to_helmert" or conversion == "helmert_to_geopot":
-        parameters_new_df = pd.DataFrame(
-            {
-                "Navn": [
-                    "Conversion of heights",
-                    "Gravitymodel for conversion of heights",
-                ],
-                "Værdi": [conversion, gravitymodel],
-            },
-        )
-
-    parameters_df = pd.concat([parameters_df, parameters_new_df], ignore_index=True)
-
-    # Generation of output fire project/excel file with converted heights
-    with pd.ExcelWriter(
-        outputfolder / f"{fire_project}.xlsx"
-    ) as writer:  # pylint: disable=abstract-class-instantiated
-        pd.read_excel(excel_inputfile, sheet_name="Projektforside").to_excel(
-            writer, "Projektforside", index=False
-        )
-        pd.read_excel(excel_inputfile, sheet_name="Sagsgang").to_excel(
-            writer, "Sagsgang", index=False
-        )
-        pd.read_excel(excel_inputfile, sheet_name="Nyetablerede punkter").to_excel(
-            writer, "Nyetablerede punkter", index=False
-        )
-        pd.read_excel(excel_inputfile, sheet_name="Notater").to_excel(
-            writer, "Notater", index=False
-        )
-        pd.read_excel(excel_inputfile, sheet_name="Filoversigt").to_excel(
-            writer, "Filoversigt", index=False
-        )
-        pd.read_excel(excel_inputfile, sheet_name="Observationer").to_excel(
-            writer, "Observationer", index=False
-        )
-        pd.read_excel(excel_inputfile, sheet_name="Punktoversigt").to_excel(
-            writer, "Punktoversigt", index=False
-        )
-        points_df.to_excel(writer, "Kontrolberegning", index=False)
-        parameters_df.to_excel(writer, "Parametre", index=False)
+    return (height_objects_converted, conversion_factors_df)
