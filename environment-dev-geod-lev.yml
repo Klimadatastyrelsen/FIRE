@@ -34,3 +34,4 @@ dependencies:
   - astropy
   - jplephem
   - cartopy
+  - networkx
