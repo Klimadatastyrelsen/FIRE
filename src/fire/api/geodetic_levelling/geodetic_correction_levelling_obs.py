@@ -17,26 +17,26 @@ from fire.api.geodetic_levelling.metric_to_gpu_transformation import (
     convert_metric_height_diff_to_geopotential_height_diff,
 )
 
-from fire.api.niv.regnemotor import (
-    InternNivObservation,
-    InternKote,
+from fire.api.niv.datatyper import (
+    NivObservation,
+    NivKote,
 )
 
 
 def apply_geodetic_corrections_to_height_diffs(
-    height_diff_objects: list[InternNivObservation],
-    height_objects: list[InternKote],
+    height_diff_objects: list[NivObservation],
+    height_objects: list[NivKote],
     height_diff_unit: str = "metric",
     epoch_target: pd.Timestamp = None,
     tidal_system: str = None,
     grid_inputfolder: Path = None,
     deformationmodel: str = None,
     gravitymodel: str = None,
-) -> tuple[list[InternNivObservation], pd.DataFrame]:
+) -> tuple[list[NivObservation], pd.DataFrame]:
     """Apply geodetic corrections to metric height differences.
 
     Applies various geodetic corrections to the metric height differences in a list of
-    InternNivObservation objects.
+    NivObservation objects.
 
     The metric height differences are tidally corrected if and only if the function is called
     with an argument for parameter tidal_system.
@@ -50,9 +50,9 @@ def apply_geodetic_corrections_to_height_diffs(
     for both parameter gravitymodel and grid_inputfolder.
 
     Args:
-    height_diff_objects: list[InternNivObservation], list of InternNivObservation objects with
+    height_diff_objects: list[NivObservation], list of NivObservation objects with
     metric height differences to be corrected/converted
-    height_objects: list[InternKote], list of InternKote objects with geographic coordinates of from/to points
+    height_objects: list[NivKote], list of NivKote objects with geographic coordinates of from/to points
     height_diff_unit: str = "metric", optional parameter, determines whether or not metric
     input height differences are converted to geopotential units, "metric" for no conversion,
     "gpu" for conversion to gpu, default value is "metric"
@@ -68,9 +68,9 @@ def apply_geodetic_corrections_to_height_diffs(
     height differences to gpu, must be in GeoTIFF or GTX file format, e.g. "dk-g-direkte-fra-gri-thokn.tif"
 
     Returns:
-    tuple[list[InternNivObservation], pd.DataFrame], a tuple containing a list of InternNivObservation
+    tuple[list[NivObservation], pd.DataFrame], a tuple containing a list of NivObservation
     objects with corrected/converted height differences (generated from deep copies of the
-    inputted InternNivObservation objects) and a DataFrame with the corrections themselves.
+    inputted NivObservation objects) and a DataFrame with the corrections themselves.
 
     Raises:
     ? Hvis input mappe eller filer ikke findes, hvis der mangler punkter i points?

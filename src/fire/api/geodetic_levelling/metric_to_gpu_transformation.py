@@ -15,8 +15,8 @@ from fire.api.geodetic_levelling.tidal_transformation import (
 
 import fire.api.geodetic_levelling.geophysical_parameters as geo_p
 
-from fire.api.niv.regnemotor import (
-    InternKote,
+from fire.api.niv.datatyper import (
+    NivKote,
 )
 
 
@@ -472,16 +472,16 @@ def convert_geopotential_height_to_helmert_height(
 
 
 def convert_geopotential_heights_to_metric_heights(
-    height_objects: list[InternKote],
+    height_objects: list[NivKote],
     conversion: str,
     grid_inputfolder: Path = None,
     gravitymodel: str = None,
     tidal_system: str = None,
     iterate: bool = True,
-) -> tuple[list[InternKote], pd.DataFrame]:
+) -> tuple[list[NivKote], pd.DataFrame]:
     """Convert geopotential heights to metric heights or vice versa.
 
-    Converts the geopotential heights in a list of InternKote objects to metric heights
+    Converts the geopotential heights in a list of NivKote objects to metric heights
     or vice versa.
 
     # If geopotential heights are to be converted to metric heights (Helmert heights or
@@ -499,7 +499,7 @@ def convert_geopotential_heights_to_metric_heights(
     # sheet "Kontrolberegning" in the output excel-file.
 
     Args:
-    height_objects: list[InternKote], list of InternKote objects with geopotential heights
+    height_objects: list[NivKote], list of NivKote objects with geopotential heights
     or metric heights to be converted
     conversion: str, specification of source and target height, "geopot_to_helmert",
     "helmert_to_geopot", "geopot_to_normal" or "normal_to_geopot"
@@ -516,8 +516,8 @@ def convert_geopotential_heights_to_metric_heights(
     metric heights are calculated iteratively, default value is True
 
     Returns:
-    tuple[list[InternKote], pd.DataFrame], a tuple containing a list of InternKote objects
-    with converted heights (generated from deep copies of the inputted InternKote objects)
+    tuple[list[NivKote], pd.DataFrame], a tuple containing a list of NivKote objects
+    with converted heights (generated from deep copies of the inputted NivKote objects)
     and a DataFrame with the conversion factors or average normal gravity values used for
     height conversion
 
