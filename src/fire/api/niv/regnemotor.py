@@ -31,6 +31,13 @@ from fire.api.niv.lukkesum import (
     lukkesum_af_polygon,
 )
 
+from fire.api.geodetic_levelling.geodetic_correction_levelling_obs import (
+    apply_geodetic_corrections_to_height_diffs,
+)
+from fire.api.geodetic_levelling.metric_to_gpu_transformation import (
+    convert_geopotential_heights_to_metric_heights,
+)
+
 
 class UdjævningFejl(Exception):
     """Der gik noget galt under udjævningen"""
@@ -108,8 +115,8 @@ class RegneMotor(ABC):
         projektnavn: str = "fire",
     ):
         # observationerne refereres internt med et unikt id som kan bruges i forskellige sammenhænge
-        self._observationer = {uuid(): o for o in observationer}
-        self._gamle_koter = {gk.punkt: gk for gk in gamle_koter}
+        self.observationer = observationer
+        self.gamle_koter = gamle_koter
         self.nye_koter: list[NivKote] = []
         self.projektnavn = projektnavn
 
@@ -132,11 +139,19 @@ class RegneMotor(ABC):
 
     @property
     def observationer(self):
-        return self._observationer.values()
+        return list(self._observationer.values())
+
+    @observationer.setter
+    def observationer(self, observationer):
+        self._observationer = {uuid(): o for o in observationer}
 
     @property
     def gamle_koter(self):
-        return self._gamle_koter.values()
+        return list(self._gamle_koter.values())
+
+    @gamle_koter.setter
+    def gamle_koter(self, gamle_koter):
+        self._gamle_koter = {gk.punkt: gk for gk in gamle_koter}
 
     @classmethod
     def fra_dataframe(
@@ -232,7 +247,7 @@ class RegneMotor(ABC):
 
         return df_out
 
-    @cached_property
+    @property
     def fastholdte(self) -> dict[PunktNavn, float]:
         """Find fastholdte punkter og koter til en beregning"""
         return {pkt.punkt: pkt.H for pkt in self.gamle_koter if pkt.fasthold}
@@ -592,6 +607,100 @@ class GeodætiskRegn(GamaRegn):
             gravitymodel=self.gravitymodel,
             grid_inputfolder=self.grid_inputfolder,
         )
+
+    def korriger_observationer(self):
+        """Korrigér observationer."""
+        if (
+            self.tidal_system is not None
+            or self.epoch_target is not None
+            or self.height_diff_unit == "gpu"
+        ):
+            print("Højdeforskelle påføres geodætiske korrektioner inden udjævning")
+
+            (self.observationer, self.korrektioner) = (
+                apply_geodetic_corrections_to_height_diffs(
+                    self.observationer,
+                    self.gamle_koter,
+                    self.height_diff_unit,
+                    self.epoch_target,
+                    self.tidal_system,
+                    self.grid_inputfolder,
+                    self.deformationmodel,
+                    self.gravitymodel,
+                )
+            )
+
+    def konverter_gamle_højder_til_gpu(self):
+        """Helmert-højder fra databasen konverteres til geopotentielle højder."""
+        if self.height_diff_unit == "gpu":
+            print(
+                "Højder konverteres fra Helmert-højder til geopotentielle højder inden udjævning"
+            )
+
+            # Helmert-højderne fra databasen gemmes inden konvertering til geopotentielle højder
+            self.gamle_koter_db = self.gamle_koter
+
+            (self.gamle_koter, self.tyngder) = (
+                convert_geopotential_heights_to_metric_heights(
+                    self.gamle_koter,
+                    "helmert_to_geopot",
+                    self.grid_inputfolder,
+                    self.gravitymodel,
+                    self.tidal_system,
+                    iterate=True,
+                )
+            )
+
+    def konverter_nye_højder_til_meter(self):
+        """Geopotentielle højder fra udjævningen konverteres til Helmert- eller normalhøjder."""
+        if self.height_diff_unit == "gpu" and (
+            self.output_height == "helmert" or self.output_height == "normal"
+        ):
+            deskriptor = {"helmert": "Helmert-højder", "normal": "normalhøjder"}
+
+            print(
+                f"Højder konverteres fra geopotentielle højder til {deskriptor[self.output_height]} efter udjævning"
+            )
+
+            # er alle punkter med i self.nye_koter? Kun ikke fastholdte?
+
+            # Konvertering til Helmert- eller normalhøjder afhænger af geografisk position
+            for ny_kote in self.nye_koter:
+                punktnr = ny_kote.punkt
+
+                (ny_kote.nord, ny_kote.øst) = [
+                    (gammel_kote.nord, gammel_kote.øst)
+                    for gammel_kote in self.gamle_koter
+                    if gammel_kote.punkt == punktnr
+                ][0]
+
+            (self.nye_koter, self.tyngder) = (
+                convert_geopotential_heights_to_metric_heights(
+                    self.nye_koter,
+                    f"geopot_to_{self.output_height}",
+                    self.grid_inputfolder,
+                    self.gravitymodel,
+                    self.tidal_system,
+                    iterate=True,
+                )
+            )
+
+    def gendan_gamle_højder(self):
+        """Helmert-højder fra databasen gendannes."""
+        if self.height_diff_unit == "gpu":
+            self.gamle_koter = self.gamle_koter_db
+
+    def udjævn(self):
+        """Korrigerer observationer, konverterer gamle højder, skriver gama input, kalder gama,
+        læser gama output og konverterer nye højder.
+        """
+        self.korriger_observationer()
+        self.konverter_gamle_højder_til_gpu()
+        self.skriv_gama_inputfil()
+        self.kald_gama()
+        self.nye_koter = self.læs_gama_outputfil()
+        self.konverter_nye_højder_til_meter()
+        self.gendan_gamle_højder()
 
 
 def _spredning(

@@ -251,9 +251,15 @@ def regn(
         raise SystemExit
 
     # opdater Parametre i regneark (er vi kommet her til er alle angivne parametre gyldige)
-    beregningsparametre = {"regnemotor": MotorKlasse.__name__}  # | motorkwargs
+    beregningsparametre = {"regnemotor": MotorKlasse.__name__}
     beregningsparametre.update(motor.parametre)
     for parameter, værdi in beregningsparametre.items():
+        # Værdi for beregningsparameter omsættes til en streng
+        if værdi is None:
+            værdi = ""
+        else:
+            værdi = str(værdi)
+
         # findes parameter allerede i regnearket?
         findes_parameter = parameter in list(parametre["Navn"])
         if not kontrol:
