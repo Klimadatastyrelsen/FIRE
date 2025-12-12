@@ -596,4 +596,8 @@ def convert_geopotential_heights_to_metric_heights(
         height_object_converted.H = height_converted
         height_objects_converted.append(height_object_converted)
 
+    conversion_factors_df = conversion_factors_df.reset_index().rename(
+        columns={"index": "Point"}
+    )
+
     return (height_objects_converted, conversion_factors_df)

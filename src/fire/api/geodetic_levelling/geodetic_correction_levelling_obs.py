@@ -86,9 +86,11 @@ def apply_geodetic_corrections_to_height_diffs(
 
     corrections_df = pd.DataFrame(
         columns=[
+            "From point",
+            "To point",
             f"ΔH tidal correction (tidal system: {tidal_system}) [m]",
             f"ΔH epoch correction (target epoch: {epoch_target}) [m]",
-            f"ΔH m2gpu multiplication factor (tidal system: {tidal_system}) [m/s^2]",
+            f"ΔH m2gpu multiplication factor (tidal system: {tidal_system}) [10 m/s^2]",
         ],
         index=index,
     )
@@ -110,6 +112,10 @@ def apply_geodetic_corrections_to_height_diffs(
             for height_object in height_objects
             if height_object.punkt == point_to
         ][0]
+
+        # Point from and point to are written to DataFrame for applied corrections
+        corrections_df.at[height_diff_object.id, "From point"] = point_from
+        corrections_df.at[height_diff_object.id, "To point"] = point_to
 
         # The metric height differences are tidally corrected if the
         # function apply_geodetic_corrections_to_height_diffs is called with an argument for
@@ -181,7 +187,7 @@ def apply_geodetic_corrections_to_height_diffs(
 
             corrections_df.at[
                 height_diff_object.id,
-                f"ΔH m2gpu multiplication factor (tidal system: {tidal_system}) [m/s^2]",
+                f"ΔH m2gpu multiplication factor (tidal system: {tidal_system}) [10 m/s^2]",
             ] = m2gpu_factor
 
         elif height_diff_unit == "metric":
@@ -197,5 +203,7 @@ def apply_geodetic_corrections_to_height_diffs(
         height_diff_object_corrected = copy.deepcopy(height_diff_object)
         height_diff_object_corrected.deltaH = height_diff
         height_diff_objects_corrected.append(height_diff_object_corrected)
+
+    corrections_df = corrections_df.reset_index().rename(columns={"index": "Journal"})
 
     return (height_diff_objects_corrected, corrections_df)

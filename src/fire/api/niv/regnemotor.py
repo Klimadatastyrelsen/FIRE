@@ -374,6 +374,12 @@ class RegneMotor(ABC):
         """En liste af filnavne som motoren producerer"""
         pass
 
+    @filer.setter
+    @abstractmethod
+    def filer(self, val):
+        """Sæt nye filnavne"""
+        pass
+
     @property
     @abstractmethod
     def parametre(self) -> dict:
@@ -575,6 +581,7 @@ class GeodætiskRegn(GamaRegn):
         deformationmodel: str = None,
         gravitymodel: str = None,
         grid_inputfolder: Path = None,
+        filnavn_korrektioner: str = None,
         **kwargs,
     ):
         # intitialiser parametre
@@ -592,11 +599,28 @@ class GeodætiskRegn(GamaRegn):
         else:
             self.grid_inputfolder = Path(grid_inputfolder)
 
-        # start GamaRegn med de resterende parametre
+        # initialiserer nedarvede parametre
         super().__init__(**kwargs)
 
+        # initialiserer parameter vedr. output-fil med geodætiske korrektioner
+        self.filnavn_korrektioner = (
+            filnavn_korrektioner or f"{self.projektnavn}-korrektioner.xlsx"
+        )
+
     @property
-    def parametre(self):
+    def filer(self) -> list:
+        """En liste af filer som GeodætiskRegn producerer"""
+        return [self.xml_in, self.xml_out, self.html_out, self.filnavn_korrektioner]
+
+    @filer.setter
+    def filer(self, nye_filnavne):
+        """Sæt nye filnavne"""
+        self.xml_in, self.xml_out, self.html_out, self.filnavn_korrektioner = (
+            nye_filnavne
+        )
+
+    @property
+    def parametre(self) -> dict:
 
         return dict(
             tidal_system=self.tidal_system,
@@ -617,7 +641,7 @@ class GeodætiskRegn(GamaRegn):
         ):
             print("Højdeforskelle påføres geodætiske korrektioner inden udjævning")
 
-            (self.observationer, self.korrektioner) = (
+            (self.observationer, self.korrektioner_obs) = (
                 apply_geodetic_corrections_to_height_diffs(
                     self.observationer,
                     self.gamle_koter,
@@ -640,7 +664,7 @@ class GeodætiskRegn(GamaRegn):
             # Helmert-højderne fra databasen gemmes inden konvertering til geopotentielle højder
             self.gamle_koter_db = self.gamle_koter
 
-            (self.gamle_koter, self.tyngder) = (
+            (self.gamle_koter, self.tyngder_konvertering_til_gpu) = (
                 convert_geopotential_heights_to_metric_heights(
                     self.gamle_koter,
                     "helmert_to_geopot",
@@ -674,7 +698,7 @@ class GeodætiskRegn(GamaRegn):
                     if gammel_kote.punkt == punktnr
                 ][0]
 
-            (self.nye_koter, self.tyngder) = (
+            (self.nye_koter, self.tyngder_konvertering_til_meter) = (
                 convert_geopotential_heights_to_metric_heights(
                     self.nye_koter,
                     f"geopot_to_{self.output_height}",
@@ -690,9 +714,36 @@ class GeodætiskRegn(GamaRegn):
         if self.height_diff_unit == "gpu":
             self.gamle_koter = self.gamle_koter_db
 
+    def skriv_korrektioner(self):
+        """Skriv excel-fil med anvendte korrektioner/tyngder og beregningsparametre."""
+        beregningsparametre = {"regnemotor": type(self).__name__}
+        beregningsparametre.update(self.parametre)
+
+        beregningsparametre = pd.DataFrame.from_dict(
+            beregningsparametre, orient="index"
+        ).reset_index()
+
+        beregningsparametre.columns = ["Name", "Value"]
+
+        with pd.ExcelWriter(
+            self.filnavn_korrektioner
+        ) as writer:  # pylint: disable=abstract-class-instantiated
+            beregningsparametre.to_excel(writer, sheet_name="Parameters", index=False)
+            self.korrektioner_obs.to_excel(
+                writer, sheet_name="Corrections levelling", index=False
+            )
+            self.tyngder_konvertering_til_gpu.to_excel(
+                writer, sheet_name="Helmert heights > gpu", index=False
+            )
+            self.tyngder_konvertering_til_meter.to_excel(
+                writer,
+                sheet_name="gpu heights > Helmert|normal",
+                index=False,
+            )
+
     def udjævn(self):
         """Korrigerer observationer, konverterer gamle højder, skriver gama input, kalder gama,
-        læser gama output og konverterer nye højder.
+        læser gama output, konverterer nye højder og skriver excel-fil med korrektioner.
         """
         self.korriger_observationer()
         self.konverter_gamle_højder_til_gpu()
@@ -701,6 +752,7 @@ class GeodætiskRegn(GamaRegn):
         self.nye_koter = self.læs_gama_outputfil()
         self.konverter_nye_højder_til_meter()
         self.gendan_gamle_højder()
+        self.skriv_korrektioner()
 
 
 def _spredning(
