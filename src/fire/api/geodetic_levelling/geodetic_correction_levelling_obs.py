@@ -163,6 +163,12 @@ def apply_geodetic_corrections_to_height_diffs(
                 f"ΔH epoch correction (target epoch: {epoch_target}) [m]",
             ] = epoch_corr
 
+        elif epoch_target is not None:
+            exit(
+                "Function apply_geodetic_corrections_to_height_diffs: Wrong arguments for\n\
+            parameter epoch_target and/or deformationmodel and/or grid_inputfolder."
+            )
+
         # The metric height differences are converted to geopotential units if
         # the function apply_geodetic_corrections_to_height_diffs is called with argument "gpu"
         # for parameter height_diff_unit and with arguments for both parameter gravitymodel

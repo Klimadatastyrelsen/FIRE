@@ -654,6 +654,14 @@ class GeodætiskRegn(GamaRegn):
                 )
             )
 
+        elif self.height_diff_unit == "metric":
+            pass
+
+        else:
+            raise ValideringFejl(
+                "Argumentet til parameteren height_diff_unit skal være enten 'metric' eller 'gpu'"
+            )
+
     def konverter_gamle_højder_til_gpu(self):
         """Helmert-højder fra databasen konverteres til geopotentielle højder."""
         if self.height_diff_unit == "gpu":
@@ -709,6 +717,20 @@ class GeodætiskRegn(GamaRegn):
                 )
             )
 
+        elif self.height_diff_unit == "gpu" and (self.output_height is None):
+            pass
+
+        elif self.height_diff_unit == "gpu":
+            raise ValideringFejl(
+                "Argumentet til parameteren output_height skal være enten 'helmert' eller 'normal'"
+            )
+
+        elif self.height_diff_unit == "metric" and (self.output_height is not None):
+            raise ValideringFejl(
+                "Hvis regnemotoren startes med et argument til parameteren output_height,"
+                " skal argumentet til parameteren height_diff_unit være 'gpu'"
+            )
+
     def gendan_gamle_højder(self):
         """Helmert-højder fra databasen gendannes."""
         if self.height_diff_unit == "gpu":
@@ -729,17 +751,23 @@ class GeodætiskRegn(GamaRegn):
             self.filnavn_korrektioner
         ) as writer:  # pylint: disable=abstract-class-instantiated
             beregningsparametre.to_excel(writer, sheet_name="Parameters", index=False)
-            self.korrektioner_obs.to_excel(
-                writer, sheet_name="Corrections levelling", index=False
-            )
-            self.tyngder_konvertering_til_gpu.to_excel(
-                writer, sheet_name="Helmert heights > gpu", index=False
-            )
-            self.tyngder_konvertering_til_meter.to_excel(
-                writer,
-                sheet_name="gpu heights > Helmert|normal",
-                index=False,
-            )
+            # Hvis self.tyngder_konvertering_til_meter eksisterer, eksisterer
+            # self.tyngder_konvertering_til_gpu, og hvis self.tyngder_konvertering_til_gpu
+            # eksisterer, eksisterer self.korrektioner_obs
+            try:
+                self.korrektioner_obs.to_excel(
+                    writer, sheet_name="Corrections levelling", index=False
+                )
+                self.tyngder_konvertering_til_gpu.to_excel(
+                    writer, sheet_name="Helmert heights > gpu", index=False
+                )
+                self.tyngder_konvertering_til_meter.to_excel(
+                    writer,
+                    sheet_name="gpu heights > Helmert|normal",
+                    index=False,
+                )
+            except:
+                AttributeError
 
     def udjævn(self):
         """Korrigerer observationer, konverterer gamle højder, skriver gama input, kalder gama,
