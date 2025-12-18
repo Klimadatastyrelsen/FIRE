@@ -12,8 +12,10 @@ from math import (
 from pathlib import Path
 import subprocess
 from typing import Self
+import warnings
 import xmltodict
 
+import erfa
 import pandas as pd
 
 from fire import uuid
@@ -36,6 +38,9 @@ from fire.api.geodetic_levelling.geodetic_correction_levelling_obs import (
 )
 from fire.api.geodetic_levelling.metric_to_gpu_transformation import (
     convert_geopotential_heights_to_metric_heights,
+)
+from fire.api.geodetic_levelling.histogram import (
+    decimalyear_to_datetime,
 )
 
 
@@ -575,34 +580,50 @@ class GeodætiskRegn(GamaRegn):
     def __init__(
         self,
         tidal_system: str = None,
-        epoch_target: pd.Timestamp = None,
+        epoch_target: float | str = None,
         height_diff_unit: str = "metric",
         output_height: str = None,
         deformationmodel: str = None,
         gravitymodel: str = None,
-        grid_inputfolder: Path = None,
+        grid_inputfolder: str = None,
         filnavn_korrektioner: str = None,
         **kwargs,
     ):
-        # intitialiser parametre
-        self.tidal_system = tidal_system
-        if epoch_target is None:
-            self.epoch_target = epoch_target
+        # Intitialiser parametre
+        if not tidal_system:
+            self.tidal_system = None
         else:
-            self.epoch_target = datetime(int(epoch_target), 1, 1)
+            self.tidal_system = tidal_system
+        if not epoch_target:
+            self.epoch_target = None
+        else:
+            # Hvis epoch_target ligger langt tilbage eller frem i tid kan det medføre ErfaWarnings
+            # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", category=erfa.ErfaWarning)
+                self.epoch_target = decimalyear_to_datetime(epoch_target)
         self.height_diff_unit = height_diff_unit
-        self.output_height = output_height
-        self.deformationmodel = deformationmodel
-        self.gravitymodel = gravitymodel
-        if grid_inputfolder is None:
-            self.grid_inputfolder = grid_inputfolder
+        if not output_height:
+            self.output_height = None
+        else:
+            self.output_height = output_height
+        if not deformationmodel:
+            self.deformationmodel = None
+        else:
+            self.deformationmodel = deformationmodel
+        if not gravitymodel:
+            self.gravitymodel = None
+        else:
+            self.gravitymodel = gravitymodel
+        if not grid_inputfolder:
+            self.grid_inputfolder = None
         else:
             self.grid_inputfolder = Path(grid_inputfolder)
 
-        # initialiserer nedarvede parametre
+        # Initialiserer nedarvede parametre, herunder self.projektnavn
         super().__init__(**kwargs)
 
-        # initialiserer parameter vedr. output-fil med geodætiske korrektioner
+        # Initialiserer parameter vedr. output-fil med geodætiske korrektioner
         self.filnavn_korrektioner = (
             filnavn_korrektioner or f"{self.projektnavn}-korrektioner.xlsx"
         )
