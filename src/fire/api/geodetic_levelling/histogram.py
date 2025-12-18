@@ -29,6 +29,23 @@ def datetime_to_decimalyear(datetime: datetime.datetime | pd.Timestamp) -> np.fl
     return Time(datetime, format="datetime").decimalyear
 
 
+def decimalyear_to_datetime(decimalyear: float) -> datetime.datetime:
+    """Convert a decimal year to a datetime.
+
+    Converts a decimal year to a datetime.
+
+    Args:
+    decimalyear: float, input decimal year to be converted
+
+    Returns:
+    datetime.datetime, input decimal year converted to a datetime
+
+    Raises:
+    ?
+    """
+    return Time(decimalyear, format="decimalyear").datetime
+
+
 def generate_histogram_temporal_distr_levelling_obs(
     fire_project: str,
     excel_inputfolder: Path,
