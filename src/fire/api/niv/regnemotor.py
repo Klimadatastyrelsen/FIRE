@@ -804,6 +804,60 @@ class GeodætiskRegn(GamaRegn):
         self.skriv_korrektioner()
 
 
+class DVR90Regn(GeodætiskRegn):
+    """
+    En DVR90 regnemotor
+    TO DO: Dokumentér hvad DVR90Regn kan (i stil med det som
+    er lavet for den overordnede RegneMotor).
+    """
+
+    def __init__(
+        self,
+        tidal_system: str = "non",
+        epoch_target: float | str = 1990.0,
+        height_diff_unit: str = "gpu",
+        output_height: str = "helmert",
+        deformationmodel: str = "DKup24geo_DTU2024_PK.tif",
+        gravitymodel: str = "dk-g-direkte-fra-gri-thokn.tif",
+        grid_inputfolder: str = "C:/FIRE-DEV/src/fire/data",
+        **kwargs,
+    ):
+        # Initialiserer nedarvede parametre
+        super().__init__(**kwargs)
+
+        # Re-intitialiser parametre vedr. geodætiske korrektioner med default-værdier for
+        # DVR90Regn og/eller regneparametre fra kommandolinje-interface
+        if not tidal_system:
+            self.tidal_system = None
+        else:
+            self.tidal_system = tidal_system
+        if not epoch_target:
+            self.epoch_target = None
+        else:
+            # Hvis epoch_target ligger langt tilbage eller frem i tid kan det medføre ErfaWarnings
+            # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", category=erfa.ErfaWarning)
+                self.epoch_target = decimalyear_to_datetime(epoch_target)
+        self.height_diff_unit = height_diff_unit
+        if not output_height:
+            self.output_height = None
+        else:
+            self.output_height = output_height
+        if not deformationmodel:
+            self.deformationmodel = None
+        else:
+            self.deformationmodel = deformationmodel
+        if not gravitymodel:
+            self.gravitymodel = None
+        else:
+            self.gravitymodel = gravitymodel
+        if not grid_inputfolder:
+            self.grid_inputfolder = None
+        else:
+            self.grid_inputfolder = Path(grid_inputfolder)
+
+
 def _spredning(
     observationstype: str,
     afstand_i_m: float,

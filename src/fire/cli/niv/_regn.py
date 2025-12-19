@@ -12,6 +12,7 @@ from fire.api.niv.regnemotor import (
     RegneMotor,
     GamaRegn,
     GeodætiskRegn,
+    DVR90Regn,
     DumRegn,
     ValideringFejl,
     UdjævningFejl,
@@ -42,6 +43,8 @@ from fire.cli.niv._netoversigt import byg_netgeometri_og_singulære
 motorvælger = {
     "gama": GamaRegn,
     "geod": GeodætiskRegn,
+    "dvr90": DVR90Regn,
+    "DVR90": DVR90Regn,
     "dum": DumRegn,
 }
 
