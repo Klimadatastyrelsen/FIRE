@@ -572,9 +572,57 @@ class DumRegn(RegneMotor):
 
 class GeodætiskRegn(GamaRegn):
     """
-    En geodætisk regnemotor
-    TO DO: Dokumentér hvad GeodætiskRegn kan (i stil med det som
-    er lavet for den overordnede RegneMotor).
+    Regnemotor som bruger GNU Gama til at lave geodætiske nivellementsberegninger.
+
+    GeodætiskRegn kan foretage geodætiske korrektioner af nivellementsobservationer inden
+    udjævning i GNU Gama, herunder tidekorrektion, uplift-korrektion samt konvertering af
+    metriske nivellementsobservationer til geopotentialforskelle. Endvidere kan GeodætiskRegn
+    inden udjævning konvertere Helmert-højder fra databasen til geopotentielle
+    højder samt konvertere udjævnede geopotentielle højder til Helmert-højder eller normalhøjder.
+
+    Tidekorrektion:
+    Tidekorretion af nivellementsobservationer, dvs. fjernelse af det periodiske tidesignal
+    samt hel eller delvis fjernelse af det permanente tidesignal, alt efter valg af tidesystem.
+    Styres vha. parameteren "tidal_system": "non", "mean" eller "zero" for hhv. non-tidal,
+    mean tide eller zero tide. Default er None, dvs. ingen tidekorrektion.
+
+    Uplift-korrektion:
+    Tilbage- eller fremskrivning af nivellementsobservationer til en nærmere angivet epoke vha.
+    en uplift-/deformationsmodel, der beskriver det langbølgede deformationssignal (herunder
+    uplift) ift. "geoiden". Styres vha. parameteren "epoch_target" (enhed decimalår). Default er
+    None, dvs. ingen uplift-korrektion. Uplift-korrektion forudsætter endvidere, at der vha.
+    parametrene "deformationmodel" samt "grid_inputfolder" er angivet et filnavn og en sti til en
+    deformationsmodel.
+
+    Tyngdekorrektion:
+    Konvertering af "rå", metriske nivellementsobservationer til geopotentialforskelle. Styres vha.
+    parameteren "height_diff_unit": "metric" for ingen konvertering, "gpu" for konvertering
+    til geopotentialforskelle (enhed gpu). Default er "metric", dvs. ingen konvertering.
+    Tyngdekorrektion forudsætter endvidere, at der vha. parametrene "gravitymodel" samt
+    "grid_inputfolder" er angivet et filnavn og en sti til en overflade-tyngdemodel i zero tide
+    system.
+
+    Konvertering af højder fra databasen:
+    Konvertering af eksisterende Helmert-højder fra FIRE-databasen (GeodætiskRegn attributten
+    "self.gamle_koter") til geopotentielle højder (enheden gpu) inden udjævning. Sker pr.
+    automatik når "rå", metriske nivellementsobservationer konverteres til geopotentialforskelle,
+    dvs. når parameteren "height_diff_unit" er sat til "gpu".
+
+    Konvertering af udjævnede højder:
+    Konvertering af geopotentielle højder fra udjævning (GeodætiskRegn attributten
+    "self.nye_koter") til metriske højder. Styres vha. parameteren "output_height": "helmert"
+    for konvertering til Helmert-højder, "normal" for konvertering til normalhøjder. Default er
+    None, dvs. ingen konvertering. Konvertering af udjævnede højder er kun relevant, når "rå",
+    metriske nivellementsobservationer konverteres til geopotentialforskelle, dvs. når parameteren
+    "height_diff_unit" er sat til "gpu".
+
+    Valgte parametre vedr. geodætiske korrektioner/konvertering af højder for en instans af
+    GeodætiskRegn kan tilgås vha. property'en "self.parametre". Endvidere afrapporteres valgte
+    parametre samt anvendte korrektioner m.v. i output-filen "{self.projektnavn}-korrektioner.xlsx",
+    alternativt "{self.filnavn_korrektioner}", hvis GeodætiskRegn er instantieret med et argument
+    for parameteren "filnavn_korrektioner".
+
+    TO DO: Håndtér spredninger?
     """
 
     def __init__(
@@ -806,9 +854,11 @@ class GeodætiskRegn(GamaRegn):
 
 class DVR90Regn(GeodætiskRegn):
     """
-    En DVR90 regnemotor
-    TO DO: Dokumentér hvad DVR90Regn kan (i stil med det som
-    er lavet for den overordnede RegneMotor).
+    Regnemotor som bruger GNU Gama til at lave nivellementsberegninger i DVR90.
+
+    DVR90Regn har samme funktionalitet som GeodætiskRegn, men i DVR90Regn er parametre vedr.
+    geodætiske korrektioner/konvertering af højder default sat således, at instanser af klassen er
+    en beregning i DVR90.
     """
 
     def __init__(
