@@ -717,9 +717,10 @@ class GeodætiskRegn(GamaRegn):
                     self.height_diff_unit,
                     self.epoch_target,
                     self.tidal_system,
-                    self.grid_inputfolder,
-                    self.deformationmodel,
-                    self.gravitymodel,
+                    use_approx_tidal_formulas=False,
+                    grid_inputfolder=self.grid_inputfolder,
+                    deformationmodel=self.deformationmodel,
+                    gravitymodel=self.gravitymodel,
                 )
             )
 
@@ -748,6 +749,7 @@ class GeodætiskRegn(GamaRegn):
                     self.grid_inputfolder,
                     self.gravitymodel,
                     self.tidal_system,
+                    use_approx_tidal_formulas=False,
                     iterate=True,
                 )
             )
@@ -782,6 +784,7 @@ class GeodætiskRegn(GamaRegn):
                     self.grid_inputfolder,
                     self.gravitymodel,
                     self.tidal_system,
+                    use_approx_tidal_formulas=False,
                     iterate=True,
                 )
             )

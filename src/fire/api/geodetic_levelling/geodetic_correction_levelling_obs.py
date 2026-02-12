@@ -29,6 +29,7 @@ def apply_geodetic_corrections_to_height_diffs(
     height_diff_unit: str = "metric",
     epoch_target: pd.Timestamp = None,
     tidal_system: str = None,
+    use_approx_tidal_formulas: bool = False,
     grid_inputfolder: Path = None,
     deformationmodel: str = None,
     gravitymodel: str = None,
@@ -60,6 +61,9 @@ def apply_geodetic_corrections_to_height_diffs(
     of metric height differences (format: yyyy-mm-dd hh:mm:ss)
     tidal_system: str = None, optional parameter, system for tidal corrections of metric height
     differences, "non", "mean" or "zero" for non-tidal, mean tide or zero tide
+    use_approx_tidal_formulas: bool = False, optional parameter, determines whether approx or
+    rigorous formulas are used for tidal transformation of height differences and gravity.
+    By default rigorous formulas are used.
     grid_inputfolder: Path = None, optional parameter, folder for input grid, i.e. deformation model
     and/or gravity model
     deformationmodel: str = None, optional parameter, deformation model used for the propagation
@@ -129,6 +133,7 @@ def apply_geodetic_corrections_to_height_diffs(
                 point_to_long,
                 epoch_obs,
                 tidal_system,
+                use_approx_tidal_formulas,
                 grid_inputfolder=grid_inputfolder,
                 gravitymodel=gravitymodel,
             )
@@ -185,9 +190,10 @@ def apply_geodetic_corrections_to_height_diffs(
                     point_from_long,
                     point_to_lat,
                     point_to_long,
-                    tidal_system,
                     grid_inputfolder,
                     gravitymodel,
+                    tidal_system,
+                    use_approx_tidal_formulas,
                 )
             )
 

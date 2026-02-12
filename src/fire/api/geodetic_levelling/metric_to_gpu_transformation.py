@@ -65,9 +65,10 @@ def convert_metric_height_diff_to_geopotential_height_diff(
     point_from_long: float,
     point_to_lat: float,
     point_to_long: float,
-    tidal_system: str | None,
     grid_inputfolder: Path,
     gravitymodel: str,
+    tidal_system: str | None,
+    use_approx_tidal_formulas: bool = False,
 ) -> tuple[float, float]:
     """Convert a metric height difference to a geopotential height difference.
 
@@ -93,12 +94,15 @@ def convert_metric_height_diff_to_geopotential_height_diff(
     point_from_long: float, longitude of from point in units of degrees
     point_to_lat: float, latitiude of to point in units of degrees
     point_to_long: float, longitude of to point in units of degrees
-    tidal_system: str|None, tidal system of input height difference, i.e. "non", "mean" or "zero"
-    for non-tidal, mean tide or zero tide or None if the input height difference is not corrected
-    for tidal effects
     grid_inputfolder: Path, folder for input grid, i.e. gravity model
     gravitymodel: str, gravity model used for the conversion of a height difference to gpu,
     must be in GeoTIFF or GTX file format, e.g. "dk-g-direkte-fra-gri-thokn.tif"
+    tidal_system: str|None, tidal system of input height difference, i.e. "non", "mean" or "zero"
+    for non-tidal, mean tide or zero tide or None if the input height difference is not corrected
+    for tidal effects
+    use_approx_tidal_formulas: bool = False, optional parameter, determines whether approx or
+    rigorous formulas are used for tidal transformation of gravity. By default rigorous formulas
+    are used
 
     Returns:
     tuple[float, float], a tuple containing the converted height difference
@@ -129,20 +133,23 @@ def convert_metric_height_diff_to_geopotential_height_diff(
 
     elif tidal_system == "non":
         point_from_gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            point_from_gravity, point_from_lat, "zero_to_non"
+            point_from_gravity, point_from_lat, "zero_to_non", use_approx_tidal_formulas
         )
 
         point_to_gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            point_to_gravity, point_to_lat, "zero_to_non"
+            point_to_gravity, point_to_lat, "zero_to_non", use_approx_tidal_formulas
         )
 
-    elif tidal_system == "mean" or tidal_system == None:
+    elif tidal_system == "mean" or tidal_system is None:
         point_from_gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            point_from_gravity, point_from_lat, "zero_to_mean"
+            point_from_gravity,
+            point_from_lat,
+            "zero_to_mean",
+            use_approx_tidal_formulas,
         )
 
         point_to_gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            point_to_gravity, point_to_lat, "zero_to_mean"
+            point_to_gravity, point_to_lat, "zero_to_mean", use_approx_tidal_formulas
         )
 
     # Mean gravity in units of m/s^2
@@ -345,6 +352,7 @@ def convert_geopotential_height_to_helmert_height(
     gravitymodel: str,
     conversion: str,
     tidal_system: str = None,
+    use_approx_tidal_formulas: bool = False,
     approx_helmert_height: float = 0,
     iterate: bool = True,
 ) -> tuple[float, float]:
@@ -394,6 +402,9 @@ def convert_geopotential_height_to_helmert_height(
     tidal_system: str = None, optional parameter, tidal system of input height, i.e. "non", "mean"
     or "zero" for non-tidal, mean tide or zero tide. If no argument is passed it is assumed that
     the input height is not corrected for tidal effects
+    use_approx_tidal_formulas: bool = False, optional parameter, determines whether approx or
+    rigorous formulas are used for tidal transformation of gravity. By default rigorous formulas
+    are used
     approx_helmert_height: float = 0, optional parameter, approx Helmert height in units of m,
     only relevant if a geopotential height is to be converted to Helmert height, default value is 0
     iterate: bool = True, optional parameter, determines whether or not the output/target
@@ -422,12 +433,12 @@ def convert_geopotential_height_to_helmert_height(
 
     elif tidal_system == "non":
         gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            gravity, latitude, "zero_to_non"
+            gravity, latitude, "zero_to_non", use_approx_tidal_formulas
         )
 
     elif tidal_system == "mean" or tidal_system == None:
         gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            gravity, latitude, "zero_to_mean"
+            gravity, latitude, "zero_to_mean", use_approx_tidal_formulas
         )
 
     # Conversion of a geopotential height to Helmert height
@@ -477,6 +488,7 @@ def convert_geopotential_heights_to_metric_heights(
     grid_inputfolder: Path = None,
     gravitymodel: str = None,
     tidal_system: str = None,
+    use_approx_tidal_formulas: bool = False,
     iterate: bool = True,
 ) -> tuple[list[NivKote], pd.DataFrame]:
     """Convert geopotential heights to metric heights or vice versa.
@@ -484,19 +496,10 @@ def convert_geopotential_heights_to_metric_heights(
     Converts the geopotential heights in a list of NivKote objects to metric heights
     or vice versa.
 
-    # If geopotential heights are to be converted to metric heights (Helmert heights or
-    # normal heights) the input heights are taken from column "Ny kote" in the sheet
-    # "Kontrolberegning" in the input excel-file and the converted heights are written to
-    # column "Ny kote" in the sheet "Kontrolberegning" in the output excel-file.
-
-    # The conversion of geopotential heights to metric heights (Helmert heights or
-    # normal heights) requires a priori metric heights, which are taken from column "Kote"
-    # in the sheet "Kontrolberegning" in the input excel-file.
-
-    # If Helmert heights or normal heights are to be converted to geopotential heights
-    # the input heights are taken from column "Kote" in the sheet "Kontrolberegning" in the
-    # input excel-file and the converted heights are written to column "Ny kote" in the
-    # sheet "Kontrolberegning" in the output excel-file.
+    The conversion of geopotential heights to metric heights (Helmert heights or normal heights)
+    requires a priori metric heights, for which purpose a default value of zero is used. Therefore,
+    it is recommended to calculate the metric heights iteratively, as otherwise errors of several
+    millimeters can occur.
 
     Args:
     height_objects: list[NivKote], list of NivKote objects with geopotential heights
@@ -512,6 +515,10 @@ def convert_geopotential_heights_to_metric_heights(
     or "zero" for non-tidal, mean tide or zero tide. If no argument is passed it is assumed that
     the input heights are not corrected for tidal effects, only relevant if geopotential heights
     are to be converted to Helmert heights or vice versa
+    use_approx_tidal_formulas: bool = False, optional parameter, determines whether approx or
+    rigorous formulas are used for tidal transformation of gravity, only relevant if geopotential
+    heights are to be converted to Helmert heights or vice versa. By default rigorous formulas
+    are used
     iterate: bool = True, optional parameter, determines whether or not output/target
     metric heights are calculated iteratively, default value is True
 
@@ -576,6 +583,7 @@ def convert_geopotential_heights_to_metric_heights(
                     gravitymodel,
                     conversion,
                     tidal_system=tidal_system,
+                    use_approx_tidal_formulas=use_approx_tidal_formulas,
                     iterate=iterate,
                 )
             )
