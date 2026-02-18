@@ -281,9 +281,22 @@ def calculate_perm_tidal_deformation_geoid(
     Calculates the permanent tidal deformation of the geoid caused by the Moon or the Sun
     assuming a rigid Earth and returns the result as a float.
 
-    Reference:
+    References:
     Martin Ekman, The impact of geodynamic phenomena on systems for height and gravity,
     p. 120, eq. (6). Nordic Geodetic Commission, 1988
+
+    Markku Heikkinen, On the tide-generating forces, pp. 8-9, Publications of the Finnish Geodetic
+    Institute No. 85, 1978
+
+    The gravity model used for calculating the permanent tidal deformation of the geoid is assumed
+    to be in zero tide system as this is the conventional tide system for gravity.
+
+    According to Bruns' formula the permanent tidal deformation of the geoid can be found as
+    N = T / g, where T is the permanent tidal potential (the disturbing potential) and g is the
+    magnitude of the gradient of the Earths undisturbed potential (i.e. non-tidal gravity).
+    Therefore, the gravity interpolated from the gravity model is transformed from the zero tide
+    system to non-tidal system, although the effect on a tidally corrected height difference
+    is very small.
 
     Args:
     latitude: float, latitude for which the permanent tidal deformation of the geoid is calculated,
@@ -302,11 +315,18 @@ def calculate_perm_tidal_deformation_geoid(
     Raises:
     ?
 
-    NB:Handling of tidal systems? Bør der tages højde for at input gravity er zero tide?
-    Giver det mening at bruge tyngden ved jordoverfladen?
-    Burde det være tyngden på geoiden?
+    TO DO: Hvad sker der, hvis man i stedet bruger normaltyngder eller en konstant værdi for tyngden?
+    Hvad er gjort ifm. udledningen af Ekmans approksimative formler?
     """
     gravity = interpolate_gravity(latitude, longitude, grid_inputfolder, gravitymodel)
+
+    # Gravity is transformed from zero tide to non-tidal
+    gravity = transform_gravity_from_tidal_system_to_tidal_system(
+        gravity,
+        latitude,
+        "zero_to_non",
+        use_approx_tidal_formulas=False,
+    )
 
     # Permanent tidal potential
     perm_tidal_potential = calculate_perm_tidal_potential(latitude, celestial_body)
