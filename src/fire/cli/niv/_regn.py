@@ -44,7 +44,6 @@ motorvælger = {
     "gama": GamaRegn,
     "geod": GeodætiskRegn,
     "dvr90": DVR90Regn,
-    "DVR90": DVR90Regn,
     "dum": DumRegn,
 }
 
@@ -208,28 +207,7 @@ def regn(
 
     # Tjek om der er parametre til regnemotoren. Parametre der ikke kan læses
     # springes over.
-    motorkwargs = {}
-    for regneparameter in regneparametre:
-        try:
-            parameter, værdi = regneparameter.split("=")
-        except ValueError:
-            fire.cli.print(
-                (
-                    f"ADVARSEL: regneparameteren '{regneparameter} kan ikke tolkes. "
-                    "Skal være på formen 'parameter=værdi'."
-                ),
-                bold=True,
-                bg="yellow",
-            )
-            continue
-
-        # konverter til float hvis der er givet en talværdi
-        try:
-            værdi = float(værdi)
-        except ValueError:
-            pass
-
-        motorkwargs[parameter] = værdi
+    motorkwargs = fortolk_regneparametre(regneparametre)
 
     # Start regnemotoren!
     try:
@@ -429,6 +407,38 @@ def regn(
             webbrowser.open_new_tab(motor.html_out)
         fire.cli.print("Færdig! - åbner regneark og resultatrapport for check.")
         fire.cli.åbn_fil(f"{projektnavn}.xlsx")
+
+
+def fortolk_regneparametre(regneparametre: list[str]) -> dict:
+    """
+    Fortolk regneparametre.
+
+    Regneparametre givet som talværdier konverteres til float.
+    """
+    motorkwargs = {}
+    for regneparameter in regneparametre:
+        try:
+            parameter, værdi = regneparameter.split("=")
+        except ValueError:
+            fire.cli.print(
+                (
+                    f"ADVARSEL: regneparameteren '{regneparameter} kan ikke tolkes. "
+                    "Skal være på formen 'parameter=værdi'."
+                ),
+                bold=True,
+                bg="yellow",
+            )
+            continue
+
+        # konverter til float hvis der er givet en talværdi
+        try:
+            værdi = float(værdi)
+        except ValueError:
+            pass
+
+        motorkwargs[parameter] = værdi
+
+    return motorkwargs
 
 
 def opdater_arbejdssæt(arbejdssæt: DataFrame, nye_koter: DataFrame):
