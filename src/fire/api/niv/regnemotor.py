@@ -529,9 +529,11 @@ class GamaRegn(RegneMotor):
             nye_koter.append(
                 NivKote(
                     punkt=punkt["id"],
-                    dato=self.gyldighedstidspunkt,
                     H=float(punkt["z"]),
+                    dato=self.gyldighedstidspunkt,
                     spredning=sqrt(float(var)),
+                    nord=self._gamle_koter[punkt["id"]].nord,
+                    øst=self._gamle_koter[punkt["id"]].øst,
                 )
             )
 
@@ -764,18 +766,6 @@ class GeodætiskRegn(GamaRegn):
             print(
                 f"Højder konverteres fra geopotentielle højder til {deskriptor[self.output_height]} efter udjævning"
             )
-
-            # er alle punkter med i self.nye_koter? Kun ikke fastholdte?
-
-            # Konvertering til Helmert- eller normalhøjder afhænger af geografisk position
-            for ny_kote in self.nye_koter:
-                punktnr = ny_kote.punkt
-
-                (ny_kote.nord, ny_kote.øst) = [
-                    (gammel_kote.nord, gammel_kote.øst)
-                    for gammel_kote in self.gamle_koter
-                    if gammel_kote.punkt == punktnr
-                ][0]
 
             (self.nye_koter, self.tyngder_konvertering_til_meter) = (
                 convert_geopotential_heights_to_metric_heights(
