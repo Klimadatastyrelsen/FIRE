@@ -91,28 +91,22 @@ def convert_metric_height_diff_to_geopotential_height_diff(
 
     # Interpolated gravity is tidally transformed if tidal system of input height difference
     # is different than zero tide
-    if tidal_system == "zero":
-        pass
+    if tidal_system != "zero":
+        if tidal_system == "non":
+            transformation = "zero_to_non"
 
-    elif tidal_system == "non":
-        point_from_gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            point_from_gravity, point_from_lat, "zero_to_non", use_approx_tidal_formulas
-        )
+        elif tidal_system == "mean" or tidal_system is None:
+            transformation = "zero_to_mean"
 
-        point_to_gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            point_to_gravity, point_to_lat, "zero_to_non", use_approx_tidal_formulas
-        )
-
-    elif tidal_system == "mean" or tidal_system is None:
         point_from_gravity = transform_gravity_from_tidal_system_to_tidal_system(
             point_from_gravity,
             point_from_lat,
-            "zero_to_mean",
+            transformation,
             use_approx_tidal_formulas,
         )
 
         point_to_gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            point_to_gravity, point_to_lat, "zero_to_mean", use_approx_tidal_formulas
+            point_to_gravity, point_to_lat, transformation, use_approx_tidal_formulas
         )
 
     # Mean gravity in units of m/s^2
@@ -173,6 +167,11 @@ def convert_geopotential_height_to_normal_height(
     Raises:
     ?
     """
+    if not conversion in ["geopot_to_normal", "normal_to_geopot"]:
+        raise ValueError(
+            "Function convert_geopotential_height_to_normal_height: Wrong argument for parameter conversion."
+        )
+
     # Conversion of a geopotential height to normal height
     if conversion == "geopot_to_normal":
         # Calculation of average normal gravity in units of 10 m/s^2
@@ -209,12 +208,6 @@ def convert_geopotential_height_to_normal_height(
 
         # Geopotential height in units of gpu (1 gpu = 10 m^2/s^2)
         height_converted = height * average_normal_gravity
-
-    else:
-        exit(
-            "Function convert_geopotential_height_to_normal_height: Wrong argument for\n\
-        parameter conversion."
-        )
 
     return (height_converted, average_normal_gravity)
 
@@ -294,6 +287,11 @@ def convert_geopotential_height_to_helmert_height(
     Raises:
     ?
     """
+    if not conversion in ["geopot_to_helmert", "helmert_to_geopot"]:
+        raise ValueError(
+            "Function convert_geopotential_height_to_helmert_height: Wrong argument for parameter conversion."
+        )
+
     # Interpolated gravity in units of m/s^2
     gravity = interpolate_gravity(
         latitude,
@@ -304,17 +302,15 @@ def convert_geopotential_height_to_helmert_height(
 
     # Interpolated gravity is tidally transformed if tidal system of input height
     # is different than zero tide
-    if tidal_system == "zero":
-        pass
+    if tidal_system != "zero":
+        if tidal_system == "non":
+            transformation = "zero_to_non"
 
-    elif tidal_system == "non":
-        gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            gravity, latitude, "zero_to_non", use_approx_tidal_formulas
-        )
+        elif tidal_system == "mean" or tidal_system is None:
+            transformation = "zero_to_mean"
 
-    elif tidal_system == "mean" or tidal_system == None:
         gravity = transform_gravity_from_tidal_system_to_tidal_system(
-            gravity, latitude, "zero_to_mean", use_approx_tidal_formulas
+            gravity, latitude, transformation, use_approx_tidal_formulas
         )
 
     # Conversion of a geopotential height to Helmert height
@@ -348,12 +344,6 @@ def convert_geopotential_height_to_helmert_height(
 
         # Geopotential height in units of gpu (1 gpu = 10 m^2/s^2)
         height_converted = height * conversion_factor
-
-    else:
-        exit(
-            "Function convert_geopotential_height_to_helmert_height: Wrong argument for\n\
-        parameter conversion."
-        )
 
     return (height_converted, conversion_factor)
 
@@ -412,6 +402,26 @@ def convert_geopotential_heights_to_metric_heights(
     TO DO: Håndtering manglende inputhøjde?
     TO DO: Specificer input/output enheder
     """
+    allowed_conversions = [
+        "geopot_to_normal",
+        "normal_to_geopot",
+        "geopot_to_helmert",
+        "helmert_to_geopot",
+    ]
+    if not conversion in allowed_conversions:
+        raise ValueError(
+            f"Function convert_geopotential_heights_to_metric_heights: The argument for parameter conversion\n\
+            must be one of {', '.join(allowed_conversions)}."
+        )
+
+    if (conversion == "geopot_to_helmert" or conversion == "helmert_to_geopot") and (
+        (gravitymodel is None) or (grid_inputfolder is None)
+    ):
+        exit(
+            "Function convert_geopotential_heights_to_metric_heights: Wrong arguments for\n\
+            parameter grid_inputfolder and/or gravitymodel."
+        )
+
     # Output list for converted heights
     height_objects_converted = []
 
@@ -445,11 +455,7 @@ def convert_geopotential_heights_to_metric_heights(
                 "Average normal gravity [10 m/s^2]",
             ] = average_normal_gravity
 
-        elif (
-            (conversion == "geopot_to_helmert" or conversion == "helmert_to_geopot")
-            and (grid_inputfolder is not None)
-            and (gravitymodel is not None)
-        ):
+        elif conversion == "geopot_to_helmert" or conversion == "helmert_to_geopot":
             (height_converted, conversion_factor) = (
                 convert_geopotential_height_to_helmert_height(
                     height,
@@ -468,12 +474,6 @@ def convert_geopotential_heights_to_metric_heights(
                 height_object.punkt,
                 f"Conversion factor (tidal system: {tidal_system}) [10 m/s^2]",
             ] = conversion_factor
-
-        else:
-            exit(
-                "Function convert_geopotential_heights_to_metric_heights: Wrong arguments for\n\
-            parameter conversion and/or grid_inputfolder and/or gravitymodel."
-            )
 
         # Update of height_object_converted and height_objects_converted
         height_object_converted = copy.deepcopy(height_object)
