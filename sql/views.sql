@@ -1749,3 +1749,64 @@ VALUES
   );
 
  CREATE INDEX v_punktsamlinger_multigeometri_idx ON v_punktsamlinger (multigeometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=multipoint');
+
+
+-- Reflektorer, både Corner og CAT
+CREATE MATERIALIZED VIEW v_reflektorer
+REFRESH ON DEMAND
+START WITH SYSDATE NEXT SYSDATE + 1 / 24
+AS
+WITH
+	punkter AS (
+		SELECT DISTINCT pi.punktid, infotype FROM punktinfo pi
+		JOIN punktinfotype pit ON pi.infotypeid=pit.infotypeid
+		WHERE pit.infotype IN ('ATTR:reflektor', 'ATTR:CAT')
+			AND pi.registreringtil IS NULL
+	),
+	beskrivelser AS (
+		SELECT pi.punktid, pi.tekst FROM punktinfo pi
+		JOIN punktinfotype pit ON pi.infotypeid=pit.infotypeid
+		WHERE pit.infotype='ATTR:beskrivelse' AND pi.registreringtil IS NULL
+  	),
+  	landsnr AS (
+		SELECT pi.punktid, pi.tekst ident FROM punktinfo pi
+		JOIN punktinfotype pit ON pi.infotypeid=pit.infotypeid
+		WHERE pit.infotype='IDENT:landsnr' AND pi.registreringtil IS NULL
+	),
+	dvr90 AS (
+		SELECT k.punktid, k.t, k.z FROM koordinat k
+		JOIN sridtype st ON k.sridid=st.sridid
+		WHERE st.srid = 'EPSG:5799' AND k.registreringtil IS NULL
+	),
+	geometrier AS (
+		SELECT geometri, punktid FROM geometriobjekt go
+		WHERE go.registreringtil IS NULL
+	)
+SELECT
+	geometrier.geometri,
+	landsnr.ident LANDSNR,
+	punkter.infotype,
+	dvr90.t   DVR90_T,
+	dvr90.z   DVR90_KOTE,
+	beskrivelser.tekst beskrivelse
+FROM punkter
+LEFT JOIN landsnr ON punkter.punktid=landsnr.punktid
+LEFT JOIN beskrivelser ON punkter.punktid = beskrivelser.punktid
+LEFT JOIN dvr90 ON punkter.punktid=dvr90.punktid
+JOIN geometrier ON punkter.punktid=geometrier.punktid;
+
+
+INSERT INTO
+  user_sdo_geom_metadata (table_name, column_name, diminfo, srid)
+VALUES
+  (
+    'V_REFLEKTORER',
+    'GEOMETRI',
+    MDSYS.SDO_DIM_ARRAY(
+      MDSYS.SDO_DIM_ELEMENT('Longitude', 7.0, 16.0, 0.005),
+      MDSYS.SDO_DIM_ELEMENT('Latitude', 54.0000, 59.0000, 0.005)
+    ),
+    4326
+  );
+
+CREATE INDEX v_reflektorer_geometri_idx ON v_reflektorer (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
