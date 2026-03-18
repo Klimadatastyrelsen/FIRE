@@ -15,6 +15,7 @@ from typing import Self
 import warnings
 import xmltodict
 
+from astropy.time import Time
 import erfa
 import pandas as pd
 
@@ -38,9 +39,6 @@ from fire.api.geodetic_levelling.geodetic_correction_levelling_obs import (
 )
 from fire.api.geodetic_levelling.metric_to_gpu_transformation import (
     convert_geopotential_heights_to_metric_heights,
-)
-from fire.api.geodetic_levelling.histogram import (
-    decimalyear_to_datetime,
 )
 
 
@@ -651,7 +649,8 @@ class GeodætiskRegn(GamaRegn):
             # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", category=erfa.ErfaWarning)
-                self.epoch_target = decimalyear_to_datetime(epoch_target)
+                # Konvertering fra decimalår til datetime
+                self.epoch_target = Time(epoch_target, format="decimalyear").datetime
         self.height_diff_unit = height_diff_unit
         if not output_height:
             self.output_height = None
@@ -881,7 +880,8 @@ class DVR90Regn(GeodætiskRegn):
             # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", category=erfa.ErfaWarning)
-                self.epoch_target = decimalyear_to_datetime(epoch_target)
+                # Konvertering fra decimalår til datetime
+                self.epoch_target = Time(epoch_target, format="decimalyear").datetime
         self.height_diff_unit = height_diff_unit
         if not output_height:
             self.output_height = None
