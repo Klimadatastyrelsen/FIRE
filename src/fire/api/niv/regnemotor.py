@@ -638,36 +638,22 @@ class GeodætiskRegn(GamaRegn):
         **kwargs,
     ):
         # Intitialiser parametre
-        if not tidal_system:
-            self.tidal_system = None
-        else:
-            self.tidal_system = tidal_system
-        if not epoch_target:
-            self.epoch_target = None
-        else:
-            # Hvis epoch_target ligger langt tilbage eller frem i tid kan det medføre ErfaWarnings
-            # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore", category=erfa.ErfaWarning)
-                # Konvertering fra decimalår til datetime
-                self.epoch_target = Time(epoch_target, format="decimalyear").datetime
+        self.tidal_system = tidal_system or None
+        # Konvertering fra decimalår til datetime
+        # Hvis epoch_target ligger langt tilbage eller frem i tid kan det medføre ErfaWarnings
+        # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=erfa.ErfaWarning)
+            self.epoch_target = (
+                Time(epoch_target, format="decimalyear").datetime
+                if epoch_target
+                else None
+            )
         self.height_diff_unit = height_diff_unit
-        if not output_height:
-            self.output_height = None
-        else:
-            self.output_height = output_height
-        if not deformationmodel:
-            self.deformationmodel = None
-        else:
-            self.deformationmodel = deformationmodel
-        if not gravitymodel:
-            self.gravitymodel = None
-        else:
-            self.gravitymodel = gravitymodel
-        if not grid_inputfolder:
-            self.grid_inputfolder = None
-        else:
-            self.grid_inputfolder = Path(grid_inputfolder)
+        self.output_height = output_height or None
+        self.deformationmodel = deformationmodel or None
+        self.gravitymodel = gravitymodel or None
+        self.grid_inputfolder = Path(grid_inputfolder) if grid_inputfolder else None
 
         # Initialiserer nedarvede parametre, herunder self.projektnavn
         super().__init__(**kwargs)
@@ -869,36 +855,22 @@ class DVR90Regn(GeodætiskRegn):
 
         # Re-intitialiser parametre vedr. geodætiske korrektioner med default-værdier for
         # DVR90Regn og/eller regneparametre fra kommandolinje-interface
-        if not tidal_system:
-            self.tidal_system = None
-        else:
-            self.tidal_system = tidal_system
-        if not epoch_target:
-            self.epoch_target = None
-        else:
-            # Hvis epoch_target ligger langt tilbage eller frem i tid kan det medføre ErfaWarnings
-            # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore", category=erfa.ErfaWarning)
-                # Konvertering fra decimalår til datetime
-                self.epoch_target = Time(epoch_target, format="decimalyear").datetime
+        self.tidal_system = tidal_system or None
+        # Konvertering fra decimalår til datetime
+        # Hvis epoch_target ligger langt tilbage eller frem i tid kan det medføre ErfaWarnings
+        # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=erfa.ErfaWarning)
+            self.epoch_target = (
+                Time(epoch_target, format="decimalyear").datetime
+                if epoch_target
+                else None
+            )
         self.height_diff_unit = height_diff_unit
-        if not output_height:
-            self.output_height = None
-        else:
-            self.output_height = output_height
-        if not deformationmodel:
-            self.deformationmodel = None
-        else:
-            self.deformationmodel = deformationmodel
-        if not gravitymodel:
-            self.gravitymodel = None
-        else:
-            self.gravitymodel = gravitymodel
-        if not grid_inputfolder:
-            self.grid_inputfolder = None
-        else:
-            self.grid_inputfolder = Path(grid_inputfolder)
+        self.output_height = output_height or None
+        self.deformationmodel = deformationmodel or None
+        self.gravitymodel = gravitymodel or None
+        self.grid_inputfolder = Path(grid_inputfolder) if grid_inputfolder else None
 
 
 def _spredning(
