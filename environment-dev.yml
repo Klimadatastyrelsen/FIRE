@@ -32,3 +32,6 @@ dependencies:
   - sphinxcontrib-programoutput
   - sqlalchemy
   - xmltodict
+  - astropy
+  - jplephem
+  - pyerfa
