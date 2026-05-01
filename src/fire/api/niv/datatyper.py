@@ -30,7 +30,7 @@ class Nøjagtighed(Enum):
 
 @dataclass
 class NivObservation:
-    """Almindelige, ukorrelerede nivellementobservationer"""
+    """Almindelige nivellementosbservationer"""
 
     fra: PunktNavn
     til: PunktNavn
@@ -53,3 +53,12 @@ class NivKote:
     fasthold: bool = False
     nord: float = float("nan")
     øst: float = float("nan")
+
+
+@dataclass
+class HeightDiffCorrections:
+    """Geodetic corrections of a height difference/levelling observation."""
+
+    tidal_corr: float = 0  # Tidal correction in units of meters
+    epoch_corr: float = 0  # Epoch correction in units of meters
+    m2gpu_factor: float = 1  # m2gpu multiplication factor in units of m/s^2

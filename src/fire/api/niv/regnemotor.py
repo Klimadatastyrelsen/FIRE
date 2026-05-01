@@ -35,7 +35,7 @@ from fire.api.niv.lukkesum import (
 )
 
 from fire.api.geodetic_levelling.geodetic_correction_levelling_obs import (
-    apply_geodetic_corrections_to_height_diffs,
+    apply_geodetic_corrections_to_height_diff_objects,
 )
 from fire.api.geodetic_levelling.metric_to_gpu_transformation import (
     convert_geopotential_heights_to_metric_heights,
@@ -690,6 +690,12 @@ class GeodætiskRegn(GamaRegn):
 
     def korriger_observationer(self):
         """Korrigér observationer."""
+        allowed_height_diff_units = ["metric", "gpu"]
+        if not self.height_diff_unit in allowed_height_diff_units:
+            raise ValideringFejl(
+                "Argumentet til parameteren height_diff_unit skal være enten 'metric' eller 'gpu'"
+            )
+
         if (
             self.tidal_system is not None
             or self.epoch_target is not None
@@ -697,10 +703,10 @@ class GeodætiskRegn(GamaRegn):
         ):
             print("Højdeforskelle påføres geodætiske korrektioner inden udjævning")
 
-            (self.observationer, self.korrektioner_obs) = (
-                apply_geodetic_corrections_to_height_diffs(
-                    self.observationer,
-                    self.gamle_koter,
+            (self._observationer, self.korrektioner_obs) = (
+                apply_geodetic_corrections_to_height_diff_objects(
+                    self._observationer,
+                    self._gamle_koter,
                     self.height_diff_unit,
                     self.epoch_target,
                     self.tidal_system,
@@ -709,14 +715,6 @@ class GeodætiskRegn(GamaRegn):
                     deformationmodel=self.deformationmodel,
                     gravitymodel=self.gravitymodel,
                 )
-            )
-
-        elif self.height_diff_unit == "metric":
-            pass
-
-        else:
-            raise ValideringFejl(
-                "Argumentet til parameteren height_diff_unit skal være enten 'metric' eller 'gpu'"
             )
 
     def konverter_gamle_højder_til_gpu(self):
