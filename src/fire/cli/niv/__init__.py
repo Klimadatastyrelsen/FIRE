@@ -9,6 +9,7 @@ from typing import (
 
 import click
 import pandas as pd
+import pandas.io.formats.style
 from sqlalchemy.orm.exc import NoResultFound
 from openpyxl.worksheet.worksheet import Worksheet
 import packaging.version
