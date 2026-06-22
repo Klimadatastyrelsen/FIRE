@@ -478,9 +478,9 @@ class GamaRegn(RegneMotor):
         varliste = doc["gama-local-adjustment"]["coordinates"]["cov-mat"]["flt"]
 
         # Konverter til liste i tilfælde af der kun er blevet udjævnet ét punkt.
-        if isinstance(koteliste, dict):
+        if not isinstance(koteliste, list):
             koteliste = [koteliste]
-        if isinstance(varliste, dict):
+        if not isinstance(varliste, list):
             varliste = [varliste]
 
         assert len(koteliste) == len(
