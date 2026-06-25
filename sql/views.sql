@@ -1810,3 +1810,106 @@ VALUES
   );
 
 CREATE INDEX v_reflektorer_geometri_idx ON v_reflektorer (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+-- Alle punkter som har en LRL-kote
+CREATE MATERIALIZED VIEW v_lrl
+REFRESH ON DEMAND
+START WITH SYSDATE NEXT SYSDATE + 1 / 24
+AS
+WITH
+  landsnr AS (
+    SELECT infotypeid id
+    FROM punktinfotype
+    WHERE infotype = 'IDENT:landsnr'
+  ),
+  landsnumre AS (
+    SELECT
+      pi.punktid punktid,
+	  -- I tilfælde af flere landsnumre er registret. De *bør* der ikke være,
+	  -- men det kan ske og derfor er det smart med en safe-guard
+      MIN(tekst) KEEP (DENSE_RANK FIRST ORDER BY tekst) landsnummer
+    FROM punktinfo pi, landsnr
+    WHERE
+        pi.infotypeid = landsnr.id
+      AND
+        pi.registreringtil IS NULL
+    GROUP BY pi.punktid
+  ),
+  gi_ident AS (
+	SELECT pi.punktid, pi.tekst ident FROM punktinfo pi
+	JOIN punktinfotype pit ON pi.infotypeid=pit.infotypeid
+	WHERE pit.infotype='IDENT:GI' AND pi.registreringtil IS NULL
+  ),
+  -- punkter med følgende attributter er uønskede (listen bør korrespondere med "fire niv udtræk-revision")
+  tabtgaaet AS (
+    SELECT p.punktid
+    FROM punktinfo p
+    INNER JOIN punktinfotype pit ON p.infotypeid = pit.infotypeid
+    WHERE pit.infotype = 'ATTR:tabtgået' AND p.registreringtil IS NULL
+  ),
+  -- geometrier
+  geometrier AS (
+    SELECT go.geometri, go.punktid
+    FROM geometriobjekt go
+    WHERE go.registreringtil IS NULL
+  ),
+  -- koordinater
+  dvr90 AS (
+    SELECT sridid id
+    FROM sridtype
+    WHERE sridtype.srid = 'EPSG:5799'
+  ),
+  koter AS (
+    SELECT k.z, k.sz, k.t, k.transformeret, k.punktid
+    FROM koordinat k, dvr90
+    WHERE
+        k.registreringtil IS NULL
+      AND
+        k.sridid = dvr90.id
+  ),
+  lrlkote AS (
+    SELECT k.z, k.sz, k.t, k.punktid AS id
+    FROM koordinat k
+    WHERE k.registreringtil IS NULL
+      AND k.sridid = 32 -- TS:LRL
+  ),
+  beskrivelser AS (
+	SELECT pi.punktid, pi.tekst FROM punktinfo pi
+	JOIN punktinfotype pit ON pi.infotypeid=pit.infotypeid
+	WHERE pit.infotype='ATTR:beskrivelse' AND pi.registreringtil IS NULL
+  )
+SELECT
+  geometrier.geometri geometri,
+  p.id punktid,
+  landsnumre.landsnummer landsnr,
+  gi_ident.ident gi_nr,
+  p.z AS lrl_kote,
+  p.t AS lrl_t,
+  koter.z dvr90_kote,
+  koter.t dvr90_t,
+  beskrivelser.tekst beskrivelse,
+  CASE WHEN tabtgaaet.punktid IS NOT NULL THEN 'Tabtgået' ELSE NULL END AS tabtgået
+FROM lrlkote p
+JOIN landsnumre ON landsnumre.punktid = p.id
+JOIN geometrier ON geometrier.punktid = p.id
+-- ikke alle punkter har beskrivelse m.m.
+LEFT JOIN gi_ident ON gi_ident.punktid = p.id
+LEFT JOIN koter ON koter.punktid = p.id
+LEFT JOIN beskrivelser ON beskrivelser.punktid = p.id
+LEFT JOIN tabtgaaet ON tabtgaaet.punktid = p.id;
+
+
+INSERT INTO
+  user_sdo_geom_metadata (table_name, column_name, diminfo, srid)
+VALUES
+  (
+    'V_LRL',
+    'GEOMETRI',
+    MDSYS.SDO_DIM_ARRAY(
+      MDSYS.SDO_DIM_ELEMENT('Longitude', 7.0, 16.0, 0.005),
+      MDSYS.SDO_DIM_ELEMENT('Latitude', 54.0000, 59.0000, 0.005)
+    ),
+    4326
+  );
+
+CREATE INDEX v_lrl_geometri_idx ON v_lrl (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
