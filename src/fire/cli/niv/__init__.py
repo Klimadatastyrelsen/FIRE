@@ -163,7 +163,9 @@ def juster_kolonnebredder(faneblad: Worksheet):
     """
     max_bredde = 40
     for kolonne in faneblad.columns:
-        kolonnebredde = min(max([len(str(row.value)) for row in kolonne])+1, max_bredde)
+        kolonnebredde = min(
+            max([len(str(row.value)) for row in kolonne]) + 1, max_bredde
+        )
         faneblad.column_dimensions[kolonne[0].column_letter].width = kolonnebredde
 
 

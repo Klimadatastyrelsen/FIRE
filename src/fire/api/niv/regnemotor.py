@@ -12,8 +12,11 @@ from math import (
 from pathlib import Path
 import subprocess
 from typing import Self
+import warnings
 import xmltodict
 
+from astropy.time import Time
+import erfa
 import pandas as pd
 
 from fire import uuid
@@ -29,6 +32,13 @@ from fire.api.niv.lukkesum import (
     find_polygoner,
     aggreger_multidigraf,
     lukkesum_af_polygon,
+)
+
+from fire.api.geodetic_levelling.geodetic_correction_levelling_obs import (
+    apply_geodetic_corrections_to_height_diff_objects,
+)
+from fire.api.geodetic_levelling.metric_to_gpu_transformation import (
+    convert_geopotential_heights_to_metric_heights,
 )
 
 
@@ -108,8 +118,8 @@ class RegneMotor(ABC):
         projektnavn: str = "fire",
     ):
         # observationerne refereres internt med et unikt id som kan bruges i forskellige sammenhænge
-        self._observationer = {uuid(): o for o in observationer}
-        self._gamle_koter = {gk.punkt: gk for gk in gamle_koter}
+        self.observationer = observationer
+        self.gamle_koter = gamle_koter
         self.nye_koter: list[NivKote] = []
         self.projektnavn = projektnavn
 
@@ -132,11 +142,19 @@ class RegneMotor(ABC):
 
     @property
     def observationer(self):
-        return self._observationer.values()
+        return list(self._observationer.values())
+
+    @observationer.setter
+    def observationer(self, observationer):
+        self._observationer = {uuid(): o for o in observationer}
 
     @property
     def gamle_koter(self):
-        return self._gamle_koter.values()
+        return list(self._gamle_koter.values())
+
+    @gamle_koter.setter
+    def gamle_koter(self, gamle_koter):
+        self._gamle_koter = {gk.punkt: gk for gk in gamle_koter}
 
     @classmethod
     def fra_dataframe(
@@ -232,7 +250,7 @@ class RegneMotor(ABC):
 
         return df_out
 
-    @cached_property
+    @property
     def fastholdte(self) -> dict[PunktNavn, float]:
         """Find fastholdte punkter og koter til en beregning"""
         return {pkt.punkt: pkt.H for pkt in self.gamle_koter if pkt.fasthold}
@@ -359,6 +377,18 @@ class RegneMotor(ABC):
         """En liste af filnavne som motoren producerer"""
         pass
 
+    @filer.setter
+    @abstractmethod
+    def filer(self, val):
+        """Sæt nye filnavne"""
+        pass
+
+    @property
+    @abstractmethod
+    def parametre(self) -> dict:
+        """En dict af parametre brugt af motoren"""
+        pass
+
 
 class GamaRegn(RegneMotor):
     """
@@ -390,6 +420,11 @@ class GamaRegn(RegneMotor):
     def filer(self, nye_filnavne):
         """Sæt nye filnavne"""
         self.xml_in, self.xml_out, self.html_out = nye_filnavne
+
+    @property
+    def parametre(self) -> dict:
+        """En dict af parametre brugt i gama-local"""
+        return dict()
 
     def skriv_gama_inputfil(self):
         """
@@ -492,9 +527,11 @@ class GamaRegn(RegneMotor):
             nye_koter.append(
                 NivKote(
                     punkt=punkt["id"],
-                    dato=self.gyldighedstidspunkt,
                     H=float(punkt["z"]),
+                    dato=self.gyldighedstidspunkt,
                     spredning=sqrt(float(var)),
+                    nord=self._gamle_koter[punkt["id"]].nord,
+                    øst=self._gamle_koter[punkt["id"]].øst,
                 )
             )
 
@@ -526,6 +563,312 @@ class DumRegn(RegneMotor):
     @filer.setter
     def filer(self, _):
         """En dum setter, der ikke ændrer noget."""
+
+    @property
+    def parametre(self) -> dict:
+        """En dict af parametre brugt i DumRegn"""
+        return dict()
+
+
+class GeodætiskRegn(GamaRegn):
+    """
+    Regnemotor som bruger GNU Gama til at lave geodætiske nivellementsberegninger.
+
+    GeodætiskRegn kan foretage geodætiske korrektioner af nivellementsobservationer inden
+    udjævning i GNU Gama, herunder tidekorrektion, uplift-korrektion samt konvertering af
+    metriske nivellementsobservationer til geopotentialforskelle. Endvidere kan GeodætiskRegn
+    inden udjævning konvertere Helmert-højder fra databasen til geopotentielle
+    højder samt konvertere udjævnede geopotentielle højder til Helmert-højder eller normalhøjder.
+
+    Tidekorrektion:
+    Tidekorretion af nivellementsobservationer, dvs. fjernelse af det periodiske tidesignal
+    samt hel eller delvis fjernelse af det permanente tidesignal, alt efter valg af tidesystem.
+    Styres vha. parameteren "tidal_system": "non", "mean" eller "zero" for hhv. non-tidal,
+    mean tide eller zero tide. Default er None, dvs. ingen tidekorrektion.
+
+    Uplift-korrektion:
+    Tilbage- eller fremskrivning af nivellementsobservationer til en nærmere angivet epoke vha.
+    en uplift-/deformationsmodel, der beskriver det langbølgede deformationssignal (herunder
+    uplift) ift. "geoiden". Styres vha. parameteren "epoch_target" (enhed decimalår). Default er
+    None, dvs. ingen uplift-korrektion. Uplift-korrektion forudsætter endvidere, at der vha.
+    parametrene "deformationmodel" samt "grid_inputfolder" er angivet et filnavn og en sti til en
+    deformationsmodel.
+
+    Tyngdekorrektion:
+    Konvertering af "rå", metriske nivellementsobservationer til geopotentialforskelle. Styres vha.
+    parameteren "height_diff_unit": "metric" for ingen konvertering, "gpu" for konvertering
+    til geopotentialforskelle (enhed gpu). Default er "metric", dvs. ingen konvertering.
+    Tyngdekorrektion forudsætter endvidere, at der vha. parametrene "gravitymodel" samt
+    "grid_inputfolder" er angivet et filnavn og en sti til en overflade-tyngdemodel i zero tide
+    system.
+
+    Konvertering af højder fra databasen:
+    Konvertering af eksisterende Helmert-højder fra FIRE-databasen (GeodætiskRegn attributten
+    "self.gamle_koter") til geopotentielle højder (enheden gpu) inden udjævning. Sker pr.
+    automatik når "rå", metriske nivellementsobservationer konverteres til geopotentialforskelle,
+    dvs. når parameteren "height_diff_unit" er sat til "gpu".
+
+    Konvertering af udjævnede højder:
+    Konvertering af geopotentielle højder fra udjævning (GeodætiskRegn attributten
+    "self.nye_koter") til metriske højder. Styres vha. parameteren "output_height": "helmert"
+    for konvertering til Helmert-højder, "normal" for konvertering til normalhøjder. Default er
+    None, dvs. ingen konvertering. Konvertering af udjævnede højder er kun relevant, når "rå",
+    metriske nivellementsobservationer konverteres til geopotentialforskelle, dvs. når parameteren
+    "height_diff_unit" er sat til "gpu".
+
+    Valgte parametre vedr. geodætiske korrektioner/konvertering af højder for en instans af
+    GeodætiskRegn kan tilgås vha. property'en "self.parametre". Endvidere afrapporteres valgte
+    parametre samt anvendte korrektioner m.v. i output-filen "{self.projektnavn}-korrektioner.xlsx",
+    alternativt "{self.filnavn_korrektioner}", hvis GeodætiskRegn er instantieret med et argument
+    for parameteren "filnavn_korrektioner".
+
+    TO DO: Håndtér spredninger?
+    """
+
+    def __init__(
+        self,
+        tidal_system: str = None,
+        epoch_target: float | str = None,
+        height_diff_unit: str = "metric",
+        output_height: str = None,
+        deformationmodel: str = None,
+        gravitymodel: str = None,
+        grid_inputfolder: str = None,
+        filnavn_korrektioner: str = None,
+        **kwargs,
+    ):
+        # Intitialiser parametre
+        self.tidal_system = tidal_system or None
+        # Konvertering fra decimalår til datetime
+        # Hvis epoch_target ligger langt tilbage eller frem i tid kan det medføre ErfaWarnings
+        # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=erfa.ErfaWarning)
+            self.epoch_target = (
+                Time(epoch_target, format="decimalyear").datetime
+                if epoch_target
+                else None
+            )
+        self.height_diff_unit = height_diff_unit
+        self.output_height = output_height or None
+        self.deformationmodel = deformationmodel or None
+        self.gravitymodel = gravitymodel or None
+        self.grid_inputfolder = Path(grid_inputfolder) if grid_inputfolder else None
+
+        # Initialiserer nedarvede parametre, herunder self.projektnavn
+        super().__init__(**kwargs)
+
+        # Initialiserer parameter vedr. output-fil med geodætiske korrektioner
+        self.filnavn_korrektioner = (
+            filnavn_korrektioner or f"{self.projektnavn}-korrektioner.xlsx"
+        )
+
+    @property
+    def filer(self) -> list:
+        """En liste af filer som GeodætiskRegn producerer"""
+        return [self.xml_in, self.xml_out, self.html_out, self.filnavn_korrektioner]
+
+    @filer.setter
+    def filer(self, nye_filnavne):
+        """Sæt nye filnavne"""
+        self.xml_in, self.xml_out, self.html_out, self.filnavn_korrektioner = (
+            nye_filnavne
+        )
+
+    @property
+    def parametre(self) -> dict:
+
+        return dict(
+            tidal_system=self.tidal_system,
+            epoch_target=self.epoch_target,
+            height_diff_unit=self.height_diff_unit,
+            output_height=self.output_height,
+            deformationmodel=self.deformationmodel,
+            gravitymodel=self.gravitymodel,
+            grid_inputfolder=self.grid_inputfolder,
+        )
+
+    def korriger_observationer(self):
+        """Korrigér observationer."""
+        allowed_height_diff_units = ["metric", "gpu"]
+        if not self.height_diff_unit in allowed_height_diff_units:
+            raise ValideringFejl(
+                "Argumentet til parameteren height_diff_unit skal være enten 'metric' eller 'gpu'"
+            )
+
+        if (
+            self.tidal_system is not None
+            or self.epoch_target is not None
+            or self.height_diff_unit == "gpu"
+        ):
+            print("Højdeforskelle påføres geodætiske korrektioner inden udjævning")
+
+            (self._observationer, self.korrektioner_obs) = (
+                apply_geodetic_corrections_to_height_diff_objects(
+                    self._observationer,
+                    self._gamle_koter,
+                    self.height_diff_unit,
+                    self.epoch_target,
+                    self.tidal_system,
+                    use_approx_tidal_formulas=False,
+                    grid_inputfolder=self.grid_inputfolder,
+                    deformationmodel=self.deformationmodel,
+                    gravitymodel=self.gravitymodel,
+                )
+            )
+
+    def konverter_gamle_højder_til_gpu(self):
+        """Helmert-højder fra databasen konverteres til geopotentielle højder."""
+        if self.height_diff_unit == "gpu":
+            print(
+                "Højder konverteres fra Helmert-højder til geopotentielle højder inden udjævning"
+            )
+
+            # Helmert-højderne fra databasen gemmes inden konvertering til geopotentielle højder
+            self.gamle_koter_db = self.gamle_koter
+
+            (self.gamle_koter, self.tyngder_konvertering_til_gpu) = (
+                convert_geopotential_heights_to_metric_heights(
+                    self.gamle_koter,
+                    "helmert_to_geopot",
+                    self.grid_inputfolder,
+                    self.gravitymodel,
+                    self.tidal_system,
+                    use_approx_tidal_formulas=False,
+                    iterate=True,
+                )
+            )
+
+    def konverter_nye_højder_til_meter(self):
+        """Geopotentielle højder fra udjævningen konverteres til Helmert- eller normalhøjder."""
+        if self.height_diff_unit == "gpu" and (
+            self.output_height == "helmert" or self.output_height == "normal"
+        ):
+            deskriptor = {"helmert": "Helmert-højder", "normal": "normalhøjder"}
+
+            print(
+                f"Højder konverteres fra geopotentielle højder til {deskriptor[self.output_height]} efter udjævning"
+            )
+
+            (self.nye_koter, self.tyngder_konvertering_til_meter) = (
+                convert_geopotential_heights_to_metric_heights(
+                    self.nye_koter,
+                    f"geopot_to_{self.output_height}",
+                    self.grid_inputfolder,
+                    self.gravitymodel,
+                    self.tidal_system,
+                    use_approx_tidal_formulas=False,
+                    iterate=True,
+                )
+            )
+
+        elif self.height_diff_unit == "gpu" and (self.output_height is None):
+            pass
+
+        elif self.height_diff_unit == "gpu":
+            raise ValideringFejl(
+                "Argumentet til parameteren output_height skal være enten 'helmert' eller 'normal'"
+            )
+
+        elif self.height_diff_unit == "metric" and (self.output_height is not None):
+            raise ValideringFejl(
+                "Hvis regnemotoren startes med et argument til parameteren output_height,"
+                " skal argumentet til parameteren height_diff_unit være 'gpu'"
+            )
+
+    def gendan_gamle_højder(self):
+        """Helmert-højder fra databasen gendannes."""
+        if self.height_diff_unit == "gpu":
+            self.gamle_koter = self.gamle_koter_db
+
+    def skriv_korrektioner(self):
+        """Skriv excel-fil med anvendte korrektioner/tyngder og beregningsparametre."""
+        beregningsparametre = {"regnemotor": type(self).__name__}
+        beregningsparametre.update(self.parametre)
+
+        beregningsparametre = pd.DataFrame.from_dict(
+            beregningsparametre, orient="index"
+        ).reset_index()
+
+        beregningsparametre.columns = ["Name", "Value"]
+
+        with pd.ExcelWriter(
+            self.filnavn_korrektioner
+        ) as writer:  # pylint: disable=abstract-class-instantiated
+            beregningsparametre.to_excel(writer, sheet_name="Parameters", index=False)
+            # Hvis self.tyngder_konvertering_til_meter eksisterer, eksisterer
+            # self.tyngder_konvertering_til_gpu, og hvis self.tyngder_konvertering_til_gpu
+            # eksisterer, eksisterer self.korrektioner_obs
+            try:
+                self.korrektioner_obs.to_excel(
+                    writer, sheet_name="Corrections levelling", index=False
+                )
+                self.tyngder_konvertering_til_gpu.to_excel(
+                    writer, sheet_name="Helmert heights > gpu", index=False
+                )
+                self.tyngder_konvertering_til_meter.to_excel(
+                    writer,
+                    sheet_name="gpu heights > Helmert|normal",
+                    index=False,
+                )
+            except:
+                AttributeError
+
+    def udjævn(self):
+        """Korrigerer observationer, konverterer gamle højder, skriver gama input, kalder gama,
+        læser gama output, konverterer nye højder og skriver excel-fil med korrektioner.
+        """
+        self.korriger_observationer()
+        self.konverter_gamle_højder_til_gpu()
+        self.skriv_gama_inputfil()
+        self.kald_gama()
+        self.nye_koter = self.læs_gama_outputfil()
+        self.konverter_nye_højder_til_meter()
+        self.gendan_gamle_højder()
+        self.skriv_korrektioner()
+
+
+class DVR90Regn(GeodætiskRegn):
+    """
+    Regnemotor som bruger GNU Gama til at lave nivellementsberegninger i DVR90.
+
+    DVR90Regn har samme funktionalitet som GeodætiskRegn, men i DVR90Regn er parametre vedr.
+    geodætiske korrektioner/konvertering af højder default sat således, at instanser af klassen er
+    en beregning i DVR90.
+    """
+
+    def __init__(
+        self,
+        tidal_system: str = "non",
+        epoch_target: float | str = 1990.0,
+        height_diff_unit: str = "gpu",
+        output_height: str = "helmert",
+        deformationmodel: str = "DKup24geo_DTU2024_PK.tif",
+        gravitymodel: str = "dk-g-direkte-fra-gri-thokn.tif",
+        grid_inputfolder: str = "C:/FIRE-DEV/src/fire/data",
+        **kwargs,
+    ):
+        # Initialiserer nedarvede parametre
+        super().__init__(**kwargs)
+
+        # Re-intitialiser parametre vedr. geodætiske korrektioner med default-værdier for
+        # DVR90Regn og/eller regneparametre fra kommandolinje-interface
+        self.tidal_system = tidal_system or None
+        # Konvertering fra decimalår til datetime
+        # Hvis epoch_target ligger langt tilbage eller frem i tid kan det medføre ErfaWarnings
+        # ang. "dubious year", hvilke vi ikke ønsker at se i denne specifikke sammenhæng
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=erfa.ErfaWarning)
+            self.epoch_target = (
+                Time(epoch_target, format="decimalyear").datetime
+                if epoch_target
+                else None
+            )
+        self.height_diff_unit = height_diff_unit
+        self.output_height = output_height or None
+        self.deformationmodel = deformationmodel or None
+        self.gravitymodel = gravitymodel or None
+        self.grid_inputfolder = Path(grid_inputfolder) if grid_inputfolder else None
 
 
 def _spredning(

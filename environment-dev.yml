@@ -2,11 +2,13 @@ name: fire-dev
 channels:
   - conda-forge
 dependencies:
+  - astropy
   - black
   - click
   - fiona
   - gama
   - graphviz
+  - jplephem
   - matplotlib
   - networkx
   - numpy
@@ -16,6 +18,7 @@ dependencies:
   - pyarrow
   - pip
   - pre-commit
+  - pyerfa
   - pylint
   - pyproj
   - pytest-cov

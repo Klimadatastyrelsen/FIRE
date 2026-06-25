@@ -2,16 +2,19 @@ name: fire
 channels:
   - conda-forge
 dependencies:
+  - astropy=7.2.*
   - click=8.2.*
   - fiona=1.10.*
   - gama=2.*
+  - jplephem=2.*
   - openpyxl=3.1.*
   - oracledb=3.2.*
   - matplotlib=3.*
   - networkx=3.*
   - numpy=2.*
-  - pyarrow=20.*
   - pandas=3.*
+  - pyarrow=20.*
+  - pyerfa=2.0.*
   - pyproj=3.7.*
   - python=3.13.*
   - rich=14.*
