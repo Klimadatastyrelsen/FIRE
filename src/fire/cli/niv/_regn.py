@@ -247,38 +247,7 @@ def regn(
 
     # opdater Parametre i regneark (er vi kommet her til er alle angivne parametre gyldige)
     beregningsparametre = {"regnemotor": MotorKlasse.__name__} | motorkwargs
-    parametre.set_index("Navn", inplace=True)
-    for parameter, værdi in beregningsparametre.items():
-        # findes parameter allerede i regnearket?
-        findes_parameter = parameter in list(parametre.index)
-        if not kontrol:
-            if not findes_parameter:
-                fire.cli.print(
-                        (
-                            f"ADVARSEL: {parameter}={værdi} sat i endelig beregning, "
-                            "kontrolberegning udført uden denne regneparameter!"
-                        ),
-                    bold=True,
-                    bg="yellow",
-                )
-            else:
-                kontrolværdi = str(parametre.at[parameter, "Værdi"])
-
-                if kontrolværdi != værdi:
-                    fire.cli.print(
-                            (
-                                "ADVARSEL: Kontrolberegning udført med regneparameter "
-                                f"{parameter}={kontrolværdi}, {parameter}={værdi} sat i "
-                                "endelig beregning!"
-                            ),
-                        bold=True,
-                        bg="yellow",
-                    )
-        # parametre sættes as-is, brugeren må reagere på advarslen ovenfor hvis forskel
-        # i parametre er utilsigtet
-        parametre.loc[parameter]=værdi
-
-    parametre.reset_index(inplace=True)
+    parametre = opdater_parametre(parametre, beregningsparametre, kontrol)
 
     # Tilføj "-kontrol" eller "-endelig" til alle filnavne
     motor.filer = [
@@ -434,3 +403,46 @@ def opdater_arbejdssæt(arbejdssæt: DataFrame, nye_koter: DataFrame):
     arbejdssæt["Opløft [mm/år]"] = nye_koter["Opløft [mm/år]"]
 
     return arbejdssæt
+
+
+def opdater_parametre(gamle_parametre: DataFrame, beregningsparametre: dict, kontrol: bool) -> DataFrame:
+    """
+    Opdater fanebladet Parametre
+    """
+    gamle_parametre.set_index("Navn", inplace=True)
+
+    # lav ny parameter dataframe der kun indeholder standardparametrene Version, Database
+    parametre = gamle_parametre.copy()
+    standardparametre = set(["Version", "Database"])
+    parametre.drop(set(parametre.index)-standardparametre, inplace=True)
+
+    for parameter, værdi in beregningsparametre.items():
+        # parametre sættes as-is, brugeren må reagere advarslerne hvis forskel
+        # i parametre er utilsigtet
+        parametre.loc[parameter]=værdi
+
+        if kontrol:
+            continue
+
+        # findes parameter allerede i regnearket?
+        if not parameter in list(gamle_parametre.index):
+            fire.cli.print(
+                (
+                    f"ADVARSEL: {parameter}={værdi} sat i endelig beregning, "
+                    "kontrolberegning udført uden denne regneparameter!"
+                ),
+                bold=True,
+                bg="yellow",
+            )
+        elif (kontrolværdi := str(gamle_parametre.at[parameter, "Værdi"])) != værdi:
+            fire.cli.print(
+                (
+                    "ADVARSEL: Kontrolberegning udført med regneparameter "
+                    f"{parameter}={kontrolværdi}, {parameter}={værdi} sat i "
+                    "endelig beregning!"
+                ),
+                bold=True,
+                bg="yellow",
+            )
+
+    return parametre.reset_index()
