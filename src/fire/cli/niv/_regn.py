@@ -247,11 +247,11 @@ def regn(
 
     # opdater Parametre i regneark (er vi kommet her til er alle angivne parametre gyldige)
     beregningsparametre = {"regnemotor": MotorKlasse.__name__} | motorkwargs
+    parametre.set_index("Navn", inplace=True)
     for parameter, værdi in beregningsparametre.items():
         # findes parameter allerede i regnearket?
-        findes_parameter = parameter in list(parametre["Navn"])
+        findes_parameter = parameter in list(parametre.index)
         if not kontrol:
-            #kontrolværdi = find_parameter(projektnavn, parameter)
             if not findes_parameter:
                 fire.cli.print(
                         (
@@ -262,7 +262,7 @@ def regn(
                     bg="yellow",
                 )
             else:
-                kontrolværdi = parametre.loc[parametre["Navn"] == parameter]["Værdi"].to_string(index=False)
+                kontrolværdi = str(parametre.at[parameter, "Værdi"])
 
                 if kontrolværdi != værdi:
                     fire.cli.print(
@@ -276,11 +276,9 @@ def regn(
                     )
         # parametre sættes as-is, brugeren må reagere på advarslen ovenfor hvis forskel
         # i parametre er utilsigtet
-        if parametre[parametre["Navn"] == parameter].empty:
-            parametre.loc[len(parametre)] = [parameter, værdi]
-        else:
-            parametre.loc[parametre["Navn"] == parameter, "Værdi"] = værdi
+        parametre.loc[parameter]=værdi
 
+    parametre.reset_index(inplace=True)
 
     # Tilføj "-kontrol" eller "-endelig" til alle filnavne
     motor.filer = [
