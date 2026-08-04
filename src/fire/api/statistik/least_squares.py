@@ -130,7 +130,7 @@ class WeightedLeastSquares:
         """Return the inverse weight matrix"""
         return np.linalg.inv(self.W)
 
-    @property
+    @cached_property
     def cov_theta(self) -> ndarray:
         """
         Variance-covariance matrix of estimated parameters
@@ -139,7 +139,7 @@ class WeightedLeastSquares:
         """
         return self.var0_hat * self.inv_normal_matrix
 
-    @property
+    @cached_property
     def cov_yhat(self) -> ndarray:
         """
         Variance-covariance matrix of modelled observations ŷ
@@ -148,12 +148,12 @@ class WeightedLeastSquares:
         """
         return self.var0_hat * self.hat_matrix @ self.inv_W
 
-    @property
+    @cached_property
     def cov_residuals(self) -> ndarray:
         """Variance-covariance matrix of residuals"""
         return self.var0_hat * self.inv_W - self.cov_yhat
 
-    @property
+    @cached_property
     def std_residuals(self) -> ndarray:
         """Estimated standard deviation of residuals"""
         return np.sqrt(np.diag(self.cov_residuals))
@@ -208,12 +208,12 @@ class WeightedLeastSquares:
         """aka leave one out residuals"""
         return compute_studentized_residuals(self.normalized_residuals, self.dof)
 
-    @property
+    @cached_property
     def var_theta(self) -> ndarray:
         """Estimated variances of model parameters"""
         return np.diag(self.cov_theta)
 
-    @property
+    @cached_property
     def std_theta(self) -> ndarray:
         """Estimated standard deviation of model parameters"""
         return np.sqrt(self.var_theta)
