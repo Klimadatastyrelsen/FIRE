@@ -374,7 +374,7 @@ def compute_normalized_residuals(
 ) -> ndarray:
     """Normalized aka standardized residual
 
-    When leverage=1 we get res/0 = inf
+    When leverage=1 we get res/0 = +/- inf
     When leverage>1 (due to numerical imprecision) we get res/sqrt(-x)=nan
     This can be seen from the definition of standard deviation of residuals:
         std_residual = sqrt(MSE*(1-leverage)/weight)
