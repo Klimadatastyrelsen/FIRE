@@ -1032,12 +1032,12 @@ Omvendt, så har Fastholdte og Self-Loops ingen indflydelse på de udjævnede ko
         self.generer_statistik()
         self.gem_udjævningsrapport()
 
-def _spredning(
 
+def _spredning(
     observationstype: str,
     afstand_i_m: float,
     antal_opstillinger: float,
-    afstandsafhængig_spredning_i_mm: float,
+    afstandsafhængig_spredning: float,
     centreringsspredning_i_mm: float,
 ) -> float:
     """Apriorispredning for nivellementsobservation
@@ -1051,6 +1051,11 @@ def _spredning(
 
     Negative afstandsafhængig- eller centreringsspredninger
     behandles som positive.
+
+    Enheden for `afstandsafhængig_spredning` er ikke mm, men
+        - [mm/km]       for MTL observationer
+        - [mm/sqrt(km)] for MGL observationer
+    Derved er enheden for den beregnede spredning altid [mm].
 
     Observationstypen NUL benyttes til at sammenbinde disjunkte
     undernet - det er en observation med forsvindende apriorifejl,
@@ -1078,11 +1083,11 @@ def _spredning(
     opstillingsafhængig = sqrt(antal_opstillinger * (centreringsspredning_i_mm**2))
 
     if "MTL" == observationstype.upper():
-        afstandsafhængig = afstandsafhængig_spredning_i_mm * afstand_i_m / 1000
+        afstandsafhængig = afstandsafhængig_spredning * afstand_i_m / 1000
         return hypot(afstandsafhængig, opstillingsafhængig)
 
     if "MGL" == observationstype.upper():
-        afstandsafhængig = afstandsafhængig_spredning_i_mm * sqrt(afstand_i_m / 1000)
+        afstandsafhængig = afstandsafhængig_spredning * sqrt(afstand_i_m / 1000)
         return hypot(afstandsafhængig, opstillingsafhængig)
 
     raise ValueError(f"Ukendt observationstype: {observationstype}")
