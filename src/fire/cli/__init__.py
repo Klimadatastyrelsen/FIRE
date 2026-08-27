@@ -2,6 +2,7 @@
 Kommandoliniebrugergrænsefladen (en command-line interface, CLI) til FIREs API.
 
 """
+
 import sys
 import os
 import signal
@@ -29,12 +30,25 @@ firedb = FireDb()
 _show_colors = True
 
 
+def get_monochrome():
+    """Hent konfigurationsindstilling for monokrom"""
+    return firedb.config.getboolean("general", "monochrome")
+
+
 def _set_monochrome(ctx, param, value):
     """
     Anvend værdien af --monokrom og sæt den globale værdi af _show_colors.
     """
-    global _show_colors
-    _show_colors = not value
+    if value is not None:
+        global _show_colors
+        _show_colors = not value
+
+        # Sæt også databasekonfigurationens monokrom-indstilling, så den
+        # kan tilgås uden for dette modul (pretty_tables).
+        # Dette overskriver værdien af monokrom der evt. måtte være sat i
+        # konfigurationsfilen (fire.ini)
+        firedb.config.set("general", "monochrome", str(value))
+
     return value
 
 

@@ -3,7 +3,6 @@ from pathlib import Path
 import getpass
 from configparser import ConfigParser
 
-
 RC_NAME = "fire.ini"
 
 HOME = Path(os.environ.get("HOME", ""))
@@ -23,6 +22,7 @@ RC_DEFAULTS = {
     "general": {
         "default_connection": "prod",
         "niv_open_files": "true",
+        "monochrome": "false",
     },
 }
 
