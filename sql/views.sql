@@ -218,10 +218,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_fikspunkter_dk_geometri_idx
-ON v_fikspunkter_dk (geometri)
-INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
 -- V_CORS_DK
 --
 -- Danske CORS stationer (NET:CORS), inklusiv
@@ -305,8 +301,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_cors_dk_geometri_idx ON v_cors_dk (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
 -- TAPAS PUNKTER
 CREATE MATERIALIZED VIEW v_tapas
 REFRESH ON DEMAND
@@ -378,8 +372,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_tapas_geometri_idx ON v_tapas (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
 
 -- 5D PUNKTER
 CREATE MATERIALIZED VIEW v_5d_punkter
@@ -453,9 +445,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_5d_punkter_geometri_idx ON v_5d_punkter (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
-
 -- 10KM PUNKTER
 CREATE MATERIALIZED VIEW v_10km_punkter
 REFRESH ON DEMAND
@@ -527,8 +516,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_10km_punkter_geometri_idx ON v_10km_punkter (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
 
 
 -- DMI Vandstandsmålere
@@ -603,8 +590,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_dmi_vandstandsmaalere_geometri_idx ON v_dmi_vandstandsmaalere (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
 -- KDI vandstandsmålere
 CREATE MATERIALIZED VIEW v_kdi_vandstandsmaalere
 REFRESH ON DEMAND
@@ -677,8 +662,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_kdi_vandstandsmaalere_geometri_idx ON v_kdi_vandstandsmaalere (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
 -- DVR90 definerende vandstandsmålere
 CREATE MATERIALIZED VIEW v_dvr90_vandstandsmaalere
 REFRESH ON DEMAND
@@ -750,8 +733,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_dvr90_vandstandsmaalere_geometri_idx ON v_dvr90_vandstandsmaalere (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
 
 -- GPSNet PUNKTER
 CREATE MATERIALIZED VIEW v_gpsnet
@@ -839,9 +820,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_gpsnet_geometri_idx ON v_gpsnet (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
-
 -- SmartNet PUNKTER
 CREATE MATERIALIZED VIEW v_smartnet
 REFRESH ON DEMAND
@@ -927,8 +905,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_smartnet_geometri_idx ON v_smartnet (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
 
 -- RTKConnect PUNKTER
 CREATE MATERIALIZED VIEW v_rtkconnect
@@ -1016,8 +992,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_rtkconnect_geometri_idx ON v_rtkconnect (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
 -- Tabtgåede punkter
 CREATE MATERIALIZED VIEW v_tabte_punkter
 REFRESH ON DEMAND
@@ -1065,8 +1039,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_tabte_punkter_geometri_idx ON v_tabte_punkter (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
 
 --  GNET Stationer
 CREATE MATERIALIZED VIEW v_gnet
@@ -1156,9 +1128,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_gnet_geometri_idx ON v_gnet (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
-
 CREATE MATERIALIZED VIEW V_REFGR
 REFRESH ON DEMAND
 START WITH SYSDATE NEXT SYSDATE + 1 / 24
@@ -1238,11 +1207,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_refgr_geometri_idx
-ON v_refgr (geometri)
-INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
 
 CREATE MATERIALIZED VIEW V_FIKSPUNKTER_GL
 REFRESH ON DEMAND
@@ -1341,11 +1305,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_fikspunkter_gl_geometri_idx
-ON v_fikspunkter_gl (geometri)
-INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
-
 -- 3. præs observationer
 CREATE MATERIALIZED VIEW v_pres3_obs AS
 WITH
@@ -1407,8 +1366,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_pres3_obs_geometri_idx ON v_pres3_obs (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
 
 -- 2. præs observationer
 CREATE MATERIALIZED VIEW v_pres2_obs AS
@@ -1472,9 +1429,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_pres2_obs_geometri_idx ON v_pres2_obs (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
-
-
 -- 1. præs observationer
 CREATE MATERIALIZED VIEW v_pres1_obs AS
 WITH
@@ -1536,9 +1490,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_pres1_obs_geometri_idx ON v_pres1_obs (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
-
 
 -- Alle nivellementobservationer inkl. diverse sagsinformationer.
 CREATE MATERIALIZED VIEW v_alle_niv_obs
@@ -1627,7 +1578,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_alle_niv_obs_geometri_idx ON v_alle_niv_obs (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
 
 -- Alt præcisionsnivellement. Filtreret ud fra skiftende præcisionskrav igennem tiden.
 CREATE MATERIALIZED VIEW v_praecisionsnivellement
@@ -1697,8 +1647,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_praecisionsnivellement_geometri_idx ON v_praecisionsnivellement (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
 
 
 -- Jessenpunkter
@@ -1783,8 +1731,6 @@ VALUES
     ),
     4326
   );
-
-CREATE INDEX v_jessenpunkter_geometri_idx ON v_jessenpunkter (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
 
 
 -- Tidsserier og Punkter i punktsamlinger
@@ -1875,8 +1821,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_hoejdetidsserier_geometri_idx ON v_hoejdetidsserier (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
-
 
 -- Punktsamlinger (indeholder de samme punkter som v_hoejdetidsserier
 -- men er her lavet som multigeometri)
@@ -1943,9 +1887,6 @@ VALUES
     4326
   );
 
- CREATE INDEX v_punktsamlinger_multigeometri_idx ON v_punktsamlinger (multigeometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=multipoint');
-
-
 -- Reflektorer, både Corner og CAT
 CREATE MATERIALIZED VIEW v_reflektorer
 REFRESH ON DEMAND
@@ -2004,7 +1945,6 @@ VALUES
     4326
   );
 
-CREATE INDEX v_reflektorer_geometri_idx ON v_reflektorer (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
 
 -- Alle punkter som har en LRL-kote
 CREATE MATERIALIZED VIEW v_lrl
@@ -2106,5 +2046,61 @@ VALUES
     ),
     4326
   );
+
+
+
+CREATE INDEX v_fikspunkter_dk_geometri_idx
+ON v_fikspunkter_dk (geometri)
+INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_cors_dk_geometri_idx ON v_cors_dk (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_tapas_geometri_idx ON v_tapas (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_5d_punkter_geometri_idx ON v_5d_punkter (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_10km_punkter_geometri_idx ON v_10km_punkter (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_dmi_vandstandsmaalere_geometri_idx ON v_dmi_vandstandsmaalere (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_kdi_vandstandsmaalere_geometri_idx ON v_kdi_vandstandsmaalere (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_dvr90_vandstandsmaalere_geometri_idx ON v_dvr90_vandstandsmaalere (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_gpsnet_geometri_idx ON v_gpsnet (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_smartnet_geometri_idx ON v_smartnet (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_rtkconnect_geometri_idx ON v_rtkconnect (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_tabte_punkter_geometri_idx ON v_tabte_punkter (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_gnet_geometri_idx ON v_gnet (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_refgr_geometri_idx
+ON v_refgr (geometri)
+INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_fikspunkter_gl_geometri_idx
+ON v_fikspunkter_gl (geometri)
+INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_pres3_obs_geometri_idx ON v_pres3_obs (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
+
+CREATE INDEX v_pres2_obs_geometri_idx ON v_pres2_obs (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
+
+CREATE INDEX v_pres1_obs_geometri_idx ON v_pres1_obs (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
+
+CREATE INDEX v_alle_niv_obs_geometri_idx ON v_alle_niv_obs (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
+
+CREATE INDEX v_praecisionsnivellement_geometri_idx ON v_praecisionsnivellement (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=line');
+
+CREATE INDEX v_jessenpunkter_geometri_idx ON v_jessenpunkter (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_hoejdetidsserier_geometri_idx ON v_hoejdetidsserier (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
+
+CREATE INDEX v_punktsamlinger_multigeometri_idx ON v_punktsamlinger (multigeometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=multipoint');
+
+CREATE INDEX v_reflektorer_geometri_idx ON v_reflektorer (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
 
 CREATE INDEX v_lrl_geometri_idx ON v_lrl (geometri) INDEXTYPE IS MDSYS.SPATIAL_INDEX PARAMETERS('layer_gtype=point');
