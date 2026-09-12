@@ -83,3 +83,4 @@ class Normalizer:
 # expose classes and functions
 from fire.api.statistik.least_squares import *
 from fire.api.statistik.hypothesis_test import *
+from fire.api.statistik.visualizations import *

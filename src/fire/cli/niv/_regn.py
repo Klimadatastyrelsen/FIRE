@@ -12,6 +12,7 @@ from fire.api.niv.regnemotor import (
     RegneMotor,
     GamaRegn,
     DumRegn,
+    SmartRegn,
     ValideringFejl,
     UdjævningFejl,
 )
@@ -46,6 +47,7 @@ from fire.cli.niv._netoversigt import byg_netgeometri_og_singulære
 motorvælger = {
     "gama": GamaRegn,
     "dum": DumRegn,
+    "smart": SmartRegn,
 }
 
 
