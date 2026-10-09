@@ -9,6 +9,8 @@ from rich.console import Console
 from rich.table import Table
 from rich.style import Style
 
+from fire.cli import _get_monochrome
+
 
 def klargør_celle(input):
     if isinstance(input, datetime) or isinstance(input, int):
@@ -22,7 +24,7 @@ def klargør_celle(input):
 
 def print_tabel(
     tabel: Table,
-    console: Console = Console(),
+    console: Console = None,
     align: str = "right",
 ):
     """
@@ -31,7 +33,9 @@ def print_tabel(
     Alle kolonner højrejusteres for at gøre visuel inspektion af decimalpladser lettere.
     Hertil antages at float-kolonner er afrundet til samme antal decimaler.
     """
-
+    if console is None:
+        monokrom = _get_monochrome()
+        console = Console(color_system="auto" if not monokrom else None)
     # Align kolonner til højre
     for c in tabel.columns:
         c.justify = align
@@ -165,7 +169,12 @@ def gem_til_html(
     # Derfor benyttes dette trick der sørger for at der printes til devnull
     # istedet for til stdout. Se
     # https://github.com/Textualize/rich/discussions/1183#discussioncomment-649420
-    console = Console(record=True, file=open(os.devnull, "wt"))
+    monokrom = _get_monochrome()
+    console = Console(
+        record=True,
+        file=open(os.devnull, "wt"),
+        color_system="auto" if not monokrom else None,
+    )
 
     # "Print" tabellen til devnull
     print_tabel(tabel, console)

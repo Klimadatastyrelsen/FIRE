@@ -48,6 +48,11 @@ motorvælger = {
     "dum": DumRegn,
 }
 
+def vælg_motor(ctx: click.Context, param, value):
+    # ctx.params gives videre til regn
+    ctx.params["MotorKlasse"] = motorvælger[value]
+    return value
+
 
 @niv.command()
 @fire.cli.default_options()
@@ -55,9 +60,8 @@ motorvælger = {
 @click.option(
     "-M",
     "--motor",
-    "MotorKlasse",
     type=click.Choice(motorvælger.keys(), case_sensitive=False),
-    callback=lambda ctx, param, val: motorvælger[val],
+    callback=vælg_motor,
     default="gama",
     help="Angiv regnemotor. Som standard anvendes GNU Gama.",
 )

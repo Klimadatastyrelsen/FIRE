@@ -30,5 +30,5 @@ dependencies:
   - sphinx=8.*
   - sphinx_rtd_theme
   - sphinxcontrib-programoutput
-  - sqlalchemy
+  - sqlalchemy=2.0.*
   - xmltodict

@@ -23,6 +23,7 @@ RC_DEFAULTS = {
     "general": {
         "default_connection": "prod",
         "niv_open_files": "true",
+        "monochrome": "false",
     },
 }
 
