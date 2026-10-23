@@ -155,8 +155,8 @@ def importer_observationer(projektnavn: str) -> pd.DataFrame:
     # Sorter efter journalside, så frem- og tilbageobservationer følges ad.
     # Den sære index-gymnastik sikrer at vi har fortløbende nummerering
     # også efter sorteringen.
-    observationer.sort_values(by="Journal", inplace=True)
-    observationer.reset_index(drop=True, inplace=True)
+    observationer = observationer.sort_values(by="Journal")
+    observationer = observationer.reset_index(drop=True)
 
     # Oversæt alle anvendte identer til kanonisk form
     fra = tuple(observationer["Fra"])

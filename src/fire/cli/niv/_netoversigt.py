@@ -105,7 +105,7 @@ def netoversigt(projektnavn: str, **kwargs) -> None:
 
     # Fjern slukkede observationer
     observationer = observationer[observationer["Sluk"] != "x"]
-    observationer.reset_index(inplace=True, drop=True)
+    observationer = observationer.reset_index(drop=True)
 
     motor = GamaRegn.fra_dataframe(
         observationer, punktoversigt, projektnavn=projektnavn
@@ -172,8 +172,8 @@ def byg_netgeometri_og_singulære(
     # @piRSquared, https://stackoverflow.com/users/2336654/pirsquared
     # Se https://stackoverflow.com/questions/46078034/python-dict-with-values-as-tuples-to-pandas-dataframe
     netf = pd.DataFrame(nyt).T.rename_axis("Punkt").add_prefix("Nabo ").reset_index()
-    netf.sort_values(by="Punkt", inplace=True)
-    netf.reset_index(drop=True, inplace=True)
+    netf = netf.sort_values(by="Punkt")
+    netf = netf.reset_index(drop=True)
 
     ensomme_punkter = set().union(*ensomme_subnet)
     ensomme = pd.DataFrame(sorted(ensomme_punkter), columns=["Punkt"])

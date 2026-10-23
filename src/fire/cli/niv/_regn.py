@@ -398,12 +398,12 @@ def opdater_parametre(
     """
     Opdater fanebladet Parametre
     """
-    gamle_parametre.set_index("Navn", inplace=True)
+    gamle_parametre = gamle_parametre.set_index("Navn")
 
     # lav ny parameter dataframe der kun indeholder standardparametrene Version, Database
     parametre = gamle_parametre.copy()
     standardparametre = set(["Version", "Database"])
-    parametre.drop(set(parametre.index) - standardparametre, inplace=True)
+    parametre = parametre.drop(set(parametre.index) - standardparametre)
 
     for parameter, værdi in beregningsparametre.items():
         # parametre sættes as-is, brugeren må reagere advarslerne hvis forskel
