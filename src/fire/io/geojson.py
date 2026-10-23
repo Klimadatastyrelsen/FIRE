@@ -55,9 +55,7 @@ def punkt_feature(punkter: pd.DataFrame) -> dict[str, str]:
             sigma = None
 
         # Fastholdte punkter har ingen ny kote, så vi viser den gamle
-        elif _none_eller_nan(punkter.at[i, "Ny kote"]) and not _none_eller_nan(
-            punkter.at[i, "Kote"]
-        ):
+        elif punkter.at[i, "Fasthold"] != "" and not pd.isna(punkter.at[i, "Fasthold"]):
             fastholdt = True
             delta = 0.0
             kote = float(punkter.at[i, "Kote"])
