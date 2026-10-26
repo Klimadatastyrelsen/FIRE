@@ -12,6 +12,7 @@ måde:
     [general]
     default_connection = prod
     niv_open_files = true
+    monochrome = false
 
     [prod_connection]
     password = <adgangskode>

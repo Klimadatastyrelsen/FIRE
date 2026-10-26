@@ -10,3 +10,4 @@ I dette kapitel gives små tips og tricks til løsning af forskellige opgaver i 
     genfundet
     punktsamlinger
     overridedefaults
+    interaktivmode
