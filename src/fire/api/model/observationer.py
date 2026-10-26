@@ -232,7 +232,7 @@ class Observation(FikspunktregisterObjekt):
         Integer, ForeignKey("observationstype.observationstypeid")
     )
     observationstype = relationship(
-        "ObservationsType", back_populates="observationer", lazy="joined"
+        "ObservationsType", back_populates="observationer", lazy="selectin"
     )
     sigtepunktid = Column(String(36), ForeignKey("punkt.id"))
     sigtepunkt = relationship("Punkt", foreign_keys=[sigtepunktid])

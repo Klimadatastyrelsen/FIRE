@@ -346,10 +346,9 @@ def opret_punktsamling(
         pd.DataFrame.from_records(data=hts_data, columns=arkdef.HØJDETIDSSERIE),
     )
     # Sorter højdetidsserie-arket
-    højdetidsserie_ark.sort_values(
+    højdetidsserie_ark = højdetidsserie_ark.sort_values(
         by=["Punktgruppenavn", "Er Jessenpunkt", "Tidsserienavn", "Punkt"],
         ascending=[True, False, False, True],
-        inplace=True,
     )
 
     resultater.update(
@@ -524,10 +523,9 @@ def udtræk_punktsamling(
         pd.DataFrame.from_records(data=hts_data, columns=arkdef.HØJDETIDSSERIE),
     )
     # Sorter højdetidsserie-arket
-    højdetidsserie_ark.sort_values(
+    højdetidsserie_ark = højdetidsserie_ark.sort_values(
         by=["Punktgruppenavn", "Er Jessenpunkt", "Tidsserienavn", "Punkt"],
         ascending=[True, False, False, True],
-        inplace=True,
     )
 
     resultater.update(
