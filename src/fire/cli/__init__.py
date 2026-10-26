@@ -35,14 +35,17 @@ def _set_monochrome(ctx, param, value):
     """
     global _show_colors
     _show_colors = not value
+    return value
 
 
 def _set_debug(ctx, param, value):
     """
     Ændrer debug tilstand på firedb object vha --debug.
     """
-    global firedb
-    firedb.engine.echo = value
+    if value is not None:
+        firedb.engine.echo = value
+
+    return value
 
 
 def _set_database(ctx, param, value):
@@ -52,6 +55,8 @@ def _set_database(ctx, param, value):
     if value is not None:
         new_firedb = FireDb(db=str(value).lower())
         override_firedb(new_firedb)
+    return value
+
 
 def _start_interactive_mode(ctx: click.Context, param, value):
     """
@@ -179,12 +184,14 @@ _default_options = [
         "-m",
         "--monokrom",
         is_flag=True,
+        default=None,
         callback=_set_monochrome,
         help="Vis ikke farver i terminalen",
     ),
     click.option(
         "--debug",
         is_flag=True,
+        default=None,
         callback=_set_debug,
         help="Vis debug output fra FIRE-databasen.",
     ),
