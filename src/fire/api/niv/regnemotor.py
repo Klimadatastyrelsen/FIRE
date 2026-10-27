@@ -594,7 +594,7 @@ class SmartRegn(RegneMotor):
         super().__init__(*args, **kwargs)
         self.html_out = f"{self.projektnavn}-smart-resultat.html"
 
-    def opstil_ligningssystem(
+    def _opstil_ligningssystem(
         self,
         skip_self_loops: bool = False,
         skip_fastholdte_obs: bool = False,
@@ -768,7 +768,7 @@ class SmartRegn(RegneMotor):
 
         return X, Y, W
 
-    def løs_ligningssystem(self, X: np.ndarray, y: np.ndarray, W: np.ndarray):
+    def _løs_ligningssystem(self, X: np.ndarray, y: np.ndarray, W: np.ndarray) -> list[NivKote]:
         """Løs det lineære ligningssystem
 
         Systemet løses via `WeightedLeastSquares.solve()`
@@ -807,7 +807,7 @@ class SmartRegn(RegneMotor):
         """Sæt nye filnavne"""
         (self.html_out,) = nye_filnavne
 
-    def generer_statistik(self):
+    def _generer_statistik(self):
         """Generér tabeller der opsummerer udjævningsresulaterne"""
         n_udjævnede = len(self.estimerbare_punkter)
         n_fastholdte = len(self.fastholdte)
@@ -1016,23 +1016,23 @@ Omvendt, så har Fastholdte og Self-Loops ingen indflydelse på de udjævnede ko
 
         self.console = console
 
-    def gem_udjævningsrapport(self):
+    def _gem_udjævningsrapport(self):
         """Gem udjævningsrapporten"""
         self.console.save_html(self.html_out)
 
     def udjævn(self):
-        X, y, W = self.opstil_ligningssystem(
+        X, y, W = self._opstil_ligningssystem(
             skip_self_loops=self.skip_self_loops,
             skip_fastholdte_obs=self.skip_fastholdte_obs,
         )
-        self.nye_koter = self.løs_ligningssystem(X, y, W)
+        self.nye_koter = self._løs_ligningssystem(X, y, W)
 
         if self.opt_plot:
             visualize_residuals(self.stats)
             visualize_matrices(self.stats)
 
-        self.generer_statistik()
-        self.gem_udjævningsrapport()
+        self._generer_statistik()
+        self._gem_udjævningsrapport()
 
 
 def _spredning(
