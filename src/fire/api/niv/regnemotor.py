@@ -544,46 +544,39 @@ class DumRegn(RegneMotor):
 
 
 class SmartRegn(RegneMotor):
-    """Regnemotor der anvender `WeightedLeastSquares`
+    """Foretag nivellementsudjævning via en simpel numpy-baseret implementering
 
-    Observationsligningerne opstilles på matrixform som inverteres
-    i klassen `WeightedLeastSquares`.
+    Observationsligningerne opstilles på matrixform som inverteres via mindste kvadraters
+    metode. Resultaterne opsummeres som html-rapport i stil med output fra gama-local.
 
-    Resultaterne opsummeres som html-rapport i stil med output fra gama-local.
+    Udjævningen kan justeres med følgende parametre::
 
-    Performance vs gama-local:
+      `opt_plot`            vis diverse plots til inspektion af residualer, samt
+                            visualisering af de opstillede matricer.
 
-    Gentagne benchmark-test med samtlige historiske nivellementkampagner har vist, at
-    motoren er væsentligt hurtigere end gama når det kommer til selve udjævningen af
-    observationerne, ofte op mod 100 gange eller mere. Dog tager det relativt lang tid at
-    generere den efterfølgende html-rapport.
+      `skip_self_loops`     spring observationer over hvor fra- og til-punkt er det samme.
 
-    Alt i alt er gama derfor 1.5-4 gange hurtigere ved "mellemstore" niv-sager, hvor der
-    udjævnes mellem 20-300 punkter.
+      `skip_fastholdte_obs` spring observationer over som er gjort imellem to fastholdte
+                            punkter.
 
-    For små kampagner, samt meget store kampagner er SmartRegn hurtigst.
-    Guldstandarden - udjævning af 3. præc - tager 5-10 min for SmartRegn og 10-20 timer
-    for GamaRegn, hvilket vil sige ca. en faktor 100 gange hurtigere.
+    Hverken "self loops" eller "fastholdte" observationer har nogen indflydelse på de
+    udjævnede koter. Dog bidrager de til den estimerede spredning. Særligt
+    `skip_fastholdte_obs` kan have stor indflydelse på spredningsestimatet, da man ofte
+    fastholder alle punkter i en gammel punktgruppe, selvom de kan have bevæget sig
+    indbyrdes. Dette kan resultere i meget store residualer for observationer mellem
+    fastholdte punkter.
 
-    Validering af resulater:
+    Som default er `skip_self_loops` og `skip_fastholdte_obs` sat til `False`, dvs. at
+    alle observationer inkluderes som de er givet i regnearket. Opdages der store
+    residualer mellem fastholdte punkter, bør man tage stilling til, om observationen skal
+    slukkes, eller om man skal undlade at fastholdte ét eller flere af punkterne.
 
-    Korrektheden af resultaterne er ligeledes verificeret ved gentagne benchmark-tests og
-    sammenligning med gama.
-    Det er vist at resulaterne er identiske ned til numerisk præcision, både hvad angår de
-    udjævnede koter og deres estimerede spredninger.
-    Dog håndteres særtilfældet hvor der findes "self-loops" (observationer fra og til
-    samme punkt) forskellig ift. gama, som gør at resulaterne i dette tilfælde kan
-    afvige op til 0.5 mm på de udjævnede koter.
+    **Elimination af grovfejl**
 
-    Elimination af grovfejl:
-
-    Desuden fjerner gama på forhånd grovfejl, ved at estimere en approximativ løsning
-    først, hvilket også kan give anledning til afvigelser mellem Smart og Gama. Ulempen
-    ved denne fremgangsmåde er dog, at det i uheldige tilfælde kan ødelægge
-    netværksgeometrien, og gøre problemet uløseligt. (Fx hvis der er grovfejl på alle
-    observationer til det fastholdte punkt).
-    Med Smart, vil grovfejl fremtræde som store outliers efter endt udjævning, og det er
-    op til operatøren at opdage og slukke outlieren, og foretage en ny udjævning.
+    Grovfejl elimineres ikke automatisk! Grovfejl vil optræde som almindelige, men store,
+    outliers. Det er op til operatøren at opdage og slukke outlieren, og derefter foretage
+    en ny udjævning. Residualplots (slås til med `opt_plot=True`), er nyttige til at
+    spotte grovfejl.
     """
 
     def __init__(
@@ -605,7 +598,7 @@ class SmartRegn(RegneMotor):
         self,
         skip_self_loops: bool = False,
         skip_fastholdte_obs: bool = False,
-    ):
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
         Opstil ligningssystem ud fra nivellementobservationer
 
@@ -672,8 +665,9 @@ class SmartRegn(RegneMotor):
             Y = [ΔH₂₁  ΔH₃₂  ΔH₄₃  ΔH₁₄]ᵀ
 
         Når vi løser for koterne direkte på denne måde kræves der mindst ét fastholdt
-        punkt, pr. sammenhængende net af observationer. Fastsættes fx punkt 1 med højden
-        H₁ = k, falder denne ud som ubekendt:
+        punkt, pr. sammenhængende net af observationer. Vi fastholder punkter ved direkte
+        substitution i de relevante ligninger. Fastsættes fx punkt 1 med højden H₁ = k,
+        falder denne ud som ubekendt:
 
             X = [1   0   0
                 -1   1   0
@@ -687,6 +681,12 @@ class SmartRegn(RegneMotor):
 
             θ = [H₂  H₃  H₄]ᵀ
 
+        Fastholdelse af punkter på denne måde er et eksempel på "optimering med
+        bibetingelser" (eng. constrained optimization). I stedet for substitionsmetoden,
+        kunne man derfor have valgt mange af de andre metoder der findes til løsning af
+        sådanne problemer. Fx løsning med Lagrange-multiplikatorer, som gama-local
+        anvender en afart af. Substitutionsmetoden anvendes her, idet den er simpel, både
+        konceptuelt og implementeringsmæssigt.
         """
         estimerbare = tuple(sorted(self.estimerbare_punkter))
         faste = tuple(self.fastholdte.keys())
@@ -922,7 +922,7 @@ class SmartRegn(RegneMotor):
 
                 # Tilbage-substituér fastholdte højder så de observerede højdeforskelle i
                 # tabellen kan sammenlignes med de "estimerede" højdeforskelle til
-                # fastholdte punkter. Gøres ved at "rekonstruére" den udjævnede
+                # fastholdte punkter. Gøres ved at rekonstruere den udjævnede
                 # højdeforskel ud fra residualerne
                 yhati = yhat[i]
                 if obs.fra in self.fastholdte or obs.til in self.fastholdte:
@@ -1005,6 +1005,8 @@ Omvendt, så har Fastholdte og Self-Loops ingen indflydelse på de udjævnede ko
         )
 
         # Det er by far printningen af tabellerne der tager længst tid.
+        # For at rendere tabellerne skal rich læse alle kolonner/rækker igennem én gang
+        # til for at bestemme kolonnebredder og andre ting.
         print_tabel(overblik_tabel, console)
         print_tabel(faste_tabel, console)
         print_tabel(kote_tabel, console)
