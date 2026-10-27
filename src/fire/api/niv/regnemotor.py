@@ -378,6 +378,20 @@ class RegneMotor(ABC):
 class GamaRegn(RegneMotor):
     """
     Regnemotor som bruger GNU Gama til at lave nivellementberegninger.
+
+    Følgende filer relaterer sig til GNU Gama
+
+    ==========================  =============================================================
+    Filnavn                     Beskrivelse
+    ==========================  =============================================================
+    SAG.xml                     Input fil til gama, lavet ud fra data i regneark
+    SAG-resultat.xml            Output fil fra gama, læses af fire og oversættes til regneark
+    SAG-resultat-kontrol.html   Beregningsrapport for kontrolberegning
+    SAG-resultat-endelig.html   Beregningsrapport for endelige beregning
+    ==========================  =============================================================
+
+    Input og output filer til Gama overskrives for hver beregning der udføres,
+    men beregningsrapporten gemmes særskilt for kontrol og endelig beregning.
     """
 
     def __init__(
