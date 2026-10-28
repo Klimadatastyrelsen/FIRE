@@ -11,8 +11,8 @@ from fire.api.model import (
 from fire.api.niv.regnemotor import (
     RegneMotor,
     GamaRegn,
-    DumRegn,
-    SmartRegn,
+    DummyRegn,
+    StandardRegn,
     ValideringFejl,
     UdjævningFejl,
 )
@@ -46,8 +46,8 @@ from fire.cli.niv._netoversigt import byg_netgeometri_og_singulære
 
 motorvælger = {
     "gama": GamaRegn,
-    "dum": DumRegn,
-    "smart": SmartRegn,
+    "dummy": DummyRegn,
+    "standard": StandardRegn,
 }
 
 def vælg_motor(ctx: click.Context, param, value):
@@ -81,16 +81,17 @@ def vis_motorhjælp(ctx: click.Context, param, value):
     "--motor",
     type=click.Choice(motorvælger.keys(), case_sensitive=False),
     callback=vælg_motor,
-    default="gama",
-    help="Angiv regnemotor. Som standard anvendes GNU Gama.",
+    default="standard",
+    help="Angiv regnemotor. Som default bruges 'standard'-regnemotoren.",
 )
 @click.option(
     "-MH",
     "--motorhjælp",
     type=click.Choice(motorvælger.keys(), case_sensitive=False),
     callback=vis_motorhjælp,
+    is_eager=True,
     default=None,
-    help="Vis hjælpetekst for regnemotor.",
+    help="Vis hjælpetekst for valgt regnemotor.",
 )
 @click.option(
     "-r",

@@ -537,8 +537,8 @@ class GamaRegn(RegneMotor):
         self.nye_koter = self.læs_gama_outputfil()
 
 
-class DumRegn(RegneMotor):
-    """Eksempel på en alternativ regnemotor"""
+class DummyRegn(RegneMotor):
+    """Minimumseksempel på en regnemotor"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -549,7 +549,7 @@ class DumRegn(RegneMotor):
 
     @property
     def filer(self) -> list:
-        """DumRegn producerer ingen filer, returnerer altid den samme tomme liste."""
+        """DummyRegn producerer ingen filer, returnerer altid den samme tomme liste."""
         return self._filer
 
     @filer.setter
@@ -557,7 +557,7 @@ class DumRegn(RegneMotor):
         """En dum setter, der ikke ændrer noget."""
 
 
-class SmartRegn(RegneMotor):
+class StandardRegn(RegneMotor):
     """Foretag nivellementsudjævning via en simpel numpy-baseret implementering
 
     Observationsligningerne opstilles på matrixform som inverteres via mindste kvadraters
@@ -813,7 +813,7 @@ class SmartRegn(RegneMotor):
 
     @property
     def filer(self) -> list:
-        """En liste af filer som SmartRegn producerer"""
+        """En liste af filer som motoren producerer"""
         return [self.html_out]
 
     @filer.setter
@@ -1035,6 +1035,7 @@ Omvendt, så har Fastholdte og Self-Loops ingen indflydelse på de udjævnede ko
         self.console.save_html(self.html_out)
 
     def udjævn(self):
+        """Opstiller og løser ligningssystemet samt producerer resultatfiler"""
         X, y, W = self._opstil_ligningssystem(
             skip_self_loops=self.skip_self_loops,
             skip_fastholdte_obs=self.skip_fastholdte_obs,
