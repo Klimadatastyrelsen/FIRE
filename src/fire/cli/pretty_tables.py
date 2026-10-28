@@ -192,14 +192,15 @@ def gem_til_html(
     # istedet for til stdout. Se
     # https://github.com/Textualize/rich/discussions/1183#discussioncomment-649420
     monokrom = get_monochrome()
-    console = Console(
-        record=True,
-        file=open(os.devnull, "wt"),
-        color_system="auto" if not monokrom else None,
-    )
+    with open(os.devnull, "wt") as f:
+        console = Console(
+            record=True,
+            file=f,
+            color_system="auto" if not monokrom else None,
+        )
 
-    # "Print" tabellen til devnull
-    print_tabel(tabel, console)
+        # "Print" tabellen til devnull
+        print_tabel(tabel, console)
 
     # ... og nu kan vi så gemme det som blev "printet"
     console.save_html(fil)

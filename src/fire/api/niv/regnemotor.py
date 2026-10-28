@@ -1012,21 +1012,22 @@ Omvendt, så har Fastholdte og Self-Loops ingen indflydelse på de udjævnede ko
         obs_tabel, outlier_tabel, n_outliers = _obstabel()
         overblik_tabel = _overbliktabel()
 
-        console = Console(
-            record=True,
-            file=open(os.devnull, "wt"),
-            color_system="truecolor",
-        )
+        with open(os.devnull, "wt") as f:
+            console = Console(
+                record=True,
+                file=f,
+                color_system="truecolor",
+            )
 
-        # Det er by far printningen af tabellerne der tager længst tid.
-        # For at rendere tabellerne skal rich læse alle kolonner/rækker igennem én gang
-        # til for at bestemme kolonnebredder og andre ting.
-        print_tabel(overblik_tabel, console)
-        print_tabel(faste_tabel, console)
-        print_tabel(kote_tabel, console)
-        print_tabel(obs_tabel, console)
-        if n_outliers:
-            print_tabel(outlier_tabel, console)
+            # Det er by far printningen af tabellerne der tager længst tid.
+            # For at rendere tabellerne skal rich læse alle kolonner/rækker igennem én gang
+            # til for at bestemme kolonnebredder og andre ting.
+            print_tabel(overblik_tabel, console)
+            print_tabel(faste_tabel, console)
+            print_tabel(kote_tabel, console)
+            print_tabel(obs_tabel, console)
+            if n_outliers:
+                print_tabel(outlier_tabel, console)
 
         self.console = console
 
