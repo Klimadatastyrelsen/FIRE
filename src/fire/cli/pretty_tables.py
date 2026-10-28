@@ -1,6 +1,7 @@
 import os
 import re
 from datetime import datetime
+from itertools import cycle
 from pathlib import Path
 
 import pandas as pd
@@ -10,6 +11,21 @@ from rich.table import Table
 from rich.style import Style
 
 from fire.cli import get_monochrome
+
+# fmt: off
+# Simpel, ascii-venlig box
+SIMPLE_ASCII_BOX: box.Box = box.Box(
+    "    \n"
+    "    \n"
+    "+-++\n"
+    "    \n"
+    "    \n"
+    " -- \n"
+    "    \n"
+    "    \n",
+    ascii = True
+)
+# fmt: on
 
 
 def klargør_celle(input):
@@ -94,6 +110,8 @@ def generer_rapporttabel(
     header_style: str | Style = "",
     padding: int | tuple[int] = (0, 1, 0, 0),
     rows_styles: list[tuple[list, str | Style]] = [],
+    rows: list = [],
+    styles: list = None,
     **kwargs,
 ) -> Table:
     """
@@ -121,12 +139,18 @@ def generer_rapporttabel(
         **kwargs,
     )
 
+    if rows:
+        # Understøt at styles = Style(...) eller styles = "red"
+        if not isinstance(styles, list):
+            styles = [styles]
+        rows_styles = zip(rows, cycle(styles))
+
     if rows_styles:
         for row, style in rows_styles:
             # Der kan være tomme rækker, som derfor springes over
             if not row:
                 continue
-            tbl.add_row(*row, style=style)
+            tbl.add_row(*[klargør_celle(c) for c in row], style=style)
 
     return tbl
 
@@ -151,9 +175,7 @@ def gem_til_excel(
     if format == "col":
         rækker = list(zip(*data))
 
-    rækker = [[klargør_celle(celle) for celle in række] for række in rækker]
-
-    df = pd.DataFrame.from_records(rækker, columns=overskrifter)
+    df = pd.DataFrame.from_records(rækker, columns=overskrifter).round(4)
     df.to_excel(fil, index=False)
 
 
@@ -170,14 +192,15 @@ def gem_til_html(
     # istedet for til stdout. Se
     # https://github.com/Textualize/rich/discussions/1183#discussioncomment-649420
     monokrom = get_monochrome()
-    console = Console(
-        record=True,
-        file=open(os.devnull, "wt"),
-        color_system="auto" if not monokrom else None,
-    )
+    with open(os.devnull, "wt") as f:
+        console = Console(
+            record=True,
+            file=f,
+            color_system="auto" if not monokrom else None,
+        )
 
-    # "Print" tabellen til devnull
-    print_tabel(tabel, console)
+        # "Print" tabellen til devnull
+        print_tabel(tabel, console)
 
     # ... og nu kan vi så gemme det som blev "printet"
     console.save_html(fil)

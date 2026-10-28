@@ -11,7 +11,8 @@ from fire.api.model import (
 from fire.api.niv.regnemotor import (
     RegneMotor,
     GamaRegn,
-    DumRegn,
+    DummyRegn,
+    StandardRegn,
     ValideringFejl,
     UdjævningFejl,
 )
@@ -45,7 +46,8 @@ from fire.cli.niv._netoversigt import byg_netgeometri_og_singulære
 
 motorvælger = {
     "gama": GamaRegn,
-    "dum": DumRegn,
+    "dummy": DummyRegn,
+    "standard": StandardRegn,
 }
 
 def vælg_motor(ctx: click.Context, param, value):
@@ -53,6 +55,23 @@ def vælg_motor(ctx: click.Context, param, value):
     ctx.params["MotorKlasse"] = motorvælger[value]
     return value
 
+def vis_motorhjælp(ctx: click.Context, param, value):
+    """Print hjælpetekst for den valgte regnemotor
+
+    Motorklassens docstring tilgås via `__doc__`, som derfor bør være egnet til at blive
+    printet til terminalen.
+    """
+    if value is None:
+        return None
+
+    motor = motorvælger[value]
+
+    header = click.style(motor.__name__, bold=True)
+    body = motor.__doc__
+    motorhjælp = f"\n{header}\n\n{body}"
+    fire.cli.print(motorhjælp)
+
+    raise SystemExit
 
 @niv.command()
 @fire.cli.default_options()
@@ -62,8 +81,17 @@ def vælg_motor(ctx: click.Context, param, value):
     "--motor",
     type=click.Choice(motorvælger.keys(), case_sensitive=False),
     callback=vælg_motor,
-    default="gama",
-    help="Angiv regnemotor. Som standard anvendes GNU Gama.",
+    default="standard",
+    help="Angiv regnemotor. Som default bruges 'standard'-regnemotoren.",
+)
+@click.option(
+    "-MH",
+    "--motorhjælp",
+    type=click.Choice(motorvælger.keys(), case_sensitive=False),
+    callback=vis_motorhjælp,
+    is_eager=True,
+    default=None,
+    help="Vis hjælpetekst for valgt regnemotor.",
 )
 @click.option(
     "-r",
@@ -95,6 +123,14 @@ def regn(
     kontrolberegning med et minimum af fastholdte punkter, med henblik på at
     kvaliteteskontrollere det tilgængelige observationsmateriale. Er der ingen
     åbenlyse fejl i observationerne kan der fortsættes til den endelige beregning.
+
+    Som standard anvendes udjævningsprogrammet GNU Gama. Alternative "regnemotorer"
+    vælges med `--motor/-M`.
+
+    Udvidet hjælpetekst for de enkelte regnemotorer vises med `--motorhjælp/-MH`.
+
+    Hver regnemotor kan desuden have forskellige input-parametre til finjustering af
+    resultaterne. Disse sættes via `--regneparameter/-r`.
 
     \f
     I den endelige beregning bør det overvejes mere grundigt hvilke punkter der
@@ -145,22 +181,9 @@ def regn(
 
     Udover beregningsresultaterne i sagsregnearket dannes der efter en beregning en række
     filer som placeres i samme mappe som sagsregnearket. Det drejer sig om beregningsrapporter
-    m.m. fra udjævningsprogrammet GNU Gama og en række GIS-filer der indeholder et overblik
-    over punkter og observationer, der indgår i udjævningen.
-
-    Følgende filer relaterer sig til GNU Gama
-
-    ==========================  =============================================================
-    Filnavn                     Beskrivelse
-    ==========================  =============================================================
-    SAG.xml                     Input fil til gama, lavet ud fra data i regneark
-    SAG-resultat.xml            Output fil fra gama, læses af fire og oversættes til regneark
-    SAG-resultat-kontrol.html   Beregningsrapport for kontrolberegning
-    SAG-resultat-endelig.html   Beregningsrapport for endelige beregning
-    ==========================  =============================================================
-
-    Input og output filer til Gama overskrives for hver beregning der udføres,
-    men beregningsrapporten gemmes særskilt for kontrol og endelig beregning.
+    m.m. fra den valgte regnemotor, (fx udjævningsprogrammet GNU Gama) og en række
+    GIS-filer der indeholder et overblik over punkter og observationer, der indgår i
+    udjævningen.
 
     De genererede GIS-filer er
 

@@ -2,19 +2,22 @@ from abc import ABC, abstractmethod
 from dataclasses import astuple
 from datetime import datetime
 from functools import cached_property
-import networkx as nx
 from math import (
     ceil,
     hypot,
     sqrt,
     isnan,
 )
+import os
 from pathlib import Path
 import subprocess
 from typing import Self
 import xmltodict
 
+import networkx as nx
+import numpy as np
 import pandas as pd
+from rich.console import Console
 
 from fire import uuid
 from fire.api.niv.datatyper import (
@@ -29,6 +32,18 @@ from fire.api.niv.lukkesum import (
     find_polygoner,
     aggreger_multidigraf,
     lukkesum_af_polygon,
+)
+from fire.api.statistik import (
+    WeightedLeastSquares,
+    Ttest,
+    visualize_matrices,
+    visualize_residuals,
+)
+from fire.cli.pretty_tables import (
+    generer_rapporttabel,
+    print_tabel,
+    klargør_celle,
+    SIMPLE_ASCII_BOX,
 )
 
 
@@ -363,6 +378,20 @@ class RegneMotor(ABC):
 class GamaRegn(RegneMotor):
     """
     Regnemotor som bruger GNU Gama til at lave nivellementberegninger.
+
+    Følgende filer relaterer sig til GNU Gama
+
+    ==========================  =============================================================
+    Filnavn                     Beskrivelse
+    ==========================  =============================================================
+    SAG.xml                     Input fil til gama, lavet ud fra data i regneark
+    SAG-resultat.xml            Output fil fra gama, læses af fire og oversættes til regneark
+    SAG-resultat-kontrol.html   Beregningsrapport for kontrolberegning
+    SAG-resultat-endelig.html   Beregningsrapport for endelige beregning
+    ==========================  =============================================================
+
+    Input og output filer til Gama overskrives for hver beregning der udføres,
+    men beregningsrapporten gemmes særskilt for kontrol og endelig beregning.
     """
 
     def __init__(
@@ -377,9 +406,9 @@ class GamaRegn(RegneMotor):
         super().__init__(**kwargs)
 
         # Hvis gama filnavne ikke er sat bruges projektnavnet
-        self.xml_in = xml_in or f"{self.projektnavn}.xml"
-        self.xml_out = xml_out or f"{self.projektnavn}-resultat.xml"
-        self.html_out = html_out or f"{self.projektnavn}-resultat.html"
+        self.xml_in = xml_in or f"{self.projektnavn}-gama.xml"
+        self.xml_out = xml_out or f"{self.projektnavn}-gama-resultat.xml"
+        self.html_out = html_out or f"{self.projektnavn}-gama-resultat.html"
 
     @property
     def filer(self) -> list:
@@ -508,8 +537,8 @@ class GamaRegn(RegneMotor):
         self.nye_koter = self.læs_gama_outputfil()
 
 
-class DumRegn(RegneMotor):
-    """Eksempel på en alternativ regnemotor"""
+class DummyRegn(RegneMotor):
+    """Minimumseksempel på en regnemotor"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -520,7 +549,7 @@ class DumRegn(RegneMotor):
 
     @property
     def filer(self) -> list:
-        """DumRegn producerer ingen filer, returnerer altid den samme tomme liste."""
+        """DummyRegn producerer ingen filer, returnerer altid den samme tomme liste."""
         return self._filer
 
     @filer.setter
@@ -528,11 +557,505 @@ class DumRegn(RegneMotor):
         """En dum setter, der ikke ændrer noget."""
 
 
+class StandardRegn(RegneMotor):
+    """Foretag nivellementsudjævning via en simpel numpy-baseret implementering
+
+    Observationsligningerne opstilles på matrixform som inverteres via mindste kvadraters
+    metode. Resultaterne opsummeres som html-rapport i stil med output fra gama-local.
+
+    Udjævningen kan justeres med følgende parametre::
+
+      `opt_plot`            vis diverse plots til inspektion af residualer, samt
+                            visualisering af de opstillede matricer.
+
+      `skip_self_loops`     spring observationer over hvor fra- og til-punkt er det samme.
+
+      `skip_fastholdte_obs` spring observationer over som er gjort imellem to fastholdte
+                            punkter.
+
+    Hverken "self loops" eller "fastholdte" observationer har nogen indflydelse på de
+    udjævnede koter. Dog bidrager de til den estimerede spredning. Særligt
+    `skip_fastholdte_obs` kan have stor indflydelse på spredningsestimatet, da man ofte
+    fastholder alle punkter i en gammel punktgruppe, selvom de kan have bevæget sig
+    indbyrdes. Dette kan resultere i meget store residualer for observationer mellem
+    fastholdte punkter.
+
+    Som default er `skip_self_loops` og `skip_fastholdte_obs` sat til `False`, dvs. at
+    alle observationer inkluderes som de er givet i regnearket. Opdages der store
+    residualer mellem fastholdte punkter, bør man tage stilling til, om observationen skal
+    slukkes, eller om man skal undlade at fastholdte ét eller flere af punkterne.
+
+    **Elimination af grovfejl**
+
+    Grovfejl elimineres ikke automatisk! Grovfejl vil optræde som almindelige, men store,
+    outliers. Det er op til operatøren at opdage og slukke outlieren, og derefter foretage
+    en ny udjævning. Residualplots (slås til med `opt_plot=True`), er nyttige til at
+    spotte grovfejl.
+    """
+
+    def __init__(
+        self,
+        *args,
+        opt_plot: bool = False,
+        skip_self_loops: bool = False,
+        skip_fastholdte_obs: bool = False,
+        **kwargs,
+    ):
+        self.opt_plot = opt_plot
+        self.skip_self_loops = skip_self_loops
+        self.skip_fastholdte_obs = skip_fastholdte_obs
+
+        super().__init__(*args, **kwargs)
+        self.html_out = f"{self.projektnavn}-resultat.html"
+
+    def _opstil_ligningssystem(
+        self,
+        skip_self_loops: bool = False,
+        skip_fastholdte_obs: bool = False,
+    ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Opstil ligningssystem ud fra nivellementobservationer
+
+        Sættes `skip_selfloops=True` springes observationer over hvor fra- og til-punkt
+        er det samme.
+        Sættes `skip_fastholdte_obs=True` springes observationer over som er gjort imellem
+        to fastholdte punkter.
+
+        Ingen af disse to typer observationer har nogen indflydelse på de udjævnede koter.
+        Dog bidrager de til den estimerede spredning. Særligt `skip_fastholdte_obs` kan
+        have stor indflydelse på spredningsestimatet, da man ofte fastholder alle punkter
+        i en gammel punktgruppe, selvom de kan have bevæget sig indbyrdes. Dette kan
+        resultere i meget store residualer for observationer mellem fastholdte punkter.
+
+        For at efterligne gama-local, er begge som default sat til `False`. Opdages der
+        store residualer mellem fastholdte punkter, bør man tage stilling til, om
+        observationen skal slukkes, eller om man skal undlade at fastholdte ét eller flere
+        af punkterne.
+
+        Der løses N grundlæggende observationsligninger:
+
+            Hᵢ - Hⱼ = ΔHᵢⱼ
+
+        hvor Hᵢ er koten for punkt i. Der er M ubekendte koter, dvs. 1 ≤ i,j ≤ M.
+        Fastholdte punkter håndteres ved direkte substitution i de relevante ligninger. Er
+        fx højden af punkt j fastholdt med værdien Hⱼ = k, substitueres dette ind så
+        observationsligningen bliver:
+
+            Hᵢ = ΔHᵢⱼ + k
+
+        På matrixform formuleres problemet som X·θ =  Y , hvor X er systemmatricen med M
+        rækker og N kolonner (N⨯M), θ (M⨯1) er de M ubekendte koter Hᵢ, og Y (N⨯1) er de
+        observerede koteforskelle.
+
+        Som eksempel tages et simpelt nivellementsnet som dette (hvor der kun er
+        observationer i frem-retningen)
+
+            1 ──────> 2
+            ^         │
+            │         │
+            │         v
+            4 <────── 3
+
+        De 4 ligninger er:
+
+            H₂ - H₁ = ΔH₂₁
+            H₃ - H₂ = ΔH₃₂
+            H₄ - H₃ = ΔH₄₃
+            H₁ - H₄ = ΔH₁₄
+
+        De ubekendte er:
+
+            θ = [H₁  H₂  H₃  H₄]ᵀ
+
+        Systemmatricen er:
+
+            X = [-1  1   0   0
+                 0  -1   1   0
+                 0   0  -1   1
+                 1   0   0  -1]
+
+        og observationsmatricen er:
+
+            Y = [ΔH₂₁  ΔH₃₂  ΔH₄₃  ΔH₁₄]ᵀ
+
+        Når vi løser for koterne direkte på denne måde kræves der mindst ét fastholdt
+        punkt, pr. sammenhængende net af observationer. Vi fastholder punkter ved direkte
+        substitution i de relevante ligninger. Fastsættes fx punkt 1 med højden H₁ = k,
+        falder denne ud som ubekendt:
+
+            X = [1   0   0
+                -1   1   0
+                 0  -1   1
+                 0   0  -1]
+
+            Y = [ΔH₂₁ + k
+                 ΔH₃₂
+                 ΔH₄₃
+                 ΔH₁₄ - k]
+
+            θ = [H₂  H₃  H₄]ᵀ
+
+        Fastholdelse af punkter på denne måde er et eksempel på "optimering med
+        bibetingelser" (eng. constrained optimization). I stedet for substitionsmetoden,
+        kunne man derfor have valgt mange af de andre metoder der findes til løsning af
+        sådanne problemer. Fx løsning med Lagrange-multiplikatorer, som gama-local
+        anvender en afart af. Substitutionsmetoden anvendes her, idet den er simpel, både
+        konceptuelt og implementeringsmæssigt.
+        """
+        estimerbare = tuple(sorted(self.estimerbare_punkter))
+        faste = tuple(self.fastholdte.keys())
+        alle_punkter = estimerbare + faste
+
+        def _loop_over_graf():
+            """Hjælpefunktion der sparer 2 indrykningsniveauer"""
+            for fra in self.multidigraf:
+                if not fra in alle_punkter:
+                    continue
+                for til in self.multidigraf[fra]:
+                    # Skip observationer i subnet uden fastholdte
+                    if not (fra in alle_punkter and til in alle_punkter):
+                        continue
+
+                    # Skip kalibrerings-observationer som er gjort fra-til samme punkt
+                    if skip_self_loops and fra == til:
+                        continue
+
+                    # Skip observationer imellem fastholdte punkter
+                    if skip_fastholdte_obs and (
+                        fra in self.fastholdte and til in self.fastholdte
+                    ):
+                        continue
+
+                    # Nu gennemgås alle observationer
+                    for obskey in self.multidigraf[fra][til]:
+                        yield (fra, til), obskey
+
+        index_to_obs_mapper = {}
+        index_to_pkt_mapper = {}
+        fra_til_multipliers = (-1, 1)
+
+        # Initialisér de 3 matricer der repræsenterer Systemet, Observationerne og Vægtene.
+        N = len(self.observationer)
+        M = len(self.estimerbare_punkter)
+        X = np.zeros((N, M))
+        Y = np.zeros((N))
+        W = np.zeros((N, N))
+
+        # Opbyg de 3 matricer ved at loope over niv-grafen
+        for i, (fra_til, obskey) in enumerate(_loop_over_graf()):
+            obs = self._observationer[obskey]
+
+            # Nedskriv observationsnøglen og indexet i matricen
+            index_to_obs_mapper[i] = obskey
+
+            # Opdatér observationsvektor og vægte
+            Y[i] = obs.deltaH
+            W[i, i] = (1 / (obs.spredning)) ** 2
+
+            for multiplier, pkt in zip(fra_til_multipliers, fra_til):
+                # Hvis pkt er fastholdt, trækkes den fastholdte værdi
+                # fra observationsvektoren Y
+                Y[i] -= multiplier * self.fastholdte.get(pkt, 0)
+
+                if not pkt in estimerbare:
+                    continue
+                j = estimerbare.index(pkt)
+                index_to_pkt_mapper[j] = pkt
+
+                # Hvis fra == til, så vil vi først sige X[i,j] += -1, derefter
+                # X[i,j] += 1, hvilket resulterer i X[i,j]=0 som forventet.
+                X[i, j] += multiplier
+
+        self.index_to_pkt_mapper = index_to_pkt_mapper
+        self.index_to_obs_mapper = index_to_obs_mapper
+
+        # drop nul-rækker.
+        # X,Y,W initieres med antal rækker svarende til det totale antal observationer.
+        # Da dette inkluderer ikke-forbundne subnet, samt at der nogle gange skippes
+        # observationer, jf. de 3 betingelser ovenfor, kan de sidste rækker være 0 hele
+        # vejen igennem. Hvis rækkerne ikke droppes vil N være kunstigt højt hvilket
+        # påvirker antallet af frihedsgrader og dermed varians-estimaterne.
+        N = i + 1
+        X = X[:N, :]
+        Y = Y[:N]
+        W = W[:N, :N]
+
+        return X, Y, W
+
+    def _løs_ligningssystem(self, X: np.ndarray, y: np.ndarray, W: np.ndarray) -> list[NivKote]:
+        """Løs det lineære ligningssystem
+
+        Systemet løses via `WeightedLeastSquares.solve()`
+        """
+        # Observationer konverteres til mm. Estimerede højder bliver derved også i mm
+        self.stats = WeightedLeastSquares(
+            X=X,
+            W=W,
+            y=y * 1e3,
+        )
+
+        udjævnede_koter, residualer = self.stats.solve()
+
+        # Gem til NivKote object
+        nye_koter = []
+        for j, punkt in self.index_to_pkt_mapper.items():
+
+            nye_koter.append(
+                NivKote(
+                    punkt=punkt,
+                    dato=self.gyldighedstidspunkt,
+                    H=udjævnede_koter[j] * 1e-3,  # konverter tilbage til m
+                    spredning=self.stats.std_theta[j],
+                )
+            )
+
+        return nye_koter
+
+    @property
+    def filer(self) -> list:
+        """En liste af filer som motoren producerer"""
+        return [self.html_out]
+
+    @filer.setter
+    def filer(self, nye_filnavne: list):
+        """Sæt nye filnavne"""
+        (self.html_out,) = nye_filnavne
+
+    def _generer_statistik(self):
+        """Generér tabeller der opsummerer udjævningsresulaterne"""
+        n_udjævnede = len(self.estimerbare_punkter)
+        n_fastholdte = len(self.fastholdte)
+        n_total = n_udjævnede + n_fastholdte
+
+        # Nogle observationer bliver ikke anvendt.
+        # Fx. self-loops og observationer mellem fastholdte punkter.
+        n_observationer = len(self.observationer)
+        n_anvendte_observationer = self.stats.N
+        dof = self.stats.dof
+
+        r2 = self.stats.R2
+        mse = self.stats.MSE
+        std_posterior = self.stats.std0_hat  # "spredning på vægtenheden"
+
+        # Beregn sandsynlighed for at std_prior == std_posterior via T-test
+        alpha = 0.05
+        ttest = Ttest(std_est=1, H0=std_posterior, dof=dof - 1, alpha=alpha)
+        critical_value = ttest.critical_value
+
+        # Tabel med overblik over udjævningsresultatet
+        def _overbliktabel():
+            tbl = generer_rapporttabel(
+                title="Overblik",
+                title_style="bold",
+                show_header=False,
+                box=SIMPLE_ASCII_BOX,
+            )
+
+            section1 = [
+                ("Punkter estimeret", n_udjævnede),
+                ("Punkter fastholdt", n_fastholdte),
+                ("Punkter i alt", n_total),
+            ]
+            section2 = [
+                ("Obs i alt", n_observationer),
+                ("Obs anvendte", n_anvendte_observationer),
+                ("Obs outliers", n_outliers),
+                ("Frihedsgrader", dof),
+            ]
+            section3 = [
+                ("R2", r2),
+                ("MSE (mm²)", mse),
+                ("Sigma 0 (mm)", std_posterior),  # spredning på vægtenhed
+                ("Kritisk værdi", critical_value),
+            ]
+            for row in section1:
+                tbl.add_row(*[klargør_celle(c) for c in row])
+            tbl.add_section()
+            for row in section2:
+                tbl.add_row(*[klargør_celle(c) for c in row])
+            tbl.add_section()
+            for row in section3:
+                tbl.add_row(*[klargør_celle(c) for c in row])
+            return tbl
+
+        # Tabel over fastholdte
+        def _faste_tabel():
+            fixed_hdr = ["Punkt", "Kote (m)"]
+            fixed_rows = [[pkt, kote] for pkt, kote in self.fastholdte.items()]
+            return generer_rapporttabel(
+                *fixed_hdr,
+                title="Faste",
+                title_style="bold",
+                box=SIMPLE_ASCII_BOX,
+                rows=sorted(fixed_rows, key=(lambda x: x[0])),
+            )
+
+        # Statistik for udjævnede koter
+        def _kotetabel():
+            kote_table_hdr = ["Punkt", "Kote (m)", "Sigma (mm)"]
+            kote_table_rows = [[nk.punkt, nk.H, nk.spredning] for nk in self.nye_koter]
+            return generer_rapporttabel(
+                *kote_table_hdr,
+                title="Udjævnede",
+                title_style="bold",
+                box=SIMPLE_ASCII_BOX,
+                rows=sorted(kote_table_rows, key=lambda x: x[0]),
+            )
+
+        # Statistik for observationer og outliers
+        def _obstabel():
+            obs_hdr = [
+                "Fra",
+                "Til",
+                "dH\n(m)",
+                "dH udjævnet\n(m)",
+                "Sigma\n(mm)",
+                "Residual\n(mm)",
+                "Normaliseret\nresidual",
+                "Leverage",
+                "Status",
+            ]
+            obs_rows = []
+
+            # std. afvigelsen for "ukontrollerede" observationer er 0, men
+            # bliver sommetider nan, pga numerisk impræcision. Af samme
+            # grund bliver normaliseret residual enten til inf eller nan.
+            # Håndteres her, så de får ensartet udtryk i tabellen.
+            def _handle_nan(array, sub_værdi):
+                return [
+                    sub_værdi if (np.isinf(abs(e)) or np.isnan(e)) else e for e in array
+                ]
+
+            res = self.stats.residuals
+            norm_res = _handle_nan(self.stats.normalized_residuals, np.nan)
+            std_res = _handle_nan(self.stats.std_residuals, 0.0)
+            yhat = self.stats.yhat * 1e-3
+
+            for i, obskey in self.index_to_obs_mapper.items():
+                obs = self._observationer[obskey]
+
+                # Tilbage-substituér fastholdte højder så de observerede højdeforskelle i
+                # tabellen kan sammenlignes med de "estimerede" højdeforskelle til
+                # fastholdte punkter. Gøres ved at rekonstruere den udjævnede
+                # højdeforskel ud fra residualerne
+                yhati = yhat[i]
+                if obs.fra in self.fastholdte or obs.til in self.fastholdte:
+                    yhati = obs.deltaH - res[i] * 1e-3
+
+                ukontrolleret = "U" if np.isclose(self.stats.leverage[i], 1) else ""
+                outlying = "O" if abs(norm_res[i]) > critical_value else ""
+                selfloop = "SL" if obs.fra == obs.til else ""
+                fast = (
+                    "F"
+                    if obs.fra in self.fastholdte and obs.til in self.fastholdte
+                    else ""
+                )
+                status = ",".join(
+                    filter(None, [ukontrolleret, outlying, selfloop, fast])
+                )
+
+                obs_rows.append(
+                    [
+                        f"{obs.fra}",
+                        f"{obs.til}",
+                        f"{obs.deltaH:.5f}",
+                        f"{yhati:.5f}",
+                        f"{std_res[i]:.3f}",
+                        f"{res[i]:.3f}",
+                        f"{norm_res[i]:.3f}",
+                        f"{self.stats.leverage[i]:.3f}",
+                        f"{status}",
+                    ]
+                )
+
+            # Sortering så frem- og tilbage observationer grupperes
+            obs_rows.sort(key=lambda x: (sorted((x[0], x[1])), x[0]))
+
+            # Outliers farves røde
+            obs_styles = ["red" if "O" in r[8] else "" for r in obs_rows]
+
+            obs_tabel = generer_rapporttabel(
+                *obs_hdr,
+                title="Observationer",
+                title_style="bold",
+                box=SIMPLE_ASCII_BOX,
+                rows=obs_rows,
+                styles=obs_styles,
+            )
+            obs_tabel.caption = """Statusforklaring:
+
+    O  = Outlier. Normaliseret residual er større end den kritiske værdi
+    F  = Fastholdt. Observation mellem to fastholdte punkter
+    SL = Self-loop. Fra og til er det samme punkt
+    U  = Ukontrolleret. Observation er ikke "kontrolleret" af andre
+         observationer.
+
+Resultater er meget følsomme over for selv små fejl på Ukontrollerede observationer.
+Omvendt, så har Fastholdte og Self-Loops ingen indflydelse på de udjævnede koter.
+"""
+            obs_tabel.caption_style = ""
+            obs_tabel.caption_justify = "left"
+
+            outlier_rows = [row for row in obs_rows if "O" in row[8]]
+            outlier_tabel = generer_rapporttabel(
+                *obs_hdr,
+                title="Outliers",
+                title_style="bold",
+                box=SIMPLE_ASCII_BOX,
+                rows=outlier_rows,
+                styles="red",
+            )
+
+            return obs_tabel, outlier_tabel, len(outlier_rows)
+
+        faste_tabel = _faste_tabel()
+        kote_tabel = _kotetabel()
+        obs_tabel, outlier_tabel, n_outliers = _obstabel()
+        overblik_tabel = _overbliktabel()
+
+        with open(os.devnull, "wt") as f:
+            console = Console(
+                record=True,
+                file=f,
+                color_system="truecolor",
+            )
+
+            # Det er by far printningen af tabellerne der tager længst tid.
+            # For at rendere tabellerne skal rich læse alle kolonner/rækker igennem én gang
+            # til for at bestemme kolonnebredder og andre ting.
+            print_tabel(overblik_tabel, console)
+            print_tabel(faste_tabel, console)
+            print_tabel(kote_tabel, console)
+            print_tabel(obs_tabel, console)
+            if n_outliers:
+                print_tabel(outlier_tabel, console)
+
+        self.console = console
+
+    def _gem_udjævningsrapport(self):
+        """Gem udjævningsrapporten"""
+        self.console.save_html(self.html_out)
+
+    def udjævn(self):
+        """Opstiller og løser ligningssystemet samt producerer resultatfiler"""
+        X, y, W = self._opstil_ligningssystem(
+            skip_self_loops=self.skip_self_loops,
+            skip_fastholdte_obs=self.skip_fastholdte_obs,
+        )
+        self.nye_koter = self._løs_ligningssystem(X, y, W)
+
+        if self.opt_plot:
+            visualize_residuals(self.stats)
+
+        self._generer_statistik()
+        self._gem_udjævningsrapport()
+
+
 def _spredning(
     observationstype: str,
     afstand_i_m: float,
     antal_opstillinger: float,
-    afstandsafhængig_spredning_i_mm: float,
+    afstandsafhængig_spredning: float,
     centreringsspredning_i_mm: float,
 ) -> float:
     """Apriorispredning for nivellementsobservation
@@ -546,6 +1069,11 @@ def _spredning(
 
     Negative afstandsafhængig- eller centreringsspredninger
     behandles som positive.
+
+    Enheden for `afstandsafhængig_spredning` er ikke mm, men
+        - [mm/km]       for MTL observationer
+        - [mm/sqrt(km)] for MGL observationer
+    Derved er enheden for den beregnede spredning altid [mm].
 
     Observationstypen NUL benyttes til at sammenbinde disjunkte
     undernet - det er en observation med forsvindende apriorifejl,
@@ -573,11 +1101,11 @@ def _spredning(
     opstillingsafhængig = sqrt(antal_opstillinger * (centreringsspredning_i_mm**2))
 
     if "MTL" == observationstype.upper():
-        afstandsafhængig = afstandsafhængig_spredning_i_mm * afstand_i_m / 1000
+        afstandsafhængig = afstandsafhængig_spredning * afstand_i_m / 1000
         return hypot(afstandsafhængig, opstillingsafhængig)
 
     if "MGL" == observationstype.upper():
-        afstandsafhængig = afstandsafhængig_spredning_i_mm * sqrt(afstand_i_m / 1000)
+        afstandsafhængig = afstandsafhængig_spredning * sqrt(afstand_i_m / 1000)
         return hypot(afstandsafhængig, opstillingsafhængig)
 
     raise ValueError(f"Ukendt observationstype: {observationstype}")
