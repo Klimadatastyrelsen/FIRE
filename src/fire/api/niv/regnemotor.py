@@ -406,9 +406,9 @@ class GamaRegn(RegneMotor):
         super().__init__(**kwargs)
 
         # Hvis gama filnavne ikke er sat bruges projektnavnet
-        self.xml_in = xml_in or f"{self.projektnavn}.xml"
-        self.xml_out = xml_out or f"{self.projektnavn}-resultat.xml"
-        self.html_out = html_out or f"{self.projektnavn}-resultat.html"
+        self.xml_in = xml_in or f"{self.projektnavn}-gama.xml"
+        self.xml_out = xml_out or f"{self.projektnavn}-gama-resultat.xml"
+        self.html_out = html_out or f"{self.projektnavn}-gama-resultat.html"
 
     @property
     def filer(self) -> list:
@@ -606,7 +606,7 @@ class StandardRegn(RegneMotor):
         self.skip_fastholdte_obs = skip_fastholdte_obs
 
         super().__init__(*args, **kwargs)
-        self.html_out = f"{self.projektnavn}-smart-resultat.html"
+        self.html_out = f"{self.projektnavn}-resultat.html"
 
     def _opstil_ligningssystem(
         self,
