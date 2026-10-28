@@ -912,10 +912,10 @@ class StandardRegn(RegneMotor):
                 "Sigma\n(mm)",
                 "Residual\n(mm)",
                 "Normaliseret\nresidual",
+                "Leverage",
                 "Status",
             ]
             obs_rows = []
-            obs_styles = []
 
             # std. afvigelsen for "ukontrollerede" observationer er 0, men
             # bliver sommetider nan, pga numerisk impræcision. Af samme
@@ -963,6 +963,7 @@ class StandardRegn(RegneMotor):
                         f"{std_res[i]:.3f}",
                         f"{res[i]:.3f}",
                         f"{norm_res[i]:.3f}",
+                        f"{self.stats.leverage[i]:.3f}",
                         f"{status}",
                     ]
                 )
@@ -971,7 +972,7 @@ class StandardRegn(RegneMotor):
             obs_rows.sort(key=lambda x: (sorted((x[0], x[1])), x[0]))
 
             # Outliers farves røde
-            obs_styles = ["red" if "O" in r[7] else "" for r in obs_rows]
+            obs_styles = ["red" if "O" in r[8] else "" for r in obs_rows]
 
             obs_tabel = generer_rapporttabel(
                 *obs_hdr,
@@ -995,7 +996,7 @@ Omvendt, så har Fastholdte og Self-Loops ingen indflydelse på de udjævnede ko
             obs_tabel.caption_style = ""
             obs_tabel.caption_justify = "left"
 
-            outlier_rows = [row for row in obs_rows if "O" in row[7]]
+            outlier_rows = [row for row in obs_rows if "O" in row[8]]
             outlier_tabel = generer_rapporttabel(
                 *obs_hdr,
                 title="Outliers",
@@ -1045,7 +1046,6 @@ Omvendt, så har Fastholdte og Self-Loops ingen indflydelse på de udjævnede ko
 
         if self.opt_plot:
             visualize_residuals(self.stats)
-            visualize_matrices(self.stats)
 
         self._generer_statistik()
         self._gem_udjævningsrapport()
