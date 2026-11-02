@@ -7,6 +7,7 @@ dependencies:
   - fiona
   - gama
   - graphviz
+  - jinja2
   - matplotlib
   - networkx
   - numpy
