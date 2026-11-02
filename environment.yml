@@ -2,20 +2,20 @@ name: fire
 channels:
   - conda-forge
 dependencies:
-  - click=8.2.*
+  - click=8.5.*
   - fiona=1.10.*
   - gama=2.*
   - openpyxl=3.1.*
-  - oracledb=3.2.*
-  - matplotlib=3.*
+  - oracledb=26.1.*
+  - matplotlib=3.11.*
   - networkx=3.*
-  - numpy=2.*
-  - pyarrow=20.*
-  - pandas=3.*
-  - pyproj=3.7.*
-  - python=3.13.*
-  - rich=14.*
-  - scipy=1.16.*
-  - shapely=2.*
-  - sqlalchemy=2.*
-  - xmltodict=0.14.*
+  - numpy=2.5.*
+  - pyarrow=26.0.*
+  - pandas=3.1.*
+  - pyproj=3.8.*
+  - python=3.14.*
+  - rich=15.0.*
+  - scipy=1.18.*
+  - shapely=2.2.*
+  - sqlalchemy=2.1.*
+  - xmltodict=1.0.*
