@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Udviklingsguide &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Kommandolinjeprogrammer" href="apps/index.html" />
+    <link rel="prev" title="FIREs Datamodel" href="datamodel.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Udviklingsguide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#opsaetning">Opsætning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kodestil">Kodestil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dokumentation">Dokumentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#samspil-mellem-click-og-sphinx">Samspil mellem Click og Sphinx</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#github-og-continuous-integration">GitHub og Continuous Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lokalt-testmiljo">Lokalt testmiljø</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apps/index.html">Kommandolinjeprogrammer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Udviklingsguide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/for_udviklere.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="udviklingsguide">
+<span id="for-udviklere"></span><h1>Udviklingsguide<a class="headerlink" href="#udviklingsguide" title="Link to this heading"></a></h1>
+<p>Denne side indeholder alverdens information der er relevant for dem der arbejder
+på kildekoden bag FIRE.</p>
+<section id="opsaetning">
+<h2>Opsætning<a class="headerlink" href="#opsaetning" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Alt herunder forudsætter at det foretages i en Conda terminal og at
+Oracle Instantclient er installeret. Se
+<a class="reference internal" href="installation.html#installation"><span class="std std-ref">installationsvejledningen</span></a> for mere om Conda og
+Oracle Instantclient.</p>
+</div>
+<p>Start med at clone git repositoriet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Kortforsyningen</span><span class="o">/</span><span class="n">FIRE</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>Et godt udviklingsmiljø at tage udgangspunkt i er <cite>environment-dev.yaml</cite>, som nemt
+installeres med Conda. Fra fire git-repositoriet køres:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">--</span><span class="n">file</span> <span class="n">environment</span><span class="o">-</span><span class="n">dev</span><span class="o">.</span><span class="n">yml</span>
+<span class="o">&gt;</span> <span class="n">conda</span> <span class="n">activate</span> <span class="n">fire</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+<p>Herefter burde alle de essentielle programmer og biblioteker være til rådighed.</p>
+<p>Installer en udviklingsversion af fire med:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>og installer git hooks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pre</span><span class="o">-</span><span class="n">commit</span> <span class="n">install</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">pre-commit</span></code> bruges til at afvikle forskellige &quot;hooks&quot;  inden et git commit.
+<code class="docutils literal notranslate"><span class="pre">pre-commit</span></code> <em>kan</em> blive forvirret over SIT's noget aparte valg af <code class="docutils literal notranslate"><span class="pre">%HOME%</span></code>
+på <code class="docutils literal notranslate"><span class="pre">H:\</span></code> hvorfor det anbefales at sætte <code class="docutils literal notranslate"><span class="pre">%PRE_COMMIT_HOME%</span></code> som en global
+miljøvariabel der peger på <code class="docutils literal notranslate"><span class="pre">C:\Users\bxxxxx\.cache\pre-commit</span></code>. Søg efter
+&quot;Rediger miljøvariabler for din konto&quot; i startmenuen.</p>
+</div>
+<p>Test-suiten køres med:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">pytest</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Test-suiten kræver adgang til en Oracle database hvor DDL og testdata er
+indlæst. Normalvis er det ikke tilfældet på SIT arbejdsstationer hvorfor
+tests som udgangspunkt ikke kan afvikles lokalt. Test-suiten kører automatisk
+på pull requests mod <a class="reference external" href="https://github.com/Kortforsyningen/FIRE">https://github.com/Kortforsyningen/FIRE</a>.</p>
+<p>Se <a class="reference internal" href="#testlokalt"><span class="std std-ref">Lokalt testmiljø</span></a> for mere om hvordan et testmiljø kan sættes op lokalt.</p>
+</div>
+<p>For at test-suiten kører korrekt skal der i <code class="docutils literal notranslate"><span class="pre">fire.ini</span></code> indsættes en <code class="docutils literal notranslate"><span class="pre">[test_connection]</span></code>
+sektion:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">test_connection</span><span class="p">]</span>
+<span class="n">password</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">adgangskode</span><span class="o">&gt;</span>
+<span class="n">username</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">brugernavn</span><span class="o">&gt;</span>
+<span class="n">hostname</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">netværksadresse</span><span class="o">&gt;</span>
+<span class="n">database</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">databasenavn</span><span class="o">&gt;</span>
+<span class="n">service</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">servicenavn</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>På maskiner der både arbejder op mod produktions- og testdatabase er det vigtigt at
+<code class="docutils literal notranslate"><span class="pre">[test_connection]</span></code> er forskellig fra <code class="docutils literal notranslate"><span class="pre">[connection]</span></code>, da det ellers risikeres at der
+indsættes ugyldigt data i produktionsdatabasen.</p>
+</section>
+<section id="kodestil">
+<h2>Kodestil<a class="headerlink" href="#kodestil" title="Link to this heading"></a></h2>
+<p><cite>fire</cite> kommandoen taler dansk til brugeren. Dokumentation
+skrives ligeledes på dansk. Det er tilladt at skrive kommentarer, funktions- og
+variabelnavne på engelsk. git commits bør så vidt muligt skrives på dansk.</p>
+<p>Al kode i fire repositoriet skal køres automatisk gennem <code class="docutils literal notranslate"><span class="pre">black</span></code> via et git
+pre-commit hook inden det committes. Dette gøres for at skabe et ensartet udtryk
+på tværs af hele kodebasen. Desuden har black den bivirking at forstyrrende,
+overflødige ændringer typisk forsvinder fra diffs mellem to commits, hvilket gør
+det væsentligt nemmere at lave review af kodeændringer.</p>
+<p>Underkommandoernes modulnavne starter med <cite>_</cite> for at undgå navnekonflikter med
+click-kommando-objekter.</p>
+<p>Eksempel: Det betyder, at man for entydigt at kunne kende forskel på modulet
+<code class="docutils literal notranslate"><span class="pre">fire.cli.niv._opret-sag</span></code> og Click-kommandoobjektet <code class="docutils literal notranslate"><span class="pre">fire.cli.niv.opret-sag</span></code>
+skal have ovennævnte præfiks i modulnavnet, så funktionen (og dermed Click-
+kommandoen) i modulet kan få det ønskede navn.</p>
+</section>
+<section id="dokumentation">
+<h2>Dokumentation<a class="headerlink" href="#dokumentation" title="Link to this heading"></a></h2>
+<p>HTML dokumentation kan genereres lokalt ved hjælp af følgende kommando:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span><span class="o">-</span><span class="n">build</span> <span class="o">-</span><span class="n">b</span> <span class="n">html</span> <span class="o">./</span><span class="n">docs</span> <span class="o">./</span><span class="n">docs</span><span class="o">/</span><span class="n">_build</span> <span class="o">-</span><span class="n">E</span>
+</pre></div>
+</div>
+<p>hvorefter dokumentationen vil være at finde i <code class="docutils literal notranslate"><span class="pre">docs/_build</span></code>.</p>
+<p>Det er muligt at Sphinx ikke kan finde <cite>graphviz</cite> (fx relevant på <a class="reference internal" href="datamodel.html#datamodel"><span class="std std-ref">FIREs Datamodel</span></a>), i så
+fald kan placeringen til denne angives som følger:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span><span class="o">-</span><span class="n">build</span> <span class="o">-</span><span class="n">b</span> <span class="n">html</span> <span class="o">-</span><span class="n">D</span> <span class="n">graphviz_dot</span><span class="o">=</span><span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="o">&lt;</span><span class="n">USERNAME</span><span class="o">&gt;</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Continuum</span>\<span class="n">miniconda3</span>\<span class="n">envs</span>\<span class="n">fire</span><span class="o">-</span><span class="n">dev</span>\<span class="n">Library</span>\<span class="nb">bin</span>\<span class="n">graphviz</span>\<span class="n">dot</span><span class="o">.</span><span class="n">exe</span> <span class="o">./</span><span class="n">docs</span> <span class="o">./</span><span class="n">docs</span><span class="o">/</span><span class="n">_build</span>
+</pre></div>
+</div>
+<p>Når der tilføjes eller fjernes moduler til API koden skal dokumentationen
+opdateres (filer i <code class="docutils literal notranslate"><span class="pre">docs/api</span></code>). Dette kan gøres med:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sphinx</span><span class="o">-</span><span class="n">apidoc</span> <span class="o">-</span><span class="n">E</span> <span class="o">-</span><span class="n">d</span> <span class="mi">3</span> <span class="o">-</span><span class="n">o</span> <span class="n">docs</span>\<span class="n">api</span> <span class="n">fire</span>
+</pre></div>
+</div>
+<section id="samspil-mellem-click-og-sphinx">
+<h3>Samspil mellem Click og Sphinx<a class="headerlink" href="#samspil-mellem-click-og-sphinx" title="Link to this heading"></a></h3>
+<p>Sphinx er sat op til at bruge modulet <code class="docutils literal notranslate"><span class="pre">sphinx_click</span></code>, der gør det muligt at
+auto-genere dokumentation af click kommandolinje programmer. Dette udnyttes i
+høj grad i FIRE programmerne. Brugen af <code class="docutils literal notranslate"><span class="pre">sphinx_click</span></code> gør det muligt skrive
+et programs dokumentation udelukkende i docstring af programmets click entry-point
+funktion. Se fx <code class="docutils literal notranslate"><span class="pre">fire.cli.niv:regn</span></code>. Et par forhold er værd at notere sig når
+sphinx-dokumentationen skrives direkte i docstring:</p>
+<ol class="arabic simple">
+<li><p>Alt efter <code class="docutils literal notranslate"><span class="pre">\f</span></code> medtages ikke i hjælpteksten på kommandolinjen</p></li>
+<li><p>Man kan bruge <code class="docutils literal notranslate"><span class="pre">\b</span></code> til at undgå at click omformatere tekst i hjælpteksten på kommandolinjen</p></li>
+<li><p>Man kan sagtens benytte sig af alle formateringsmulighederne i Sphinx, dog vil nogle elementer
+kun virke hvis de kommer efter <code class="docutils literal notranslate"><span class="pre">\f</span></code>. Formodentligt fordi click ellers ombryder teksten.</p></li>
+<li><p>Undlad almindelige RST-overskrifter i docstrings, da de forplumrer indholdsfortegnelsen.
+Underoverskrifter kan laves med <code class="docutils literal notranslate"><span class="pre">**fed**</span></code> i stedet.</p></li>
+</ol>
+</section>
+</section>
+<section id="github-og-continuous-integration">
+<h2>GitHub og Continuous Integration<a class="headerlink" href="#github-og-continuous-integration" title="Link to this heading"></a></h2>
+<p>Fire repositoriet håndteres på GitHub, hvor der er sat en række Continous
+Integration (CI) services op. Disse benyttes blandt andet til at afvikle test
+suiten og til at generere HTML dokumentation efter hvert commit.</p>
+<p>GitHub er konfigureret sådan at man ikke kan lave <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> direkte til <code class="docutils literal notranslate"><span class="pre">master</span></code>.
+For at inkludere kode i <code class="docutils literal notranslate"><span class="pre">master</span></code> kræves det at man laver et pull request med mindst
+et godkendt review fra en kollega, samt at alle CI tests gennemføres successfuldt.</p>
+</section>
+<section id="lokalt-testmiljo">
+<span id="testlokalt"></span><h2>Lokalt testmiljø<a class="headerlink" href="#lokalt-testmiljo" title="Link to this heading"></a></h2>
+<p>Forudsat du har Docker og nogle Oracle-værktøjer (instaclient og SQLplus) installeret
+er det muligt at sætte en lokal testdatabase op. Fra roden af repositoryet
+køres:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="o">./</span><span class="n">scripts</span><span class="o">/</span><span class="n">init</span><span class="o">-</span><span class="n">db</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>Først gang kommandoen køres downloades en række Docker images. Det tager sin tid, så
+vær tålmodig.</p>
+<p>Kopier <cite>ci</cite>-opsætningen fra filen <code class="docutils literal notranslate"><span class="pre">test/ci/fire.ini</span></code> til din lokale <cite>fire.ini</cite> i din
+<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">HOME</span></code>-mappe. Hvis Docker-billedet afvikles på en server skal <cite>hostname</cite> rettes
+til i under <cite>ci</cite>-opsætningen. Herefter burde det være muligt at køre test-suiten.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="datamodel.html" class="btn btn-neutral float-left" title="FIREs Datamodel" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="apps/index.html" class="btn btn-neutral float-right" title="Kommandolinjeprogrammer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

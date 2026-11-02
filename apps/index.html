@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kommandolinjeprogrammer &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fire config" href="config.html" />
+    <link rel="prev" title="Udviklingsguide" href="../for_udviklere.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Kommandolinjeprogrammer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="config.html">fire config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html">fire info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html">fire niv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="indl%C3%A6s.html">fire indlæs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opret.html">fire opret</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grafik.html">fire grafik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="luk.html">fire luk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html">fire ts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Kommandolinjeprogrammer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apps/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="kommandolinjeprogrammer">
+<h1>Kommandolinjeprogrammer<a class="headerlink" href="#kommandolinjeprogrammer" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="config.html">fire config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="config.html#fire-config">fire config</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="info.html">fire info</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="info.html#fire-info-punkt">fire info punkt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#fire-info-koordinater">fire info koordinater</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#fire-info-sag">fire info sag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#fire-info-sagsevent">fire info sagsevent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#fire-info-srid">fire info srid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#fire-info-infotype">fire info infotype</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#fire-info-obstype">fire info obstype</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html#fire-info-punktsamling">fire info punktsamling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="niv.html">fire niv</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-opret-sag">fire niv opret-sag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-udtraek-revision">fire niv udtræk-revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-ilaeg-revision">fire niv ilæg-revision</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-ilaeg-nye-punkter">fire niv ilæg-nye-punkter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-laes-observationer">fire niv læs-observationer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-udtraek-observationer">fire niv udtræk-observationer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-regn">fire niv regn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-netoversigt">fire niv netoversigt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-ilaeg-observationer">fire niv ilæg-observationer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-ilaeg-nye-koter">fire niv ilæg-nye-koter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-luk-sag">fire niv luk-sag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-abn-sag">fire niv åbn-sag</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-opret-punktsamling">fire niv opret-punktsamling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-udtraek-punktsamling">fire niv udtræk-punktsamling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-ilaeg-punktsamling">fire niv ilæg-punktsamling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-ilaeg-tidsserie">fire niv ilæg-tidsserie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html#fire-niv-fjern-punkt-fra-punktsamling">fire niv fjern-punkt-fra-punktsamling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="indl%C3%A6s.html">fire indlæs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="indl%C3%A6s.html#fire-indlaes-bernese">fire indlæs bernese</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="opret.html">fire opret</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="opret.html#fire-opret-punkt">fire opret punkt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="grafik.html">fire grafik</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="grafik.html#fire-grafik-vis">fire grafik vis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grafik.html#fire-grafik-indsaet">fire grafik indsæt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grafik.html#fire-grafik-slet">fire grafik slet</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="luk.html">fire luk</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="luk.html#fire-luk-punkt">fire luk punkt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="luk.html#fire-luk-koordinat">fire luk koordinat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="luk.html#fire-luk-observation">fire luk observation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="luk.html#fire-luk-tidsserie">fire luk tidsserie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="luk.html#fire-luk-punktsamling">fire luk punktsamling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ts.html">fire ts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ts.html#fire-ts-gnss">fire ts gnss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html#fire-ts-plot-gnss">fire ts plot-gnss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html#fire-ts-analyse-gnss">fire ts analyse-gnss</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html#fire-ts-hts">fire ts hts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html#fire-ts-plot-hts">fire ts plot-hts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html#fire-ts-analyse-hts">fire ts analyse-hts</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../for_udviklere.html" class="btn btn-neutral float-left" title="Udviklingsguide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="config.html" class="btn btn-neutral float-right" title="fire config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

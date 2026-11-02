@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fire grafik &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fire luk" href="luk.html" />
+    <link rel="prev" title="fire opret" href="opret.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kommandolinjeprogrammer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="config.html">fire config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html">fire info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html">fire niv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="indl%C3%A6s.html">fire indlæs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opret.html">fire opret</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">fire grafik</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fire-grafik-vis">fire grafik vis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-grafik-indsaet">fire grafik indsæt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-grafik-slet">fire grafik slet</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="luk.html">fire luk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html">fire ts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Kommandolinjeprogrammer</a></li>
+      <li class="breadcrumb-item active">fire grafik</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apps/grafik.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fire-grafik">
+<h1>fire grafik<a class="headerlink" href="#fire-grafik" title="Link to this heading"></a></h1>
+<p>Kommandogruppen <strong class="program">fire grafik</strong> bruges til at administrere og vise
+skitser og billeder af databasens fikspunkter.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: fire grafik [OPTIONS] COMMAND [ARGS]...
+
+  Håndtering af skitser og fotos af fikspunkter.
+
+  Grafik bruges som fællesbetegnelse for skitser og fotos.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  indsæt  Indsæt grafik i databasen.
+  slet    Slet en grafik fra databasen.
+  vis     Vis en grafik fra databasen.
+</pre></div>
+</div>
+<p>I det følgende bruges grafik som fællesbetegnelse for skitser og fotos.</p>
+<section id="fire-grafik-vis">
+<h2>fire grafik vis<a class="headerlink" href="#fire-grafik-vis" title="Link to this heading"></a></h2>
+<p>Vis en grafik fra databasen.</p>
+<p><strong>EKSEMPEL</strong></p>
+<p>Vis fikspunktsskitse for GNSS-stationen BUDP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">grafik</span> <span class="n">vis</span> <span class="mi">1</span><span class="o">-</span><span class="mi">13</span><span class="o">-</span><span class="mf">00829.</span><span class="n">png</span>
+</pre></div>
+</div>
+<p>Filnavnet til en grafik kan fx findes med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">info</span> <span class="pre">punkt</span></code>.</p>
+<p>Kommandoen åbner grafikken i systemets standardbilledviser. Har du brug for en lokal
+kopi af grafikken kan den gemmes ved hjælp af programmets indbyggede funktionalitet.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>grafik<span class="w"> </span>vis<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>FILNAVN
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-vis-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-grafik-vis-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-vis-m">
+<span id="cmdoption-fire-grafik-vis-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-vis-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-vis-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-vis-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-vis-I">
+<span id="cmdoption-fire-grafik-vis-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-vis-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-vis-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-vis-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-vis-arg-FILNAVN">
+<span class="sig-name descname"><span class="pre">FILNAVN</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-vis-arg-FILNAVN" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-grafik-indsaet">
+<h2>fire grafik indsæt<a class="headerlink" href="#fire-grafik-indsaet" title="Link to this heading"></a></h2>
+<p>Indsæt grafik i databasen.</p>
+<p><strong>EKSEMPLER</strong></p>
+<p>Indsæt skitse fra PNG-fil:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">grafik</span> <span class="n">indsæt</span> <span class="n">K</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01234</span> <span class="n">K</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mf">01234.</span><span class="n">png</span>
+</pre></div>
+</div>
+<p>Anvend andet filnavn i databasen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">grafik</span> <span class="n">indsæt</span> <span class="n">G</span><span class="o">.</span><span class="n">M</span><span class="mf">.902</span> <span class="n">IMG_5234</span><span class="o">.</span><span class="n">jpg</span> <span class="o">--</span><span class="n">filnavn</span> <span class="n">aarhus_domkirke</span><span class="o">.</span><span class="n">jpg</span>
+</pre></div>
+</div>
+<p>Eksplicer grafiktype og filnavn:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">grafik</span> <span class="n">indsæt</span> <span class="n">K</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">012345</span> <span class="n">C</span><span class="p">:</span>\<span class="n">tmp</span>\<span class="n">skitse</span><span class="o">.</span><span class="n">png</span> <span class="o">--</span><span class="nb">type</span> <span class="n">skitse</span> <span class="o">--</span><span class="n">filnavn</span> <span class="n">K</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mf">012345.</span><span class="n">png</span>
+</pre></div>
+</div>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>grafik<span class="w"> </span>indsæt<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>IDENT<span class="w"> </span>STI
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-type">
+<span class="sig-name descname"><span class="pre">--type</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;type&gt;</span></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-type" title="Link to this definition"></a></dt>
+<dd><p>Angiv grafikkens type. Ved udeladelse sættes PNG-filer som skitse og JPG som foto.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>skitse | foto</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-filnavn">
+<span class="sig-name descname"><span class="pre">--filnavn</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;filnavn&gt;</span></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-filnavn" title="Link to this definition"></a></dt>
+<dd><p>Filnavn der registreres i databasen. Sættes denne ikke bruges filens aktuelle navn.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-sagsbehandler">
+<span class="sig-name descname"><span class="pre">--sagsbehandler</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sagsbehandler&gt;</span></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-sagsbehandler" title="Link to this definition"></a></dt>
+<dd><p>Angiv andet brugernavn end den aktuelt indloggede</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-m">
+<span id="cmdoption-fire-grafik-indsaet-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-I">
+<span id="cmdoption-fire-grafik-indsaet-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-arg-IDENT">
+<span class="sig-name descname"><span class="pre">IDENT</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-arg-IDENT" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-indsaet-arg-STI">
+<span class="sig-name descname"><span class="pre">STI</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-indsaet-arg-STI" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-grafik-slet">
+<h2>fire grafik slet<a class="headerlink" href="#fire-grafik-slet" title="Link to this heading"></a></h2>
+<p>Slet en grafik fra databasen.</p>
+<p>Grafikken identificeres ud fra sit filnavn. Filnavnet på en grafik kan findes ved
+opslag med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">info</span> <span class="pre">punkt</span> <span class="pre">&lt;ident&gt;</span></code>.</p>
+<p><strong>EKSEMPEL</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">grafik</span> <span class="n">slet</span> <span class="mi">9</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="mf">99999.</span><span class="n">png</span>
+</pre></div>
+</div>
+<p>Sletning af grafik bør kun ske i tilfælde at materialet er decideret misvisende
+eller indeholder information, der ikke kan forsvares at langtidsopbevare i en
+statslig database, fx i tilfælde af der findes personshenførbare informationer.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>grafik<span class="w"> </span>slet<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>FILNAVN
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-slet-sagsbehandler">
+<span class="sig-name descname"><span class="pre">--sagsbehandler</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sagsbehandler&gt;</span></span><a class="headerlink" href="#cmdoption-fire-grafik-slet-sagsbehandler" title="Link to this definition"></a></dt>
+<dd><p>Angiv andet brugernavn end den aktuelt indloggede</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-slet-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-grafik-slet-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-slet-m">
+<span id="cmdoption-fire-grafik-slet-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-slet-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-slet-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-slet-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-slet-I">
+<span id="cmdoption-fire-grafik-slet-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-slet-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-slet-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-slet-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-grafik-slet-arg-FILNAVN">
+<span class="sig-name descname"><span class="pre">FILNAVN</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-grafik-slet-arg-FILNAVN" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="opret.html" class="btn btn-neutral float-left" title="fire opret" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="luk.html" class="btn btn-neutral float-right" title="fire luk" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

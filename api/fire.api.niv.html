@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fire.api.niv package &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fire.cli package" href="fire.cli.html" />
+    <link rel="prev" title="fire.api.model package" href="fire.api.model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/index.html">Kommandolinjeprogrammer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="fire.html">fire package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="fire.html#module-fire">Module contents</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="fire.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="fire.api.html">fire.api package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cli.html">fire.cli package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.io.html">fire.io package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">API</a></li>
+          <li class="breadcrumb-item"><a href="fire.html">fire package</a></li>
+          <li class="breadcrumb-item"><a href="fire.api.html">fire.api package</a></li>
+      <li class="breadcrumb-item active">fire.api.niv package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/fire.api.niv.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fire-api-niv-package">
+<h1>fire.api.niv package<a class="headerlink" href="#fire-api-niv-package" title="Link to this heading"></a></h1>
+<section id="module-fire.api.niv">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-fire.api.niv" title="Link to this heading"></a></h2>
+<p>API-modul til <cite>fire niv</cite>-underkommandoer.</p>
+</section>
+<section id="module-fire.api.niv.udtraek_observationer">
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-fire.api.niv.udtraek_observationer" title="Link to this heading"></a></h2>
+<p>Funktionalitet til <cite>fire niv udtræk-observationer</cite></p>
+<dl class="py data">
+<dt class="sig sig-object py" id="fire.api.niv.udtraek_observationer.OBSKLASSE">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.udtræk_observationer.</span></span><span class="sig-name descname"><span class="pre">OBSKLASSE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{NivMetode.MGL:</span> <span class="pre">&lt;class</span> <span class="pre">'fire.api.model.observationer.GeometriskKoteforskel'&gt;,</span> <span class="pre">NivMetode.MTL:</span> <span class="pre">&lt;class</span> <span class="pre">'fire.api.model.observationer.TrigonometriskKoteforskel'&gt;}</span></span><a class="headerlink" href="#fire.api.niv.udtraek_observationer.OBSKLASSE" title="Link to this definition"></a></dt>
+<dd><p>Oversætter mellem nivellementsmetode og observationsklasse.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fire.api.niv.udtraek_observationer.brug_alle_pa_alle">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.udtræk_observationer.</span></span><span class="sig-name descname"><span class="pre">brug_alle_på_alle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operationer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objekter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.udtraek_observationer.brug_alle_pa_alle" title="Link to this definition"></a></dt>
+<dd><p>Udfør hver operation på hvert objekt og returnér resultaterne.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fire.api.niv.udtraek_observationer.filterkriterier">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.udtræk_observationer.</span></span><span class="sig-name descname"><span class="pre">filterkriterier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nøjagtigheder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.Nojagtighed" title="fire.api.niv.datatyper.Nøjagtighed"><span class="pre">Nøjagtighed</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.udtraek_observationer.filterkriterier" title="Link to this definition"></a></dt>
+<dd><p>Returnerer en dictionary med en spredning for hver
+kombination af nivellementsmetode og valgte nøjagtigheder.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fire.api.niv.udtraek_observationer.filtrer_praecisionsnivellement">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.udtræk_observationer.</span></span><span class="sig-name descname"><span class="pre">filtrer_præcisionsnivellement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observationer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Observation</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">præcisionsnivellement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">GeometriskKoteforskel</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.udtraek_observationer.filtrer_praecisionsnivellement" title="Link to this definition"></a></dt>
+<dd><p>Filtrer observationer på præcisionsnivellement hvis de er af typen GeometriskKoteforskel</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fire.api.niv.udtraek_observationer.klargor_geometrifiler">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.udtræk_observationer.</span></span><span class="sig-name descname"><span class="pre">klargør_geometrifiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geometrifiler</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="fire.api.model.html#fire.api.model.geometry.Geometry" title="fire.api.model.geometry.Geometry"><span class="pre">Geometry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.udtraek_observationer.klargor_geometrifiler" title="Link to this definition"></a></dt>
+<dd><p>Returnerer samlet liste med hvert lag i hver fil.</p>
+<p>Hver geometrifil kan have flere features eller lag.</p>
+<p>Åbn og konvertér indhold af geometrifiler.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fire.api.niv.udtraek_observationer.observationer_inden_for_spredning">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.udtræk_observationer.</span></span><span class="sig-name descname"><span class="pre">observationer_inden_for_spredning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resultatsæt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">GeometriskKoteforskel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">TrigonometriskKoteforskel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spredninger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">GeometriskKoteforskel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">TrigonometriskKoteforskel</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.udtraek_observationer.observationer_inden_for_spredning" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fire.api.niv.udtraek_observationer.sogefunktioner_med_valgte_metoder">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.udtræk_observationer.</span></span><span class="sig-name descname"><span class="pre">søgefunktioner_med_valgte_metoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">forberedt_søgefunktion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metoder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.NivMetode" title="fire.api.niv.datatyper.NivMetode"><span class="pre">NivMetode</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.udtraek_observationer.sogefunktioner_med_valgte_metoder" title="Link to this definition"></a></dt>
+<dd><p>Returnerer en søgefunktion med fastsatte argumenter for hver metode.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fire.api.niv.udtraek_observationer.timestamp">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.udtræk_observationer.</span></span><span class="sig-name descname"><span class="pre">timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#fire.api.niv.udtraek_observationer.timestamp" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py class" id="module-fire.api.niv.datatyper">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivKote">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.datatyper.</span></span><span class="sig-name descname"><span class="pre">NivKote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">punkt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dato</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spredning</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fasthold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nord</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">nan</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">øst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">nan</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.datatyper.NivKote" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Koter som enten indgår som input eller output til en beregning</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivKote.H">
+<span class="sig-name descname"><span class="pre">H</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivKote.H" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivKote.dato">
+<span class="sig-name descname"><span class="pre">dato</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivKote.dato" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivKote.fasthold">
+<span class="sig-name descname"><span class="pre">fasthold</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivKote.fasthold" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivKote.nord">
+<span class="sig-name descname"><span class="pre">nord</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">nan</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivKote.nord" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivKote.punkt">
+<span class="sig-name descname"><span class="pre">punkt</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivKote.punkt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivKote.spredning">
+<span class="sig-name descname"><span class="pre">spredning</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivKote.spredning" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivKote.ost">
+<span class="sig-name descname"><span class="pre">øst</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">nan</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivKote.ost" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivMetode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.datatyper.</span></span><span class="sig-name descname"><span class="pre">NivMetode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.datatyper.NivMetode" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivMetode.MGL">
+<span class="sig-name descname"><span class="pre">MGL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivMetode.MGL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivMetode.MTL">
+<span class="sig-name descname"><span class="pre">MTL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivMetode.MTL" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivMetode.MotoriseretGeometriskNivellement">
+<span class="sig-name descname"><span class="pre">MotoriseretGeometriskNivellement</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivMetode.MotoriseretGeometriskNivellement" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivMetode.MotoriseretTrigonometriskNivellement">
+<span class="sig-name descname"><span class="pre">MotoriseretTrigonometriskNivellement</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivMetode.MotoriseretTrigonometriskNivellement" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.datatyper.</span></span><span class="sig-name descname"><span class="pre">NivObservation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fra</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">til</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dato</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicitet</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">afstand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltaH</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spredning</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Almindelige, ukorrelerede nivellementobservationer</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation.afstand">
+<span class="sig-name descname"><span class="pre">afstand</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation.afstand" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation.dato">
+<span class="sig-name descname"><span class="pre">dato</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation.dato" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation.deltaH">
+<span class="sig-name descname"><span class="pre">deltaH</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation.deltaH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation.fra">
+<span class="sig-name descname"><span class="pre">fra</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation.fra" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation.id">
+<span class="sig-name descname"><span class="pre">id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation.multiplicitet">
+<span class="sig-name descname"><span class="pre">multiplicitet</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation.multiplicitet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation.spredning">
+<span class="sig-name descname"><span class="pre">spredning</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation.spredning" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.NivObservation.til">
+<span class="sig-name descname"><span class="pre">til</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#fire.api.niv.datatyper.NivObservation.til" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.datatyper.</span></span><span class="sig-name descname"><span class="pre">Nøjagtighed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed.D">
+<span class="sig-name descname"><span class="pre">D</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed.D" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed.Detail">
+<span class="sig-name descname"><span class="pre">Detail</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed.Detail" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed.K">
+<span class="sig-name descname"><span class="pre">K</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed.K" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed.Kvalitet">
+<span class="sig-name descname"><span class="pre">Kvalitet</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed.Kvalitet" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed.P">
+<span class="sig-name descname"><span class="pre">P</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed.P" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed.Praecision">
+<span class="sig-name descname"><span class="pre">Præcision</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed.Praecision" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed.U">
+<span class="sig-name descname"><span class="pre">U</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed.U" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.api.niv.datatyper.Nojagtighed.Ukendt">
+<span class="sig-name descname"><span class="pre">Ukendt</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></span><a class="headerlink" href="#fire.api.niv.datatyper.Nojagtighed.Ukendt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<p id="module-fire.api.niv.kriterier">Nivellementskriterier og hjælpefunktionalitet.</p>
+<p>Nøjagtighedskrav (også kaldet forkastelseskriterier) for nivellementmålinger
+samt de erfarede og i databasen indtastede empiriske spredninger per afstandsenhed,
+som bruges som á priori-spedninger for en given opmåling.</p>
+<p>Nøjagtighedskrav:</p>
+<div class="line-block">
+<div class="line">Metode  |       MGL       |        MGL         |      MTL      |        MTL         |</div>
+<div class="line-block">
+<div class="line-block">
+<div class="line">|  Forkastelses-  | Empirisk spredning | Forkastelses- | Empirisk spredning |</div>
+<div class="line">|    kriterium    |  (brugt á priori)  |   kriterium   |  (brugt á priori)  |</div>
+</div>
+<div class="line">Krav   | [mm / sqrt(km)] |  [mm / sqrt(km)]   |     [ppm]     |       [ppm]        |</div>
+</div>
+</div>
+<p><a href="#id1"><span class="problematic" id="id2">|-----------|</span></a>-----------------<a href="#id3"><span class="problematic" id="id4">|--------------------|</span></a>---------------<a href="#id5"><span class="problematic" id="id6">|--------------------|</span></a>
+| Præcision |             2.0 |                0.6 |           2.0 |                1.5 |
+| Kvalitet  |             2.5 |                1.0 |           2.5 |                2.0 |
+| Detail    |             3.0 |                1.5 |           3.0 |                3.0 |
+| Eksternt  |             5.0 |                    |               |                    |</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="fire.api.niv.kriterier.EMPIRISK_SPREDNING">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.kriterier.</span></span><span class="sig-name descname"><span class="pre">EMPIRISK_SPREDNING</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.Nojagtighed" title="fire.api.niv.datatyper.Nøjagtighed"><span class="pre">Nøjagtighed</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#fire.api.niv.datatyper.NivMetode" title="fire.api.niv.datatyper.NivMetode"><span class="pre">NivMetode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{(Nøjagtighed.D,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">1.5,</span> <span class="pre">(Nøjagtighed.D,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">3.0,</span> <span class="pre">(Nøjagtighed.K,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">1.0,</span> <span class="pre">(Nøjagtighed.K,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">2.0,</span> <span class="pre">(Nøjagtighed.P,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">0.6,</span> <span class="pre">(Nøjagtighed.P,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">1.5,</span> <span class="pre">(Nøjagtighed.U,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">9999.9,</span> <span class="pre">(Nøjagtighed.U,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">9999.9}</span></span><a class="headerlink" href="#fire.api.niv.kriterier.EMPIRISK_SPREDNING" title="Link to this definition"></a></dt>
+<dd><p>Implementerer empiriske spredninger (brugt á priori) jævnfør nøjagtighedskrav i modulets dokumentation.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="fire.api.niv.kriterier.FORKASTELSESKRITERIUM">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.kriterier.</span></span><span class="sig-name descname"><span class="pre">FORKASTELSESKRITERIUM</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.Nojagtighed" title="fire.api.niv.datatyper.Nøjagtighed"><span class="pre">Nøjagtighed</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#fire.api.niv.datatyper.NivMetode" title="fire.api.niv.datatyper.NivMetode"><span class="pre">NivMetode</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{(Nøjagtighed.D,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">3.0,</span> <span class="pre">(Nøjagtighed.D,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">3.0,</span> <span class="pre">(Nøjagtighed.K,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">2.5,</span> <span class="pre">(Nøjagtighed.K,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">2.5,</span> <span class="pre">(Nøjagtighed.P,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">2.0,</span> <span class="pre">(Nøjagtighed.P,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">2.0}</span></span><a class="headerlink" href="#fire.api.niv.kriterier.FORKASTELSESKRITERIUM" title="Link to this definition"></a></dt>
+<dd><p>Implementerer forkastelseskriterier jævnfør nøjagtighedskrav i modulets dokumentation.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fire.api.niv.kriterier.mildeste_kvalitetskrav">
+<span class="sig-prename descclassname"><span class="pre">fire.api.niv.kriterier.</span></span><span class="sig-name descname"><span class="pre">mildeste_kvalitetskrav</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nøjagtigheder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.Nojagtighed" title="fire.api.niv.datatyper.Nøjagtighed"><span class="pre">Nøjagtighed</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metoder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.NivMetode" title="fire.api.niv.datatyper.NivMetode"><span class="pre">NivMetode</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{(Nøjagtighed.D,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">1.5,</span> <span class="pre">(Nøjagtighed.D,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">3.0,</span> <span class="pre">(Nøjagtighed.K,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">1.0,</span> <span class="pre">(Nøjagtighed.K,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">2.0,</span> <span class="pre">(Nøjagtighed.P,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">0.6,</span> <span class="pre">(Nøjagtighed.P,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">1.5,</span> <span class="pre">(Nøjagtighed.U,</span> <span class="pre">NivMetode.MGL):</span> <span class="pre">9999.9,</span> <span class="pre">(Nøjagtighed.U,</span> <span class="pre">NivMetode.MTL):</span> <span class="pre">9999.9}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#fire.api.niv.kriterier.mildeste_kvalitetskrav" title="Link to this definition"></a></dt>
+<dd><p>Returnerer mildeste (højeste værdi) kvalitets-kriterium i enheden [mm / km ** (1/2)]
+ud fra kombination af flere mulige kombinationer af nøjagtighed og metoder.</p>
+</dd></dl>
+
+<dl class="py class" id="module-fire.api.niv.regnemotor">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.DummyRegn">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.regnemotor.</span></span><span class="sig-name descname"><span class="pre">DummyRegn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.DummyRegn" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fire.api.niv.regnemotor.RegneMotor" title="fire.api.niv.regnemotor.RegneMotor"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegneMotor</span></code></a></p>
+<p>Minimumseksempel på en regnemotor</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.DummyRegn.filer">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">filer</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.DummyRegn.filer" title="Link to this definition"></a></dt>
+<dd><p>DummyRegn producerer ingen filer, returnerer altid den samme tomme liste.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.DummyRegn.udjaevn">
+<span class="sig-name descname"><span class="pre">udjævn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.DummyRegn.udjaevn" title="Link to this definition"></a></dt>
+<dd><p>Udjævn observationer</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.FastholdtIkkeObserveret">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.regnemotor.</span></span><span class="sig-name descname"><span class="pre">FastholdtIkkeObserveret</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uobserverede_fastholdte_punkter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.FastholdtIkkeObserveret" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fire.api.niv.regnemotor.ValideringFejl" title="fire.api.niv.regnemotor.ValideringFejl"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValideringFejl</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.GamaRegn">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.regnemotor.</span></span><span class="sig-name descname"><span class="pre">GamaRegn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">xml_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xml_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.GamaRegn" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fire.api.niv.regnemotor.RegneMotor" title="fire.api.niv.regnemotor.RegneMotor"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegneMotor</span></code></a></p>
+<p>Regnemotor som bruger GNU Gama til at lave nivellementberegninger.</p>
+<p>Følgende filer relaterer sig til GNU Gama</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Filnavn</p></th>
+<th class="head"><p>Beskrivelse</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SAG.xml</p></td>
+<td><p>Input fil til gama, lavet ud fra data i regneark</p></td>
+</tr>
+<tr class="row-odd"><td><p>SAG-resultat.xml</p></td>
+<td><p>Output fil fra gama, læses af fire og oversættes til regneark</p></td>
+</tr>
+<tr class="row-even"><td><p>SAG-resultat-kontrol.html</p></td>
+<td><p>Beregningsrapport for kontrolberegning</p></td>
+</tr>
+<tr class="row-odd"><td><p>SAG-resultat-endelig.html</p></td>
+<td><p>Beregningsrapport for endelige beregning</p></td>
+</tr>
+</tbody>
+</table>
+<p>Input og output filer til Gama overskrives for hver beregning der udføres,
+men beregningsrapporten gemmes særskilt for kontrol og endelig beregning.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.GamaRegn.filer">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">filer</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.GamaRegn.filer" title="Link to this definition"></a></dt>
+<dd><p>En liste af filer som Gama producerer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.GamaRegn.kald_gama">
+<span class="sig-name descname"><span class="pre">kald_gama</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.GamaRegn.kald_gama" title="Link to this definition"></a></dt>
+<dd><p>Udjævning via gama</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.GamaRegn.laes_gama_outputfil">
+<span class="sig-name descname"><span class="pre">læs_gama_outputfil</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.NivKote" title="fire.api.niv.datatyper.NivKote"><span class="pre">NivKote</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.GamaRegn.laes_gama_outputfil" title="Link to this definition"></a></dt>
+<dd><p>Læser output fra GNU Gama og returnerer relevante parametre til at skrive xlsx fil</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.GamaRegn.skriv_gama_inputfil">
+<span class="sig-name descname"><span class="pre">skriv_gama_inputfil</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.GamaRegn.skriv_gama_inputfil" title="Link to this definition"></a></dt>
+<dd><p>Skriv gama-inputfil i XML-format</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.GamaRegn.udjaevn">
+<span class="sig-name descname"><span class="pre">udjævn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.GamaRegn.udjaevn" title="Link to this definition"></a></dt>
+<dd><p>Skriver gama input, kalder gama og læser gama output.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.regnemotor.</span></span><span class="sig-name descname"><span class="pre">RegneMotor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observationer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.NivObservation" title="fire.api.niv.datatyper.NivObservation"><span class="pre">NivObservation</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamle_koter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fire.api.niv.datatyper.NivKote" title="fire.api.niv.datatyper.NivKote"><span class="pre">NivKote</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projektnavn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'fire'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Øverste led i RegneMotor-hierarkiet til udjævning af nivellementsobservationer</p>
+<p>En RegneMotor fungerer som en &quot;adapter&quot;, som gør det muligt at arbejde med forskellige
+repræsentationer af nivellementobservationer og koter på en ensartet måde.</p>
+<p>En RegneMotor består basalt set af et sæt af observationer til et sæt fikspunkter,samt
+ét eller flere fastholdte punkter. Disse er hver defineret som lister af dataklasserne
+<code class="docutils literal notranslate"><span class="pre">NivObservation</span></code> hhv. <code class="docutils literal notranslate"><span class="pre">NivKote</span></code>. Disse klasser indeholder de basale attributter
+nødvendige for nivellementberegninger.</p>
+<p><strong>Instantiering</strong></p>
+<p>Der er defineret forskellige metoder til instantiering:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fra_dataframe</span>  <span class="p">:</span> <span class="n">Start</span> <span class="n">RegneMotor</span> <span class="n">ud</span> <span class="n">fra</span> <span class="n">pandas</span> <span class="n">DataFrames</span> <span class="n">som</span> <span class="n">anvendes</span> <span class="n">i</span> <span class="n">det</span>
+                 <span class="n">almindelige</span> <span class="n">fire</span> <span class="n">niv</span><span class="o">-</span><span class="n">workflow</span>
+</pre></div>
+</div>
+<p><strong>Udjævning</strong></p>
+<p>Udjævning af observationer foretages med <cite>udjævn</cite> som forventes at være implementeret
+i alle nedarvende klasser. Udjævningsresultaterne er tilgængelige i <code class="docutils literal notranslate"><span class="pre">self.nye_koter</span></code>
+som <code class="docutils literal notranslate"><span class="pre">list[NivKote]</span></code>.</p>
+<p><strong>Grafanalyse</strong></p>
+<p>Observationerne i et nivellementprojekt danner et netværk af punkter (knuder) som
+forbindes af observationslinjerne (kanter). Tilsammen kaldes dette en graf. RegneMotor
+anvender derfor værktøjer kendt fra grafteori til at beregne størrelser som man
+normalt er interesseret i ifm. et nivellementprojekt.</p>
+<p>Der kan bl.a. undersøges, om netværket består af flere usammenhængende grafer
+(subnet), samt, for hver af disse subnet, om det indeholder mindst ét fastholdt punkt.
+Hvis ikke, vil det ikke være muligt at gennemføre udjævningen for punkterne i
+pågældende subnet.</p>
+<p>Almindeligvis er man ved nivellementberegninger også interesseret i at identificere
+lukkede &quot;polygoner&quot;, bestående af observationslinjerne, også kaldet en &quot;kreds&quot;.
+Analyseres de observerede højdeforskelle langs kanterne i en kreds er det muligt at
+beregne polygonens lukkesum for frem- og tilbagenivellement samt forskellen
+herimellem, som kaldes &quot;summa rho&quot;.</p>
+<p><strong>Resultater</strong></p>
+<p>RegneMotor attributterne <code class="docutils literal notranslate"><span class="pre">self.gamle_koter</span></code> og <code class="docutils literal notranslate"><span class="pre">self.nye_koter</span></code> kan bruges til at
+vise udjævningsresultaterne i forskellige formater.
+<code class="docutils literal notranslate"><span class="pre">til_dataframe</span></code> genererer en dataframe i samme format som inputtet i
+<code class="docutils literal notranslate"><span class="pre">fra_dataframe</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.beregn_lukkesummer">
+<span class="sig-name descname"><span class="pre">beregn_lukkesummer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_længde</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">LukkesumStats</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.beregn_lukkesummer" title="Link to this definition"></a></dt>
+<dd><p>Finder polygoner i nivellementnettet og beregner lukkesummer</p>
+<p>Returnerer en dict hvor nøglerne er selve polygonerne, givet ved <cite>kredse</cite>, og
+værdierne er de beregnde statistiske parametre, herunder lukkesummer, pakket ind i
+dataklassen <cite>LukkesumStats</cite>.</p>
+<p>Ønsker man at beregne lukkesummen af en bestemt polygon kan man bruge
+<cite>lukkesum_af_polygon</cite> direkte.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.fastholdte">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">fastholdte</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.fastholdte" title="Link to this definition"></a></dt>
+<dd><p>Find fastholdte punkter og koter til en beregning</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.filer">
+<span class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">filer</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.filer" title="Link to this definition"></a></dt>
+<dd><p>En liste af filnavne som motoren producerer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.fra_dataframe">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">fra_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observationer_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">punkter_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Self</span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.fra_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Oversæt fra regneark til internt format</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.gamle_koter">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">gamle_koter</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.gamle_koter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.gyldighedstidspunkt">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">gyldighedstidspunkt</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.gyldighedstidspunkt" title="Link to this definition"></a></dt>
+<dd><p>Tid for sidste observation der har været brugt i beregningen</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.multidigraf">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">multidigraf</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">MultiDiGraph</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.multidigraf" title="Link to this definition"></a></dt>
+<dd><p>Byg en digraf ud fra observationerne</p>
+<p>Returnerer et networkx MultiDiGraph objekt som kan indeholde flere parallelle
+(deraf Multi), rettede (deraf Di(rectional)) linjer (kanter) mellem hvert punkt
+(knude). Hver kant i grafen har en nøgle som refererer til en <code class="docutils literal notranslate"><span class="pre">NivObservation</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.netanalyse">
+<span class="sig-name descname"><span class="pre">netanalyse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.netanalyse" title="Link to this definition"></a></dt>
+<dd><p>Konstruér netgraf og find ensomme punkter</p>
+<p>Nettet reduceres for de ensomme punkter, da ensomme punkter ikke kan estimeres i
+udjævningen.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.observationer">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">observationer</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.observationer" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.observerede_punkter">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">observerede_punkter</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.observerede_punkter" title="Link to this definition"></a></dt>
+<dd><p>Foreningsmængden af opstillings- og sigtepunkter</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.opstillingspunkter">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">opstillingspunkter</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.opstillingspunkter" title="Link to this definition"></a></dt>
+<dd><p>Alle opstillingspunkter</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.sigtepunkter">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">sigtepunkter</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.sigtepunkter" title="Link to this definition"></a></dt>
+<dd><p>Alle sigtepunkter</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.til_dataframe">
+<span class="sig-name descname"><span class="pre">til_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.til_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Oversætter udjævningsresultater fra det interne format til dataframe</p>
+<p>Den returnerede dataframe har samme kolonnenavne som &quot;Punktoversigt&quot;-
+arkdefinitionen. Der bruges kun den delmængde af kolonnerne som er relevante for
+nye koter.
+Dvs. at der ignoreres kolonnerne &quot;uuid&quot;, &quot;System&quot; og &quot;Udelad publikation&quot;. Disse
+kolonner skal man selv udfylde bagefter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.udjaevn">
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">udjævn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.udjaevn" title="Link to this definition"></a></dt>
+<dd><p>Udjævn observationer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.RegneMotor.valider_fastholdte">
+<span class="sig-name descname"><span class="pre">valider_fastholdte</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.RegneMotor.valider_fastholdte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.StandardRegn">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.regnemotor.</span></span><span class="sig-name descname"><span class="pre">StandardRegn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opt_plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_self_loops</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_fastholdte_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.StandardRegn" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fire.api.niv.regnemotor.RegneMotor" title="fire.api.niv.regnemotor.RegneMotor"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegneMotor</span></code></a></p>
+<p>Foretag nivellementsudjævning via en simpel numpy-baseret implementering</p>
+<p>Observationsligningerne opstilles på matrixform som inverteres via mindste kvadraters
+metode. Resultaterne opsummeres som html-rapport i stil med output fra gama-local.</p>
+<p>Udjævningen kan justeres med følgende parametre:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>`opt_plot`            vis diverse plots til inspektion af residualer, samt
+                      visualisering af de opstillede matricer.
+
+`skip_self_loops`     spring observationer over hvor fra- og til-punkt er det samme.
+
+`skip_fastholdte_obs` spring observationer over som er gjort imellem to fastholdte
+                      punkter.
+</pre></div>
+</div>
+<p>Hverken &quot;self loops&quot; eller &quot;fastholdte&quot; observationer har nogen indflydelse på de
+udjævnede koter. Dog bidrager de til den estimerede spredning. Særligt
+<cite>skip_fastholdte_obs</cite> kan have stor indflydelse på spredningsestimatet, da man ofte
+fastholder alle punkter i en gammel punktgruppe, selvom de kan have bevæget sig
+indbyrdes. Dette kan resultere i meget store residualer for observationer mellem
+fastholdte punkter.</p>
+<p>Som default er <cite>skip_self_loops</cite> og <cite>skip_fastholdte_obs</cite> sat til <cite>False</cite>, dvs. at
+alle observationer inkluderes som de er givet i regnearket. Opdages der store
+residualer mellem fastholdte punkter, bør man tage stilling til, om observationen skal
+slukkes, eller om man skal undlade at fastholdte ét eller flere af punkterne.</p>
+<p><strong>Elimination af grovfejl</strong></p>
+<p>Grovfejl elimineres ikke automatisk! Grovfejl vil optræde som almindelige, men store,
+outliers. Det er op til operatøren at opdage og slukke outlieren, og derefter foretage
+en ny udjævning. Residualplots (slås til med <cite>opt_plot=True</cite>), er nyttige til at
+spotte grovfejl.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.StandardRegn.filer">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">filer</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.StandardRegn.filer" title="Link to this definition"></a></dt>
+<dd><p>En liste af filer som motoren producerer</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.StandardRegn.udjaevn">
+<span class="sig-name descname"><span class="pre">udjævn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.api.niv.regnemotor.StandardRegn.udjaevn" title="Link to this definition"></a></dt>
+<dd><p>Opstiller og løser ligningssystemet samt producerer resultatfiler</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.UdjaevningFejl">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.regnemotor.</span></span><span class="sig-name descname"><span class="pre">UdjævningFejl</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.UdjaevningFejl" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Der gik noget galt under udjævningen</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="fire.api.niv.regnemotor.ValideringFejl">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">fire.api.niv.regnemotor.</span></span><span class="sig-name descname"><span class="pre">ValideringFejl</span></span><a class="headerlink" href="#fire.api.niv.regnemotor.ValideringFejl" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Input til regnemotoren er forkert</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="fire.api.model.html" class="btn btn-neutral float-left" title="fire.api.model package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="fire.cli.html" class="btn btn-neutral float-right" title="fire.cli package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

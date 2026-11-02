@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anvendelse af interaktiv mode &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API" href="../api/modules.html" />
+    <link rel="prev" title="Angivelse af nye default værdier" href="overridedefaults.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/index.html">Kommandolinjeprogrammer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tips og tricks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tabsmelding.html">Tabsmelding af fikspunkter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="genfundet.html">Genfinding af tabtgået fikspunkt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="punktsamlinger.html">Arbejde med højdetidsserier og punktsamlinger i FIRE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overridedefaults.html">Angivelse af nye default værdier</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Anvendelse af interaktiv mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#almindelig-brug-af-interaktiv-mode">Almindelig brug af interaktiv mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shell-scripting-ved-brug-af-interaktiv-mode">Shell-scripting ved brug af interaktiv mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tips og tricks</a></li>
+      <li class="breadcrumb-item active">Anvendelse af interaktiv mode</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tips/interaktivmode.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="anvendelse-af-interaktiv-mode">
+<span id="interaktivmode"></span><h1>Anvendelse af interaktiv mode<a class="headerlink" href="#anvendelse-af-interaktiv-mode" title="Link to this heading"></a></h1>
+<p>FIRE kan desværre være lidt sløv til at starte op, hvilket skyldes den efterhånden
+store kodebase som skal initieres på ny — vel at mærke hver gang en kommando køres.</p>
+<p>Som et forsøg på at afhjælpe dette, er der lavet mulighed for at starte en hvilken som
+helst FIRE-kommando op i en &quot;interaktiv&quot; session.</p>
+<p>Dette har dén fordel, at kodebasen kun skal initieres én gang når den interaktive session
+startes op. Derefter kan kommandoen køres gentagne gange uden at FIRE skal initieres hver
+gang.</p>
+<p>Den primære use-case for dette er, hvis man sidder og kører den samme kommando mange gange
+i træk. Eksempelvis ved gentage punktopslag med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">info</span> <span class="pre">punkt</span></code>.</p>
+<p>En anden nyttig ting dette tillader er også, at man (<em>endelig!</em>) kan lave visse former for
+shell-scripting med FIRE-kommandoer. Eksempel på dette er udtræk af punktinfo for en liste
+af punkter som man har i en tekstfil.</p>
+<p>Interaktiv mode slås til med flaget <code class="docutils literal notranslate"><span class="pre">--interaktiv</span></code> eller <code class="docutils literal notranslate"><span class="pre">-I</span></code> og kan bruges på alle
+FIRE-kommandoer. Man forlader den interaktive session med <code class="docutils literal notranslate"><span class="pre">CTRL+C</span></code> eller <code class="docutils literal notranslate"><span class="pre">CTRL+Z+ENTER</span></code>.</p>
+<section id="almindelig-brug-af-interaktiv-mode">
+<h2>Almindelig brug af interaktiv mode<a class="headerlink" href="#almindelig-brug-af-interaktiv-mode" title="Link to this heading"></a></h2>
+<p>Man mødes af en prompt med kommandoens almindelige signatur allerede
+udfyldt, fx:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;fire info punkt -I
+
+Starter interaktiv session for 'fire info punkt'
+
+Afbryd med CTRL+C eller CTRL+Z+ENTER
+
+fire info punkt [IDENT]
+    ... alm. punktinfo
+
+fire info punkt [IDENT -H]
+    ... punktinfo med historik
+</pre></div>
+</div>
+<p>hvor teksten inden for [<em>parentesen</em>] er brugerens input til prompten. Kommandoen tager
+imod de samme options som den normale, ikke-interaktive version.</p>
+<p>Man kan fastholde kommandoens øvrige parametre i den interaktive session ved at angive dem
+ved opstart. De fastholdte værdier kan altid ændres ved angivelse af andre værdier senere i
+sessionen:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;fire info punkt --db prod -H -I
+
+Starter interaktiv session for 'fire info punkt'
+med flg. fastsatte argumenter:
+db=prod
+historik=True
+
+Afbryd med CTRL+C eller CTRL+Z+ENTER
+
+fire info punkt [IDENT]
+    ... punktinfo med historik, trukket fra prod
+
+fire info punkt [IDENT --db test]
+    ... punktinfo med historik, trukket fra test
+
+fire info punkt [IDENT -O alle]
+    ... punktinfo med historik og observationer, trukket fra prod
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Det er vigtigt, at interaktiv-flaget <code class="docutils literal notranslate"><span class="pre">-I</span></code> vælges som det sidste på kommandolinjen.
+Options som kommer bagefter, vil ikke blive registreret som fastholdte. Fx</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fire info punkt --db prod -I -H
+
+Starter interaktiv session for 'fire info punkt'
+med flg. fastsatte argumenter:
+db=prod
+
+Afbryd med CTRL+C eller CTRL+Z+ENTER
+</pre></div>
+</div>
+<p>vil kun fastholde <code class="docutils literal notranslate"><span class="pre">db=prod</span></code>, mens historik-flaget <code class="docutils literal notranslate"><span class="pre">-H</span></code> vil blive ignoreret.</p>
+</div>
+</section>
+<section id="shell-scripting-ved-brug-af-interaktiv-mode">
+<h2>Shell-scripting ved brug af interaktiv mode<a class="headerlink" href="#shell-scripting-ved-brug-af-interaktiv-mode" title="Link to this heading"></a></h2>
+<p>Interaktiv mode kan også bruges til at lave fancy shell-scripting hvor fx en tekstfil
+pipes ind i en FIRE-kommando. Dette kan bruges til fx at trække mange punktinfos ud på een
+gang.</p>
+<p>Havelåge (&quot;#&quot;) kan anvendes som kommentar-tegn i inputfil, både i starten af linjen og
+in-line. Eksempelvis (ved brug af windows-terminal)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Klargør en fil med identer der skal søges på
+echo GM901 &gt;&gt; punkter.txt
+echo GM902 &gt;&gt; punkter.txt
+echo # GM902 en linje der helt springes over &gt;&gt; punkter.txt
+echo RDIO # en in-line kommentar &gt;&gt; punkter.txt
+
+# Smid filen ind i fire info punkt og skriv resultat til terminalen
+fire info punkt --db prod -I &lt; punkter.txt
+
+# Træk også historik og detaljer ud, og gem i stedet resultaterne i en fil
+fire info punkt --db prod -I &lt; punkter.txt &gt; infopunkt_out.txt
+
+# Ryd op
+rm punkter.txt infopunkt_out.txt
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overridedefaults.html" class="btn btn-neutral float-left" title="Angivelse af nye default værdier" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../api/modules.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

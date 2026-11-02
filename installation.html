@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installationsvejledning &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FIREs Datamodel" href="datamodel.html" />
+    <link rel="prev" title="Konfigurationsfil" href="konfiguration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installationsvejledning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generelt">Generelt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git">Git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#oracle-instantclient">Oracle Instantclient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mambaforge">MambaForge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linux-kommandolinjevaerktojer">Linux kommandolinjeværktøjer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fire">FIRE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#byg-miljo">Byg miljø</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#konfigurationsfil">Konfigurationsfil</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opdatering">Opdatering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afinstallering">Afinstallering</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apps/index.html">Kommandolinjeprogrammer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installationsvejledning</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installationsvejledning">
+<span id="installation"></span><h1>Installationsvejledning<a class="headerlink" href="#installationsvejledning" title="Link to this heading"></a></h1>
+<section id="generelt">
+<h2>Generelt<a class="headerlink" href="#generelt" title="Link to this heading"></a></h2>
+<p>Denne vejledning fortæller, hvordan man installerer de nødvendige programmer på
+éns PC, så man kan tilgå fikspunktregisteret med Python-pakken FIRE.</p>
+<p>FIRE skal installeres fra et lokalt Git-arkiv på vores egen PC. Derfor skal vi i
+første omgang have et værktøj til at hente kildekoden fra den cenrale placering
+på GitHub.</p>
+<p>For at forbinde til databasen med fikspunktregisteret skal der også installeres
+et værktøj til at lave forbindelsen til databasen fra vores egen PC.</p>
+<p>FIRE er bygget i Python, og derfor skal der også installeres en
+Python-distribution, herunder et pakkestyringsværktøj, som kan installere
+python-pakker eller andre afhængigheder, som FIRE-programmet skal bruge.</p>
+<p>For at komme dértil skal følgende installeres fra Software Center:</p>
+<ul class="simple">
+<li><p>Versionsstyringsværktøjet Git</p></li>
+<li><p>Databaseværktøjet Oracle Instantclient</p></li>
+</ul>
+<p>Dérudover skal følgende installeres manuelt</p>
+<ul class="simple">
+<li><p>Python-distributionen MambaForge.</p></li>
+</ul>
+<p>Og gennem pakkestyringsværktøjet <cite>mamba</cite> skal de resterende afhængighederne til
+FIRE installeres.</p>
+</section>
+<section id="git">
+<h2>Git<a class="headerlink" href="#git" title="Link to this heading"></a></h2>
+<p>Installer Git fra Software Centeret. Åbn &quot;Software Center&quot; via Startmenuen. Søg
+efter &quot;git&quot; og installér det.</p>
+<a class="reference internal image-reference" href="_images/gitfrasoftwarecenter.PNG"><img alt="Git i softwarecenter" src="_images/gitfrasoftwarecenter.PNG" width="800" />
+</a>
+</section>
+<section id="oracle-instantclient">
+<h2>Oracle Instantclient<a class="headerlink" href="#oracle-instantclient" title="Link to this heading"></a></h2>
+<p>Installer Oracle instantclient fra Software Centeret. Åben &quot;Software Center&quot; via
+Startmenuen. Søg efter &quot;Oracle&quot;, der dukker flere muligheder op. Den korrekte er
+&quot;Oracle Client 19.3 KEFM-SDFE&quot;. Versionsnummeret er muligvis anderledes. Er der
+flere at vælge mellem tag da den med det højeste versionsnummer. Følg
+instruktionerne på skærmen.</p>
+<a class="reference internal image-reference" href="_images/oraclefrasoftwarecenter.PNG"><img alt="Oracle i softwarecenter" src="_images/oraclefrasoftwarecenter.PNG" width="800" />
+</a>
+</section>
+<section id="mambaforge">
+<h2>MambaForge<a class="headerlink" href="#mambaforge" title="Link to this heading"></a></h2>
+<p>FIRE er en Python applikation hvorfor vi skal have Python installeret på
+computeren for at kunne afvikle programmet. Til det bruges MambaForge, der
+inkluderer Python-fortolker og pakkestyringsværktøjet <code class="docutils literal notranslate"><span class="pre">mamba</span></code>.</p>
+<p>Under SDFIs side for Python-brugere findes en <a class="reference external" href="https://sdfidk.github.io/SDFIPython/setup.html#den-fulde-vejledning">installationsvejledning</a>. Følg
+<strong>Den fulde vejledning</strong> til du kommer til overskriften <strong>Demonstration</strong>.</p>
+<p>Når MambaForge er installeret kan du nu i Windows start-menuen finde &quot;Miniforge
+Prompt (mambaforge)&quot;. Alle efterfølgende kommandoer i denne
+installationsvejledning kan afvikles i denne terminal.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Det kan være en fordel at lave en genvej til &quot;Miniforge Prompt&quot; i Windows'
+proceslinjen (åben programmet, højreklik på ikonet i proceslinjen, vælg
+&quot;Fastgør til proceslinje&quot;).</p>
+</div>
+<p>Har du sat alle de anbefalede krydser i installations-menuerne, burde du
+imidlertid også kunne tilgå <code class="docutils literal notranslate"><span class="pre">mamba</span></code>-kommandoen fra en hvilken som helst anden
+terminal, du ønsker at bruge, da stien til <code class="docutils literal notranslate"><span class="pre">mamba</span></code> er føjet til din brugers
+PATH-miljøvariabel.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">mamba</span></code>-kommandoen gør funktionelt det samme som <code class="docutils literal notranslate"><span class="pre">conda</span></code>, men er bare
+hurtigere, end sidstnævnte. Med MambaForge-installationen er det fortsat
+muligt at skrive <code class="docutils literal notranslate"><span class="pre">conda</span></code>, da den er lavet som et alias, der peger på
+<code class="docutils literal notranslate"><span class="pre">mamba</span></code>.</p>
+<p>Programmet henter fortsat pakker fra <code class="docutils literal notranslate"><span class="pre">conda-forge</span></code>, og i en del output er
+der også fortsat henvisninger til kald med kommandoen <code class="docutils literal notranslate"><span class="pre">conda</span></code>, der som
+nævnt uden problemer kan bruges som alternativ til <code class="docutils literal notranslate"><span class="pre">mamba</span></code>, hvis man har
+lyst.</p>
+</div>
+</section>
+<section id="linux-kommandolinjevaerktojer">
+<h2>Linux kommandolinjeværktøjer<a class="headerlink" href="#linux-kommandolinjevaerktojer" title="Link to this heading"></a></h2>
+<p>Nogle af os er vant til at bruge kommandolinjen på et et Linuxsystem og mangler
+ofte kommandoer som <code class="docutils literal notranslate"><span class="pre">ls</span></code>, <code class="docutils literal notranslate"><span class="pre">cat</span></code> og <code class="docutils literal notranslate"><span class="pre">grep</span></code>. Herunder vises hvordan man kan
+få adgang til dem på sin Windows-maskine.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dette afsnit er valgfri. Hvis du klarer dig fint med kommandoudvalget under
+Windows er dette ikke nødvendigt og du kan spring til selve installationen af
+FIRE i <a class="reference internal" href="#fire-install"><span class="std std-ref">næste afsnit</span></a>.</p>
+</div>
+<p>Linuxkommandoerne følger med Git der blev installeret i et af de tidligere skridt.
+Desværre er de ikke som udgangspunkt tilgængelige i vores terminal.
+Det kan ændres ved at tilføje deres placering til miljøvariablen <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+<p>Start med at åbne start-menuen (tryk på Windows-tasten) og søg efter &quot;miljøvariable&quot;.
+Vælg derefter &quot;Rediger miljøvariable for din konto&quot; som vist herunder.</p>
+<a class="reference internal image-reference" href="_images/envvars.png"><img alt="Rediger miljøvariable for din konto" src="_images/envvars.png" width="800" />
+</a>
+<p>Herefter kommer følgende vindue frem med en oversigt over de miljøvariable der
+er sat for din konto. Dit indhold er formentligt anderledes end det der ses på
+billedet, men &quot;Path&quot; bør være der for alle.</p>
+<a class="reference internal image-reference" href="_images/path.png"><img alt="Oversigt over miljøvariable for din konto" src="_images/path.png" width="800" />
+</a>
+<p>Marker &quot;Path&quot; og tryk på &quot;Rediger..&quot;. Det resulterer i en dialogbox hvor der kan
+tilføjes mere indhold til miljøvariablen &quot;Path&quot;.</p>
+<a class="reference internal image-reference" href="_images/path_git.png"><img alt="Udvid Path-variablen med sti til kommandolinjeværktøjer" src="_images/path_git.png" width="800" />
+</a>
+<p>Tryk på &quot;Ny&quot; og indtast stien <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\Git\usr\bin</span></code>. Næste gang du
+åbner en terminal har du adgang til de mest gængse Linux-kommandoer, prøv fx med
+<code class="docutils literal notranslate"><span class="pre">ls</span></code>.</p>
+</section>
+<section id="fire">
+<h2>FIRE<a class="headerlink" href="#fire" title="Link to this heading"></a></h2>
+<p id="fire-install">Nedenfor installerer vi først afhængighederne til FIRE, og dernæst selve programmet.</p>
+<section id="byg-miljo">
+<h3>Byg miljø<a class="headerlink" href="#byg-miljo" title="Link to this heading"></a></h3>
+<p>Åbn &quot;Miniforge Prompt&quot;. Start med at lave en ny mappe til FIRE-koden og download
+den med git:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">SDFIdk</span><span class="o">/</span><span class="n">FIRE</span><span class="o">.</span><span class="n">git</span>
+<span class="n">Cloning</span> <span class="n">into</span> <span class="s1">'FIRE'</span><span class="o">...</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Enumerating</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">5692</span><span class="p">,</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Counting</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">62</span><span class="o">/</span><span class="mi">62</span><span class="p">),</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Compressing</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">43</span><span class="o">/</span><span class="mi">43</span><span class="p">),</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Total</span> <span class="mi">5692</span> <span class="p">(</span><span class="n">delta</span> <span class="mi">21</span><span class="p">),</span> <span class="n">reused</span> <span class="mi">54</span> <span class="p">(</span><span class="n">delta</span> <span class="mi">18</span><span class="p">),</span> <span class="n">pack</span><span class="o">-</span><span class="n">reused</span> <span class="mi">5630</span>
+<span class="n">Receiving</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">5692</span><span class="o">/</span><span class="mi">5692</span><span class="p">),</span> <span class="mf">27.85</span> <span class="n">MiB</span> <span class="o">|</span> <span class="mf">14.60</span> <span class="n">MiB</span><span class="o">/</span><span class="n">s</span><span class="p">,</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">Resolving</span> <span class="n">deltas</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">3518</span><span class="o">/</span><span class="mi">3518</span><span class="p">),</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">Updating</span> <span class="n">files</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">225</span><span class="o">/</span><span class="mi">225</span><span class="p">),</span> <span class="n">done</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Sørg for at den seneste version af koden bruges:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span><span class="n">cd</span> <span class="n">FIRE</span>
+<span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">git</span> <span class="n">checkout</span> <span class="n">fire</span><span class="o">-</span><span class="mf">1.11.0</span>
+</pre></div>
+</div>
+<p>Opret et isoleret miljø til FIRE (læs eventuelt mere om Python-miljøer <a class="reference external" href="https://sdfidk.github.io/SDFIPython/package.html#reproducerbar-python-miljo-opsaetning">her</a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">mamba</span> <span class="n">env</span> <span class="n">create</span> <span class="o">--</span><span class="n">file</span> <span class="n">environment</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">pkgs</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">win</span><span class="o">-</span><span class="mi">64</span>                                              <span class="n">No</span> <span class="n">change</span>
+<span class="n">pkgs</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">noarch</span>                                              <span class="n">No</span> <span class="n">change</span>
+<span class="n">pkgs</span><span class="o">/</span><span class="n">r</span><span class="o">/</span><span class="n">win</span><span class="o">-</span><span class="mi">64</span>                                                 <span class="n">No</span> <span class="n">change</span>
+<span class="n">pkgs</span><span class="o">/</span><span class="n">msys2</span><span class="o">/</span><span class="n">win</span><span class="o">-</span><span class="mi">64</span>                                             <span class="n">No</span> <span class="n">change</span>
+<span class="n">pkgs</span><span class="o">/</span><span class="n">r</span><span class="o">/</span><span class="n">noarch</span>                                                 <span class="n">No</span> <span class="n">change</span>
+<span class="n">pkgs</span><span class="o">/</span><span class="n">msys2</span><span class="o">/</span><span class="n">noarch</span>                                             <span class="n">No</span> <span class="n">change</span>
+<span class="n">conda</span><span class="o">-</span><span class="n">forge</span><span class="o">/</span><span class="n">noarch</span>                                  <span class="mf">10.8</span><span class="n">MB</span> <span class="o">@</span>   <span class="mf">3.8</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>  <span class="mf">4.2</span><span class="n">s</span>
+<span class="n">conda</span><span class="o">-</span><span class="n">forge</span><span class="o">/</span><span class="n">win</span><span class="o">-</span><span class="mi">64</span>                                  <span class="mf">18.7</span><span class="n">MB</span> <span class="o">@</span>   <span class="mf">3.2</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>  <span class="mf">8.5</span><span class="n">s</span>
+
+
+<span class="n">Looking</span> <span class="k">for</span><span class="p">:</span> <span class="p">[</span><span class="s1">'click=8.0'</span><span class="p">,</span> <span class="s1">'cx_oracle=8.3'</span><span class="p">,</span> <span class="s1">'fiona=1.8'</span><span class="p">,</span> <span class="s1">'gama=2.15'</span><span class="p">,</span> <span class="s1">'openpyxl=3.0'</span><span class="p">,</span> <span class="s1">'pandas=1.3'</span><span class="p">,</span> <span class="s1">'pyproj=3.3'</span><span class="p">,</span> <span class="s1">'python=3.9'</span><span class="p">,</span> <span class="s1">'sqlalchemy=1.4'</span><span class="p">,</span> <span class="s1">'xmltodict=0.12'</span><span class="p">]</span>
+
+
+<span class="n">Transaction</span>
+
+<span class="n">Prefix</span><span class="p">:</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">B</span><span class="o">...</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">mambaforge</span>\<span class="n">envs</span>\<span class="n">fire</span>
+
+<span class="n">Updating</span> <span class="n">specs</span><span class="p">:</span>
+
+<span class="o">-</span> <span class="n">click</span><span class="o">=</span><span class="mf">8.0</span>
+<span class="o">-</span> <span class="n">cx_oracle</span><span class="o">=</span><span class="mf">8.3</span>
+<span class="o">-</span> <span class="n">fiona</span><span class="o">=</span><span class="mf">1.8</span>
+<span class="o">-</span> <span class="n">gama</span><span class="o">=</span><span class="mf">2.15</span>
+<span class="o">-</span> <span class="n">openpyxl</span><span class="o">=</span><span class="mf">3.0</span>
+<span class="o">-</span> <span class="n">pandas</span><span class="o">=</span><span class="mf">1.3</span>
+<span class="o">-</span> <span class="n">pyproj</span><span class="o">=</span><span class="mf">3.3</span>
+<span class="o">-</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.9</span>
+<span class="o">-</span> <span class="n">sqlalchemy</span><span class="o">=</span><span class="mf">1.4</span>
+<span class="o">-</span> <span class="n">xmltodict</span><span class="o">=</span><span class="mf">0.12</span>
+
+
+<span class="n">Package</span>                           <span class="n">Version</span>  <span class="n">Build</span>               <span class="n">Channel</span>                  <span class="n">Size</span>
+<span class="o">------------------------------------------------------------------------------------------------</span>
+<span class="n">Install</span><span class="p">:</span>
+<span class="o">------------------------------------------------------------------------------------------------</span>
+
+<span class="o">+</span> <span class="n">attrs</span>                            <span class="mf">22.2.0</span>  <span class="n">pyh71513ae_0</span>        <span class="n">conda</span><span class="o">-</span><span class="n">forge</span><span class="o">/</span><span class="n">noarch</span>       <span class="mi">54</span><span class="n">kB</span>
+<span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="o">+</span> <span class="n">zstd</span>                              <span class="mf">1.5.2</span>  <span class="n">h7755175_4</span>          <span class="n">conda</span><span class="o">-</span><span class="n">forge</span><span class="o">/</span><span class="n">win</span><span class="o">-</span><span class="mi">64</span>     <span class="n">Cached</span>
+
+<span class="n">Summary</span><span class="p">:</span>
+
+<span class="n">Install</span><span class="p">:</span> <span class="mi">106</span> <span class="n">packages</span>
+
+<span class="n">Total</span> <span class="n">download</span><span class="p">:</span> <span class="mi">121</span><span class="n">MB</span>
+
+<span class="o">------------------------------------------------------------------------------------------------</span>
+
+<span class="n">python_abi</span>                                           <span class="mf">6.1</span><span class="n">kB</span> <span class="o">@</span> <span class="mf">106.3</span><span class="n">kB</span><span class="o">/</span><span class="n">s</span>  <span class="mf">0.1</span><span class="n">s</span>
+<span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">libspatialite</span>                                       <span class="mf">12.0</span><span class="n">MB</span> <span class="o">@</span>   <span class="mf">1.8</span><span class="n">MB</span><span class="o">/</span><span class="n">s</span>  <span class="mf">2.3</span><span class="n">s</span>
+<span class="n">Preparing</span> <span class="n">transaction</span><span class="p">:</span> <span class="n">done</span>
+<span class="n">Verifying</span> <span class="n">transaction</span><span class="p">:</span> <span class="n">done</span>
+<span class="n">Executing</span> <span class="n">transaction</span><span class="p">:</span> <span class="n">done</span>
+<span class="c1">#</span>
+<span class="c1"># To activate this environment, use</span>
+<span class="c1">#</span>
+<span class="c1">#     $ conda activate fire</span>
+<span class="c1">#</span>
+<span class="c1"># To deactivate an active environment, use</span>
+<span class="c1">#</span>
+<span class="c1">#     $ conda deactivate</span>
+</pre></div>
+</div>
+<p>Efter endt installation har du nu et miljø kaldet <code class="docutils literal notranslate"><span class="pre">fire</span></code>, som du kan aktivere
+med <code class="docutils literal notranslate"><span class="pre">mamba</span></code> eller, som der står i output ovenfor, <code class="docutils literal notranslate"><span class="pre">conda</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">conda</span> <span class="n">activate</span> <span class="n">fire</span>
+<span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Bemærk, at der efter aktiveringen står <code class="docutils literal notranslate"><span class="pre">(fire)</span></code>  i starten af
+kommandolinjeprompten.</p>
+<p>Bruger du terminalen <strong>Miniforge Prompt</strong>, så bemærk, at <code class="docutils literal notranslate"><span class="pre">(base)</span></code>-miljøet
+skifter til <code class="docutils literal notranslate"><span class="pre">(fire)</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">(base)</span></code>-miljøet er som udgangspunkt kun automatisk aktiveret i
+<strong>Miniforge Prompt</strong>-terminalen.</p>
+</div>
+</section>
+<section id="konfigurationsfil">
+<h3>Konfigurationsfil<a class="headerlink" href="#konfigurationsfil" title="Link to this heading"></a></h3>
+<p>For at FIRE kan forbinde til databasen er det nødvendigt at tilføje en
+<a class="reference internal" href="konfiguration.html#konfigurationsfil"><span class="std std-ref">konfigurationsfil</span></a> til systemet hvori adgangsinformation
+til databasen er registreret. Placer den i mappen <code class="docutils literal notranslate"><span class="pre">C:\Users\&lt;brugernavn&gt;</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Tag fat i en kollega for at få oplyst brugernavn, adgangskode osv.</p>
+</div>
+</section>
+<section id="id2">
+<h3>Installation<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>Med konfigurationsfilen på plads kan vi nu installere FIRE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+<span class="n">Obtaining</span> <span class="n">file</span><span class="p">:</span><span class="o">///</span><span class="n">C</span><span class="p">:</span><span class="o">/</span><span class="n">FIRE</span>
+<span class="n">Preparing</span> <span class="n">metadata</span> <span class="p">(</span><span class="n">setup</span><span class="o">.</span><span class="n">py</span><span class="p">)</span> <span class="o">...</span> <span class="n">done</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">cx_Oracle</span><span class="o">&gt;=</span><span class="mf">7.0</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">b</span><span class="o">...</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">mambaforge</span>\<span class="n">envs</span>\<span class="n">fire</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span><span class="w"> </span><span class="nn">fire</span><span class="o">==</span><span class="mf">1.5.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">8.3.0</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">sqlalchemy</span><span class="o">&gt;=</span><span class="mf">1.2.13</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">b</span><span class="o">...</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">mambaforge</span>\<span class="n">envs</span>\<span class="n">fire</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span><span class="w"> </span><span class="nn">fire</span><span class="o">==</span><span class="mf">1.5.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">1.4.46</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">click</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">b</span><span class="o">...</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">mambaforge</span>\<span class="n">envs</span>\<span class="n">fire</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span><span class="w"> </span><span class="nn">fire</span><span class="o">==</span><span class="mf">1.5.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">8.0.4</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">click_plugins</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">b</span><span class="o">...</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">mambaforge</span>\<span class="n">envs</span>\<span class="n">fire</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span><span class="w"> </span><span class="nn">fire</span><span class="o">==</span><span class="mf">1.5.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">1.1.1</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">greenlet</span><span class="o">!=</span><span class="mf">0.4.17</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">b</span><span class="o">...</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">mambaforge</span>\<span class="n">envs</span>\<span class="n">fire</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="o">&gt;=</span><span class="mf">1.2.13</span><span class="o">-&gt;</span><span class="n">fire</span><span class="o">==</span><span class="mf">1.5.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">2.0.1</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">colorama</span> <span class="ow">in</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">b</span><span class="o">...</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">mambaforge</span>\<span class="n">envs</span>\<span class="n">fire</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span><span class="w"> </span><span class="nn">click</span><span class="o">-&gt;</span><span class="n">fire</span><span class="o">==</span><span class="mf">1.5.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">0.4.6</span><span class="p">)</span>
+<span class="n">Installing</span> <span class="n">collected</span> <span class="n">packages</span><span class="p">:</span> <span class="n">fire</span>
+<span class="n">Running</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">develop</span> <span class="k">for</span> <span class="n">fire</span>
+<span class="n">Successfully</span> <span class="n">installed</span> <span class="n">fire</span><span class="o">-</span><span class="mf">1.5.0</span>
+</pre></div>
+</div>
+<p>Bekræft at installation er gennemført korrekt</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">fire</span> <span class="o">--</span><span class="n">version</span>
+<span class="n">fire</span><span class="p">,</span> <span class="n">version</span> <span class="mf">1.11.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Tip: Da <code class="docutils literal notranslate"><span class="pre">mamba</span></code> er tilgængeligt lige meget, hvilken mappe, du står i med
+terminalen, er du også uafhængig af mappe-placering, når du skal aktivere
+<code class="docutils literal notranslate"><span class="pre">fire</span></code>.</p>
+<p>Du kan med andre ord starte i dén mappe, du arbejder i og køre
+aktiverings-kommandoen herfra.</p>
+</div>
+</section>
+<section id="opdatering">
+<span id="id3"></span><h3>Opdatering<a class="headerlink" href="#opdatering" title="Link to this heading"></a></h3>
+<p>Ved opdatering til en ny version af FIRE køres følgende kommandoer
+fra et nyligt åbnet terminalvindue:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span><span class="n">cd</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span>
+<span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">mamba</span> <span class="n">activate</span> <span class="n">fire</span>
+<span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>
+<span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">git</span> <span class="n">checkout</span> <span class="n">fire</span><span class="o">-</span><span class="mf">1.11.0</span>
+<span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">mamba</span> <span class="n">env</span> <span class="n">update</span> <span class="o">--</span><span class="n">file</span> <span class="n">environment</span><span class="o">.</span><span class="n">yml</span>
+</pre></div>
+</div>
+<p>Måske får du undervejs en advarsel om, at <code class="docutils literal notranslate"><span class="pre">mamba</span></code>/<code class="docutils literal notranslate"><span class="pre">conda</span></code> skal opdateres:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>==&gt; WARNING: A newer version of conda exists. &lt;==
+  current version: 4.5.11
+  latest version: 4.6.4
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+</pre></div>
+</div>
+<p>Gør som foreslået og kør kommandoen <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">update</span> <span class="pre">-n</span> <span class="pre">base</span> <span class="pre">-c</span> <span class="pre">defaults</span>
+<span class="pre">conda</span></code>.</p>
+</section>
+<section id="afinstallering">
+<h3>Afinstallering<a class="headerlink" href="#afinstallering" title="Link to this heading"></a></h3>
+<p>Det kan i visse tilfælde være nødvendigt at afinstallere FIRE. Det gøres i
+praksis ved at fjerne miljøet <code class="docutils literal notranslate"><span class="pre">fire</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span><span class="n">mamba</span> <span class="n">env</span> <span class="n">remove</span> <span class="o">-</span><span class="n">n</span> <span class="n">fire</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Hvis <code class="docutils literal notranslate"><span class="pre">fire</span></code>-miljøet er aktiveret, skal det først deaktivers før det er
+muligt at slette det. Gøres med kommandoen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span><span class="n">mamba</span> <span class="n">deactivate</span>
+</pre></div>
+</div>
+</div>
+<p>Herefter fjernes git repositoriet med FIRE kildekoden:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="o">&gt;</span><span class="n">rmdir</span> <span class="o">/</span><span class="n">s</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="konfiguration.html" class="btn btn-neutral float-left" title="Konfigurationsfil" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="datamodel.html" class="btn btn-neutral float-right" title="FIREs Datamodel" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

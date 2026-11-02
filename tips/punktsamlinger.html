@@ -1,0 +1,485 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arbejde med højdetidsserier og punktsamlinger i FIRE &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Angivelse af nye default værdier" href="overridedefaults.html" />
+    <link rel="prev" title="Genfinding af tabtgået fikspunkt" href="genfundet.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/index.html">Kommandolinjeprogrammer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tips og tricks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tabsmelding.html">Tabsmelding af fikspunkter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="genfundet.html">Genfinding af tabtgået fikspunkt</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Arbejde med højdetidsserier og punktsamlinger i FIRE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vedligehold-af-punktsamlinger-og-tidsserier">Vedligehold af punktsamlinger og tidsserier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opret-ny-punktsamling">Opret ny punktsamling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#opret-nyt-jessennummer">Opret nyt jessennummer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#opret-ny-tidsserie-i-en-punktsamling">Opret ny tidsserie i en punktsamling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rediger-eksisterende-punktsamlinger-og-tidsserier">Rediger eksisterende punktsamlinger og tidsserier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opdatering-af-hojdetidsserier">Opdatering af højdetidsserier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#skift-af-jessenpunkt">Skift af jessenpunkt</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#quick-n-dirty">Quick'N'Dirty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#den-stringente">Den stringente</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overridedefaults.html">Angivelse af nye default værdier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interaktivmode.html">Anvendelse af interaktiv mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tips og tricks</a></li>
+      <li class="breadcrumb-item active">Arbejde med højdetidsserier og punktsamlinger i FIRE</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tips/punktsamlinger.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="arbejde-med-hojdetidsserier-og-punktsamlinger-i-fire">
+<span id="punktsamlinger"></span><h1>Arbejde med højdetidsserier og punktsamlinger i FIRE<a class="headerlink" href="#arbejde-med-hojdetidsserier-og-punktsamlinger-i-fire" title="Link to this heading"></a></h1>
+<p>En højdetidsserie er en samling af koter, som alle er målt til det samme punkt til
+forskellige tidspunkter, og som er givet i det samme <em>højdesystem</em>. Når hver kote i
+tidsserien er beregnet ved fastholdelse af det samme punkt og kote kaldes koterne i
+tidsserien for <em>jessenkoter</em> og tidsseriens højdesystem siges at være et <em>lokalt
+højdesystem</em>. Det fastholdte punkt kaldes for <em>jessenpunktet</em> og jessenpunktets fastholdte
+kote kaldes <em>referencekoten</em>.</p>
+<p>En samling af højdetidsserier, som alle har samme jessenpunkt og referencekote, kaldes en
+<em>punktsamling</em> eller <em>punktgruppe</em>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Vær opmærksom at højdetidsseriernes jessenkoter ofte bare kaldes koter. Tilsvarende kaldes
+referencekoten ofte bare for <em>jessenkoten</em>!</p>
+</div>
+<p>Arbejdet med højdetidsserier kan inddeles i kategorierne vedligehold og analyse.
+Vedligehold af tidsserier indebærer primært opmåling af punktgrupper og efterfølgende
+beregning af nye koter til tidsserierne. Når nye punkter etableres, fx fordi et andet
+punkt i punktgruppen er gået tabt eller en ny sikringsgruppe skal anlægges, vil der også
+ligge noget vedligehold i at indmåle punkterne og efterfølgende oprette nye tidsserier i
+databasen.</p>
+<p>Højdetidsserieanalyse bruges som værktøj til at støtte op om beslutninger angående den
+geodætiske infrastruktur. Analyserne foretages på baggrund af det data som ligger i FIRE
+og gør det muligt at identificere lokale bevægelser af punkterne i punktgruppen. Dette
+bruges igen til fx at dokumentere stabiliteten af vores CORS-stationer, eller træffe
+beslutning om hvorvidt et 5D-punkt skal indgå i en geoidetilpasning.</p>
+<p>Man bruger programmet <a class="reference internal" href="../apps/ts.html#fire-ts-analyse-hts"><span class="std std-ref">fire ts analyse-hts</span></a> til at analysere Højdetidsserier.
+Programmet fungerer i høj grad på samme måde som programmet til GNSS-tidsserier. For
+detaljer om beregningen af lineære fit og statistiske parametre henvises derfor til
+beskrivelsen af <a class="reference internal" href="../apps/ts.html#fire-ts-analyse-gnss"><span class="std std-ref">fire ts analyse-gnss</span></a>.</p>
+<p>De følgende afsnit gennemgår nogle typiske vedligeholdelsesopgaver som FIRE nu
+understøtter, herunder:</p>
+<ul class="simple">
+<li><p>at oprette og lukke punktgrupper</p></li>
+<li><p>tilføje nye punkter til punktgrupper</p></li>
+<li><p>beregne og indsætte nye koter til tidsserier</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Der er ikke ændret noget ved det almindelige nivellement-workflow. Det er altså ikke
+nødvendigt at læse videre hvis man ikke har brug for at arbejde med tidsserier!</p>
+</div>
+<section id="vedligehold-af-punktsamlinger-og-tidsserier">
+<span id="ts-vedligehold"></span><h2>Vedligehold af punktsamlinger og tidsserier<a class="headerlink" href="#vedligehold-af-punktsamlinger-og-tidsserier" title="Link to this heading"></a></h2>
+<p>Vedligehold og opdatering af punktgrupper og højdetidsserier er indbygget i
+<a class="reference internal" href="../apps/niv.html#kommandolinjeprogrammer-niv"><span class="std std-ref">fire niv</span></a>-modulet. Før man begiver sig ud i at vedligeholde
+tidsserier i FIRE, anbefales det derfor at man er bekendt med den almindelige
+funktionalitet som <strong>niv</strong>-modulet tilbyder. Det vil bl.a. sige at man bør være
+komfortabel med at arbejde med nivellement-sager i <strong>niv</strong>-modulets sagsregneark.</p>
+<p>Funktionaliteten i sagsregnearket er blevet udvidet med fanerne <strong>Punktgruppe</strong> og
+<strong>Højdetidsserier</strong>. Disse faner oprettes først ved kald af én af kommandoerne <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">niv</span>
+<span class="pre">opret-punktsamling</span></code> eller <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">niv</span> <span class="pre">udtræk-punktsamling</span></code>.</p>
+<p>En oversigt og forklaring af de to faners indhold ses nedenfor. Bemærk at indholdet i
+tabellerne blot er test-eksempler.</p>
+<blockquote>
+<div><img alt="../_images/eksempel_punktgruppe.png" src="../_images/eksempel_punktgruppe.png" />
+</div></blockquote>
+<div class="line-block">
+<div class="line"><strong>Punktgruppenavn</strong>: Punktgruppens navn. Skal være unikt. Default-formen er <code class="docutils literal notranslate"><span class="pre">PUNKTSAMLING_&lt;jessennr&gt;</span></code></div>
+<div class="line"><strong>Jessenpunkt</strong>: Punkgruppens jessenpunkt, angivet med dets kanoniske ident.</div>
+<div class="line"><strong>Jessennummer</strong>: Punkgruppens jessenpunkt, angivet med dets Jessennummer.</div>
+<div class="line"><strong>Jessenkote</strong>: Punktgruppens referencekote.</div>
+<div class="line"><strong>Formål</strong>: Fritekstfelt, som angiver punktgruppens formål.</div>
+</div>
+<blockquote>
+<div><img alt="../_images/eksempel_h%C3%B8jdetidsserie.png" src="../_images/eksempel_h%C3%B8jdetidsserie.png" />
+</div></blockquote>
+<div class="line-block">
+<div class="line"><strong>Punktgruppenavn</strong>: Punktgruppen, som højdetidsserien hører under.</div>
+<div class="line"><strong>Punkt</strong>: Højdetidsseriens punkt.</div>
+<div class="line"><strong>Er Jessenpunkt</strong>: Angiver om tidsserien tilhører punktgruppens jessenpunkt. Denne
+kolonne er til ren information og kan hjælpe med at danne overblik, når listen af
+højdetidsserier er lang.</div>
+<div class="line"><strong>Tidsserienavn</strong>: Højdetidsseriens navn. Skal være unikt. Default-formen er <code class="docutils literal notranslate"><span class="pre">&lt;ident&gt;_HTS_&lt;jessennr&gt;</span></code></div>
+<div class="line"><strong>Formål</strong>: Fritekstfelt, som angiver højdetidsserierns formål.</div>
+<div class="line"><strong>System</strong>: Tidsseriens højdesystem.</div>
+</div>
+</section>
+<section id="opret-ny-punktsamling">
+<span id="opret-ps"></span><h2>Opret ny punktsamling<a class="headerlink" href="#opret-ny-punktsamling" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Opret ny sag og tilhørende sagsark:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">opret</span><span class="o">-</span><span class="n">sag</span> <span class="n">MIN_SAG</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Opret punktsamling i sagsarket og rediger oplysningerne</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">opret</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span> <span class="o">--</span><span class="n">jessenpunkt</span> <span class="mi">81999</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Hvis jessenpunktet ikke har et jessennummer skal det oprettes først. Se <a class="reference internal" href="#opret-jessenpunkt"><span class="std std-ref">Opret nyt jessennummer</span></a>.</p>
+</div>
+<p>Der oprettes herefter to nye faner i sagsarket: <strong>Punktgruppe</strong> og <strong>Højdetidsserier</strong>.
+Oplysningerne i de to faner redigeres indtil man er klar til at lægge dem i databasen.</p>
+<ul>
+<li><p>Rediger punktgruppe-fanen</p>
+<p>Det er muligt at redigere i punktgruppenavnet og formål. Det anbefales dog at beholde
+default-navnet <code class="docutils literal notranslate"><span class="pre">PUNKTSAMLING_81xxx</span></code></p>
+<img alt="../_images/opret_punktgruppe_f%C3%B8r.png" src="../_images/opret_punktgruppe_f%C3%B8r.png" />
+<img alt="../_images/opret_punktgruppe_efter.png" src="../_images/opret_punktgruppe_efter.png" />
+</li>
+<li><p>Rediger højdetidsserier-fanen</p>
+<p>Den første tidsserie tilhører jessenpunktet og oprettes i arket automatisk. Per
+definition er den konstant (den indeholder kun referencekoten), og er som sådan ret
+intetsigende. Dog er den af tekniske årsager nødvendig.</p>
+<img alt="../_images/opret_h%C3%B8jdetidsserie_f%C3%B8r.png" src="../_images/opret_h%C3%B8jdetidsserie_f%C3%B8r.png" />
+<ul class="simple">
+<li><p>Tilføj de ønskede punkter. Husk at angive punktgruppen i første kolonne.</p></li>
+<li><p>Giv tidsserierne et sigende navn. Det anbefales kraftigt at bruge default-formen
+<code class="docutils literal notranslate"><span class="pre">&lt;ident&gt;_HTS_&lt;jessennummer&gt;</span></code></p></li>
+</ul>
+<img alt="../_images/opret_h%C3%B8jdetidsserie_efter.png" src="../_images/opret_h%C3%B8jdetidsserie_efter.png" />
+</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<div class="line-block">
+<div class="line">For at spare lidt tid med at indtaste værdierne i højdetidsserier-fanen kan man med
+fordel bruge parameteren <code class="docutils literal notranslate"><span class="pre">--punkter</span></code>:</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">opret</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span> <span class="o">--</span><span class="n">jessenpunkt</span> <span class="mi">81999</span> <span class="o">--</span><span class="n">punkter</span> <span class="n">SKEJ</span><span class="p">,</span><span class="n">RDIO</span><span class="p">,</span><span class="n">RDO1</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">hvilket resulterer i flg:</div>
+</div>
+<img alt="../_images/opret_h%C3%B8jdetidsserie_tip.png" src="../_images/opret_h%C3%B8jdetidsserie_tip.png" />
+<div class="line-block">
+<div class="line">Dette virker også med udtræk af punktsamlinger:</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">udtræk</span><span class="o">-</span><span class="n">punksamling</span> <span class="n">MIN_SAG</span> <span class="o">--</span><span class="n">jessenpunkt</span> <span class="mi">81999</span> <span class="o">--</span><span class="n">punkter</span> <span class="n">SKEJ</span><span class="p">,</span><span class="n">RDIO</span><span class="p">,</span><span class="n">RDO1</span>
+</pre></div>
+</div>
+</div>
+<ul>
+<li><p>Til sidst lægges punktsamling og højdetidsserier i databasen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">tidsserie</span> <span class="n">MIN_SAG</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<section id="opret-nyt-jessennummer">
+<span id="opret-jessenpunkt"></span><h3>Opret nyt jessennummer<a class="headerlink" href="#opret-nyt-jessennummer" title="Link to this heading"></a></h3>
+<p>Før et punkt kan blive brugt som jessenpunkt, skal punktet have et jessennummer.  Dette
+gøres ved at indsætte attributten <code class="docutils literal notranslate"><span class="pre">NET:jessen</span></code> og angive det nye jessennummer med
+<code class="docutils literal notranslate"><span class="pre">IDENT:jessen</span></code> via de gængse kommandoer <a class="reference internal" href="../apps/niv.html#udtraek-revision"><span class="std std-ref">fire niv udtræk-revision</span></a> og <a class="reference internal" href="../apps/niv.html#ilaeg-revision"><span class="std std-ref">fire niv ilæg-revision</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Bemærk at jessennummeret skal være unikt (der må ikke være andre punkter med samme
+jessennummer). Som det er nu skal man selv indtaste det nye jessennummer. En oversigt
+over alle punktsamlinger og de tilhørende jessennumre som allerede er i brug kan fås med
+<a class="reference internal" href="../apps/info.html#info-punktsamling"><span class="std std-ref">fire info punktsamling</span></a>.</p>
+</div>
+</section>
+</section>
+<section id="opret-ny-tidsserie-i-en-punktsamling">
+<span id="opret-ts"></span><h2>Opret ny tidsserie i en punktsamling<a class="headerlink" href="#opret-ny-tidsserie-i-en-punktsamling" title="Link to this heading"></a></h2>
+<p>For at oprette en ny tidsserie i en punktsamling gøres følgende:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">udtræk</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span> <span class="o">--</span><span class="n">punktsamlingsnavn</span> <span class="n">PUNKTSAMLING_81999</span> <span class="o">--</span><span class="n">punkter</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.1703</span>
+</pre></div>
+</div>
+<p>hvor <code class="docutils literal notranslate"><span class="pre">--punkter</span></code> angiver en kommasepareret liste, af de punkter som skal have en ny
+tidsserie.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Hvis man i sagsarket allerede har indlæst punkter med <code class="docutils literal notranslate"><span class="pre">læs-observationer</span></code> eller
+<code class="docutils literal notranslate"><span class="pre">udtræk-observationer</span></code>, således at fanen <strong>Punktoversigt</strong> er til stede, så kan man
+med parameteren <code class="docutils literal notranslate"><span class="pre">--punktoversigt</span></code> fortælle programmet, at det skal oprette nye
+tidsserier for alle punkterne i punktoversigten. Fx:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">udtræk</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span> <span class="o">--</span><span class="n">punktsamlingsnavn</span> <span class="n">PUNKTSAMLING_81999</span> <span class="o">--</span><span class="n">punktoversigt</span>
+</pre></div>
+</div>
+</div>
+<img alt="../_images/udtr%C3%A6k_h%C3%B8jdetidsserie_f%C3%B8r.png" src="../_images/udtr%C3%A6k_h%C3%B8jdetidsserie_f%C3%B8r.png" />
+<p>Herefter kan formål for tidsserien rettes i fanen Højdetidsserier. Som det også er beskrevet under
+<a class="reference internal" href="#opret-ps"><span class="std std-ref">Opret ny punktsamling</span></a>, så anbefales det at man så vidt muligt bruger tidsseriens
+default-navn: <code class="docutils literal notranslate"><span class="pre">&lt;ident&gt;_HTS_&lt;jessennummer&gt;</span></code></p>
+<img alt="../_images/udtr%C3%A6k_h%C3%B8jdetidsserie_efter.png" src="../_images/udtr%C3%A6k_h%C3%B8jdetidsserie_efter.png" />
+<p>Når man er tilfreds, lægges rettelserne i databasen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">tidsserie</span> <span class="n">MIN_SAG</span>
+</pre></div>
+</div>
+</section>
+<section id="rediger-eksisterende-punktsamlinger-og-tidsserier">
+<h2>Rediger eksisterende punktsamlinger og tidsserier<a class="headerlink" href="#rediger-eksisterende-punktsamlinger-og-tidsserier" title="Link to this heading"></a></h2>
+<p>Der er begrænset mulighed for at redigere metadata for punktsamlinger og tidsserier, idet
+kun formålet kan redigeres.
+Idet det antages at der er oprettet en sag i forvejen, gøres følgende:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">udtræk</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span> <span class="n">PUNKTSAMLING_81999</span>
+</pre></div>
+</div>
+<p>Rediger formål for punktsamlinger og tidsserier i sagsarket. Derefter ilægges ændringerne:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">tidsserie</span> <span class="n">MIN_SAG</span>
+</pre></div>
+</div>
+</section>
+<section id="opdatering-af-hojdetidsserier">
+<span id="opdater-ts"></span><h2>Opdatering af højdetidsserier<a class="headerlink" href="#opdatering-af-hojdetidsserier" title="Link to this heading"></a></h2>
+<p>Opdatering af tidsseriekoter følger overordnet samme fremgangsmåde som ved opdatering af
+almindelige DVR90-koter, med få undtagelser.</p>
+<p>Det følgende springer let over de dele af beregningsflowet som der ikke er ændringer til,
+og med nedslag de steder hvor der er undtagelser.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">opret</span><span class="o">-</span><span class="n">sag</span> <span class="n">MIN_SAG</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">læs</span><span class="o">-</span><span class="n">observationer</span> <span class="n">MIN_SAG</span> <span class="o">--</span><span class="n">kotesystem</span> <span class="n">Jessen</span>
+</pre></div>
+</div>
+<p>Normalt opbygges Punktoversigten med <code class="docutils literal notranslate"><span class="pre">læs-observationer</span></code> ved anvendelse af hvert
+observeret Punkts seneste <em>DVR90-kote</em>. Ved anvendelse af det nye flag <code class="docutils literal notranslate"><span class="pre">--kotesystem</span>
+<span class="pre">Jessen</span></code> fortæller man nu programmet, at Punktoversigten skal opbygges ved hjælp af hvert
+Punkts seneste <em>jessenkote</em> i stedet. Denne kote bliver brugt til at vise koteændringer og
+opløft, når man har lavet en beregning.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Her skal man lige være opmærksom. Det er nemlig muligt for et punkt at indgå i flere
+Punktsamlinger (med forskellige jessenpunkter) og dermed have flere Højdetidsserier. <em>Den viste kote er den nyeste
+jessenkote iblandt alle punktets Højdetidsserier.</em> Dette kan lede til at koteændring og
+opløft senere kan komme til at se lidt underlige ud. Der er senere, i <code class="docutils literal notranslate"><span class="pre">regn</span></code>, mulighed for at få
+plottet tidsserierne med de nyberegnede koter vist i forlængelse.</p>
+<p>Det kan desuden ske, at man har opmålt nogle punkter, som slet ikke har en
+Højdetidsserie. I dette tilfælde vil de se ud på samme måde som nyetablerede punkter,
+altså med kote og spredning u-udfyldt.</p>
+</div>
+<p>Herefter skal man vælge et fastholdt punkt og dertil en fastholdt kote. <em>Dette skal være
+et registreret jessenpunkt og referencekote</em>. Dette gøres ved først at udtrække
+punktsamlingen, som er blevet opmålt:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">udtræk</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">MIN_SAG</span> <span class="o">--</span><span class="n">punktsamlingsnavn</span> <span class="s2">"PUNKTSAMLING_81xxx"</span>
+</pre></div>
+</div>
+<p>Resultaterne af udtrækningen skrives til sagsarket i to nye faner <strong>Punktgruppe</strong> og
+<strong>Højdetidsserier</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>I <code class="docutils literal notranslate"><span class="pre">udtræk-punktsamling</span></code> kan du i stedet for  <code class="docutils literal notranslate"><span class="pre">--punktsamlingsnavn</span> <span class="pre">&quot;PUNKTSAMLING_81xxx&quot;</span></code>,
+vælge at bruge <code class="docutils literal notranslate"><span class="pre">--jessenpunkt</span> <span class="pre">81xxx</span></code></p>
+<p>Dette udtrækker alle Punktsamlinger der har punktet 81xxx som jessenpunkt. Man behøver
+desuden ikke at bruge jessenpunktets jessennummer. Alle jessenpunktets gyldige IDENT'er
+kan bruges, herunder lands- og GI-nummer.</p>
+</div>
+<p>Herefter sættes, som ved en normal beregning, et &quot;x&quot; ved jessenpunktet som skal fastholdes, og <em>ved
+jessenpunktets kote skriver man den jessenkote som står i Punkgruppe-fanen.</em></p>
+<img alt="../_images/inds%C3%A6t_jessenkote.gif" src="../_images/inds%C3%A6t_jessenkote.gif" />
+<p>Når man har valgt et fastholdt jessenpunkt og referencekote, kører man beregningerne som man plejer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># kontrol</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">regn</span>
+<span class="c1"># endelig</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">regn</span>
+</pre></div>
+</div>
+<p>Hvis man vil, er der tilføjet parameteren <code class="docutils literal notranslate"><span class="pre">--plot</span></code> til <code class="docutils literal notranslate"><span class="pre">regn</span></code> kommandoen. Denne
+giver mulighed for at se et plot af de tidsserier man har udtrukket, med de nyberegnede
+koter vist i forlængelse. Det skal understreges, at kun de tidsserier som fremgår af fanen
+<strong>Højdetidsserier</strong> vil blive plottet. Punkter i beregningen, som ikke har en
+højdetidsserie, og som derfor ikke fremgår af fanen <strong>Højdetidsserier</strong>, vil altså ikke
+blive plottet.</p>
+<p>Beregningen afsluttes også som man plejer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">observationer</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">nye</span><span class="o">-</span><span class="n">koter</span>
+</pre></div>
+</div>
+<p>Der er ikke nye inputs til disse to kommandoer.</p>
+<p><strong>Vigtigt:</strong> <code class="docutils literal notranslate"><span class="pre">ilæg-nye-koter</span></code> kigger nu på kolonnen <strong>System</strong> i fanen <strong>Endelig beregning</strong>. Hvis der her står &quot;Jessen&quot;, så
+prøver programmet at finde en Højdetidsserie ovre i <strong>Højdetidsserier</strong>-fanen, som koten skal knyttes
+til. Hvis der ikke kan findes en højdetidsserie for et punkt, vil programmet brokke sig. Man kan
+derefter gøre én af to ting:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Oprette tidsserier for de punkter som ikke har én, i den korrekte punktsamling. (Se
+beskrivelse i <a class="reference internal" href="#opret-ts"><span class="std std-ref">Opret ny tidsserie i en punktsamling</span></a>. Brug i <code class="docutils literal notranslate"><span class="pre">udtræk-punktsamling</span></code> med fordel
+parameteren <code class="docutils literal notranslate"><span class="pre">--punktoversigt</span></code>.)</p></li>
+<li><p>Udelade publikation. Sæt &quot;x&quot; i kolonnen ud for de pågældende punkter</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="skift-af-jessenpunkt">
+<h2>Skift af jessenpunkt<a class="headerlink" href="#skift-af-jessenpunkt" title="Link to this heading"></a></h2>
+<p>Sommetider er det nødvendigt at udskifte jessenpunktet for en punktsamling. Det kan fx være fordi
+jessenpunktet konstateres ustabilt eller at jessenpunktet er gået tabt.</p>
+<p>Der findes to måder at dette kan udføres på: en quick'n'dirty (transformation) og en stringent (genberegning).</p>
+<section id="quick-n-dirty">
+<h3>Quick'N'Dirty<a class="headerlink" href="#quick-n-dirty" title="Link to this heading"></a></h3>
+<p>Den hurtige og beskidte metode er til hurtige ad hoc beregninger eller analyser, hvor man
+&quot;transformerer&quot; tidsseriekoterne fra det gamle, lokale højdesystem til det nye, lokale højdesystem.</p>
+<p>Dette er fx praktisk i tilfældet hvor to tidsserier har forskellige bevægelser ift.
+jessenpunktet. Her kan det være svært rent grafisk at anskue de to punkters bevægelse ift.
+hinanden, hvorfor det kan hjælpe at ophøje det ene punkt til jessenpunkt, hvis bevægelse i
+sit eget system pr. definition er 0.</p>
+<p>Der tages udgangspunkt i den &quot;gamle&quot; tidsserie for det punkt som skal være det nye
+jessenpunkt. <em>Denne tidsserie trækkes simpelthen bare fra de andre tidsserier i
+punktsamlingen</em>. Dette kræver at tidsserierne er beregnet til de samme tidspunkter som det
+nye jessenpunkt.</p>
+<p>Denne operation er faktisk ikke <em>så</em> dirty, idet det faktisk giver de samme koter som
+hvis man lavede en genberegning med et nyt fastholdt jessenpunkt. Dog vil de estimerede
+spredninger ikke blive transformeret, hvorfor denne metode ikke bør (eller kan) anvendes til
+tidsserier som skal lægges i databasen.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dette er pt. ikke implementeret i FIRE. Vil man anvende denne metode kan det relativt
+let gøres ved at udtrække de tidsserier man er interesseret i med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">ts</span> <span class="pre">hts</span></code>, og
+derefter selv trække tidsserierne fra hinanden, eksempelvis i excel.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Vil man være endnu mere dirty, så kan man interpolere imellem
+tidspunkterne i det nye jessenpunkts tidsserie for at kunne transformere data til de
+tidspunkter hvor tidsserien for det nye jessenpunkt ikke er blevet beregnet.</p>
+</div>
+</section>
+<section id="den-stringente">
+<h3>Den stringente<a class="headerlink" href="#den-stringente" title="Link to this heading"></a></h3>
+<p>I FIREs datamodel, er jessenpunktet definerende for en punktsamling, og derfor kan man
+principielt ikke <em>skifte</em> jessenpunktet. Dog er det muligt at oprette en ny punktsamling
+med det nye jessenpunkt, og som indeholder de samme punkter som den gamle punktsamling.</p>
+<p>Derefter er det nødvendigt at genberegne tidsserierne, skridt for skridt, og ved hvert
+skridt anvende det samme sæt af observationer som blev brugt til de gamle tidsserier, og
+selvfølgelig med fastholdelse af det nye jessenpunkt.</p>
+<p>For at kunne genskabe alle tidsskridt i de gamle tidsserier kræves at det nye jessenpunkt
+har været opmålt i de samme kampagner som det gamle jessenpunkt.</p>
+<p><strong>Fremgangsmåde:</strong></p>
+<ol class="arabic simple">
+<li><p>Giv nyt jessenpunkt et jessennummer med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">niv</span> <span class="pre">udtræk-revision</span></code> og <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">niv</span> <span class="pre">ilæg-revision</span></code></p></li>
+<li><p>Opret ny punktsamling med det nye jessenpunkt</p></li>
+<li><p>Tilføj punkter og tidsserier til punktsamlingen</p></li>
+<li><dl class="simple">
+<dt>For hver tidspunkt i de gamle tidsserier:</dt><dd><ul class="simple">
+<li><p>Udtræk relevante observationer</p></li>
+<li><p>Følg det gængse niv-workflow for beregning og ilægning af tidsseriekoter, som
+beskrevet i <a class="reference internal" href="#opdater-ts"><span class="std std-ref">Opdatering af højdetidsserier</span></a></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Step 2-3 gøres nemmest ved at udtrække den gamle punktsamling med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">niv</span>
+<span class="pre">udtræk-punktsamling</span></code> og derefter redigere jessenpunkt, punktsamlingsnavn og formål og ilægge
+med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">niv</span> <span class="pre">ilæg-punktsamling</span></code></p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="genfundet.html" class="btn btn-neutral float-left" title="Genfinding af tabtgået fikspunkt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="overridedefaults.html" class="btn btn-neutral float-right" title="Angivelse af nye default værdier" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

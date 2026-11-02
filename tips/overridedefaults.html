@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Angivelse af nye default værdier &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Anvendelse af interaktiv mode" href="interaktivmode.html" />
+    <link rel="prev" title="Arbejde med højdetidsserier og punktsamlinger i FIRE" href="punktsamlinger.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/index.html">Kommandolinjeprogrammer</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tips og tricks</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tabsmelding.html">Tabsmelding af fikspunkter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="genfundet.html">Genfinding af tabtgået fikspunkt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="punktsamlinger.html">Arbejde med højdetidsserier og punktsamlinger i FIRE</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Angivelse af nye default værdier</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interaktivmode.html">Anvendelse af interaktiv mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tips og tricks</a></li>
+      <li class="breadcrumb-item active">Angivelse af nye default værdier</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tips/overridedefaults.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="angivelse-af-nye-default-vaerdier">
+<span id="overridedefaults"></span><h1>Angivelse af nye default værdier<a class="headerlink" href="#angivelse-af-nye-default-vaerdier" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>Bemærk, at for at vælge default databaseforbindelse, skal</em> <a class="reference internal" href="../konfiguration.html#konfigurationsfil"><span class="std std-ref">konfigurationsfilen</span></a> <em>anvendes.</em></p>
+</div>
+<p>FIRE-kommandoerne har mange parametre som kan slås til eller fra. Hvis man er utilfreds
+med de gængse default-værdier for parametrene, er det muligt at overskrive dem ved at
+sætte en miljøvariabel for den givne parameter.</p>
+<p>Angivelse af nye defaults er fx nyttigt, hvis man generelt gerne vil have alt tilgængelig
+information om et fikspunkt ud. Normalt kræver det at man skriver flg. hver gang:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>fire info punkt -DHO alle -K ts,alle &lt;IDENT&gt;
+</pre></div>
+</div>
+<p>I stedet kan man nu sætte:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set FIRE_INFO_PUNKT_DETALJERET=True
+set FIRE_INFO_PUNKT_HISTORIK=True
+set FIRE_INFO_PUNKT_OBS=alle
+set FIRE_INFO_PUNKT_KOORD=ts,alle
+</pre></div>
+</div>
+<p>Herefter vil alle kald til <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">info</span> <span class="pre">punkt</span></code> have disse parameterværdier sat som
+default. Som det fremgår, så angives booleanske værdier med <code class="docutils literal notranslate"><span class="pre">True</span> <span class="pre">/</span> <span class="pre">False</span></code>.</p>
+<p>Miljøvariablens navn følger det samme mønster for alle kommandoer; Kommandoens navn (med
+underscore <code class="docutils literal notranslate"><span class="pre">_</span></code> imellem), efterfulgt at den valgte parameters navn. Bindestreg i
+kommando-navne erstattes af underscore. Dvs. at <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">ts</span> <span class="pre">plot-gnss</span></code> bliver til
+<code class="docutils literal notranslate"><span class="pre">FIRE_TS_PLOT_GNSS_&lt;PARAMETERNAVN&gt;</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Bemærk at det skal være parameterens &quot;lange&quot; navn der bruges. I ovenstående eksempel
+er det altså <code class="docutils literal notranslate"><span class="pre">DETALJERET</span></code> der skal bruges og ikke det korte navn <code class="docutils literal notranslate"><span class="pre">D</span></code>. Alle kommandoer har
+en <code class="docutils literal notranslate"><span class="pre">--help</span></code> parameter der viser en liste over mulige parametre, inkl. deres lange og
+korte navne.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Bemærk også, at parametre indstilles pr. kommando, så kommandoer med identiske
+parametre skal sættes hver for sig. Fx findes parameteren <code class="docutils literal notranslate"><span class="pre">--plottype</span></code> på både
+<code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">ts</span> <span class="pre">plot-gnss</span></code> og <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">ts</span> <span class="pre">plot-hts</span></code>, som altså skal sættes hver for sig:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set FIRE_TS_PLOT_GNSS_PLOTTYPE=fit
+set FIRE_TS_PLOT_HTS_PLOTTYPE=fit
+</pre></div>
+</div>
+</div>
+<p>Miljøvariablerne vil imidlertid blive glemt når man lukker sit terminalvindue. Derfor kan
+det være en fordel at knytte denne opsætning til sit FIRE-miljø. Dette gøres med:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mamba activate fire
+mamba env config vars set FIRE_INFO_PUNKT_DETALJERET=True
+mamba env config vars set FIRE_INFO_PUNKT_HISTORIK=True
+mamba env config vars set FIRE_INFO_PUNKT_OBS=alle
+mamba env config vars set FIRE_INFO_PUNKT_KOORD=ts,alle
+mamba deactivate
+mamba activate fire
+</pre></div>
+</div>
+<p>Hver gang man aktiverer sit FIRE-miljø, vil de viste miljøvariable nu være sat. For at få vist de
+aktuelt satte miljøvariable og deres værdier skrives:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mamba env config vars list
+</pre></div>
+</div>
+<p>Ønsker man at gå tilbage til de oprindelige defaults, kan de fjernes fra miljøet med:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mamba activate fire
+mamba env config vars unset FIRE_INFO_PUNKT_DETALJERET
+mamba env config vars unset FIRE_INFO_PUNKT_HISTORIK
+mamba env config vars unset FIRE_INFO_PUNKT_OBS
+mamba env config vars unset FIRE_INFO_PUNKT_KOORD
+mamba deactivate
+mamba activate fire
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="punktsamlinger.html" class="btn btn-neutral float-left" title="Arbejde med højdetidsserier og punktsamlinger i FIRE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="interaktivmode.html" class="btn btn-neutral float-right" title="Anvendelse af interaktiv mode" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
