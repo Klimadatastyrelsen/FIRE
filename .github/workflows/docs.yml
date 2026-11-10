@@ -8,15 +8,31 @@ jobs:
     strategy:
       max-parallel: 2
 
+    defaults:
+      # det er nødvendigt explicit at angive bash shell på denne måde for at kunne aktivere miljø
+      # med conda activate, se https://github.com/conda-incubator/setup-miniconda#important
+      run:
+        shell: bash -el {0}
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.13
-      uses: actions/setup-python@v5
+    - uses: actions/checkout@v6
+
+    - name: Setup Miniforge, create and activate fire-dev environment
+      uses: conda-incubator/setup-miniconda@v4
       with:
-        python-version: 3.13
+        miniforge-version: latest
+        environment-file: environment-dev.yml
+        activate-environment: fire-dev
+        auto-activate: false
+
+    # Brugbart ifm. debugging
+    - name: Show conda and environment info
+      run: |
+        conda info -a
+        conda list
+
     - name: Installer Oracle instantclient et al
       run: |
-
         mkdir -p /opt/oracle
         cd /opt/oracle
 
@@ -49,31 +65,23 @@ jobs:
         echo "PATH=$PATH" >> "$GITHUB_ENV"
 
         which sqlplus
-    - name: Add conda to system path
+
+    - name: Installer FIRE
       run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
-    - name: Install dependencies
-      run: |
-        conda config --set always_yes yes --set changeps1 no
-        conda update -q conda
-        # Useful for debugging any issues with conda
-        conda info -a
-        #
-        conda env create --file environment-dev.yml
-        source activate fire-dev
-        hash -r
-        #
         # Install fire
         pip install -e .
+
         # Copy config file to suitable location
         cp test/ci/fire.ini ~/.fire.ini
-        # Build docs
+
+    - name: build docs
+      run: |
         sphinx-build -b html ./docs ./docs/_build
+
         # GitHub pages ignores folder starting with _, can be avoid by
         # adding a .nojekyll file
         touch ./docs/_build/.nojekyll
-        #
+
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v4
       if: github.ref == 'refs/heads/1.11'
