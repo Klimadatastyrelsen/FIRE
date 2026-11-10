@@ -27,7 +27,7 @@ For at komme dértil skal følgende installeres fra Software Center:
 
 Dérudover skal følgende installeres manuelt
 
-*   Python-distributionen MambaForge.
+*   Python-distributionen MiniForge.
 
 Og gennem pakkestyringsværktøjet `mamba` skal de resterende afhængighederne til
 FIRE installeres.
@@ -58,19 +58,19 @@ instruktionerne på skærmen.
    :alt: Oracle i softwarecenter
 
 
-MambaForge
-----------
+MiniForge
+---------
 
 FIRE er en Python applikation hvorfor vi skal have Python installeret på
-computeren for at kunne afvikle programmet. Til det bruges MambaForge, der
+computeren for at kunne afvikle programmet. Til det bruges MiniForge, der
 inkluderer Python-fortolker og pakkestyringsværktøjet ``mamba``.
 
 Under SDFIs side for Python-brugere findes en `installationsvejledning
 <https://sdfidk.github.io/SDFIPython/setup.html#den-fulde-vejledning>`_. Følg
 **Den fulde vejledning** til du kommer til overskriften **Demonstration**.
 
-Når MambaForge er installeret kan du nu i Windows start-menuen finde "Miniforge
-Prompt (mambaforge)". Alle efterfølgende kommandoer i denne
+Når MiniForge er installeret kan du nu i Windows start-menuen finde "Miniforge3
+Prompt". Alle efterfølgende kommandoer i denne
 installationsvejledning kan afvikles i denne terminal.
 
 .. note::
@@ -87,7 +87,7 @@ PATH-miljøvariabel.
 .. note::
 
     ``mamba``-kommandoen gør funktionelt det samme som ``conda``, men er bare
-    hurtigere, end sidstnævnte. Med MambaForge-installationen er det fortsat
+    hurtigere, end sidstnævnte. Med MiniForge-installationen er det fortsat
     muligt at skrive ``conda``, da den er lavet som et alias, der peger på
     ``mamba``.
 
@@ -95,6 +95,88 @@ PATH-miljøvariabel.
     der også fortsat henvisninger til kald med kommandoen ``conda``, der som
     nævnt uden problemer kan bruges som alternativ til ``mamba``, hvis man har
     lyst.
+
+Kortere navn på mappe til at gemme pakker og miljøer
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+Som standard gemmer Miniforge filer til pakker og miljøer i en meget dyb mappestruktur.
+Visse pakker, som FIRE er afhængig af, har ligeledes en dyb mappestruktur, og dette kan
+føre til konflikt med Windows' max-længde for filstier. Derfor er det nødvendigt at
+fortælle Miniforge at den skal bruge en anden mappe til at gemme pakker og miljøer i.
+
+Efter Miniforge er installeret køres derfor følgende i Miniforge prompten:
+
+.. code-block::
+
+    mamba config append --env pkgs_dirs ~/.mamba/pkgs
+    mamba config append --env envs_dirs ~/.mamba/envs
+
+Dette tilføjer følgende til konfigurationsfilen ".condarc":
+
+.. code-block::
+
+    pkgs_dirs:
+      - ~/.mamba/pkgs
+    envs_dirs:
+      - ~/.mamba/envs
+
+Bølgestregen ``~`` betyder bare den nuværende brugers "hjemme"-mappe. På din almindelige
+Windows maskine vil det svare til ``C:/Users/B123456/``.
+
+.. _mambashellinit:
+
+Fejl ved aktivering af miljø
+++++++++++++++++++++++++++++
+Man kan desuden komme ud for følgende fejl ved aktivering af sine mamba-miljøer:
+
+.. code-block::
+
+    C:\Users\(...)>mamba activate base
+    critical libmamba Shell not initialized
+
+    'mamba' is running as a subprocess and can't modify the parent shell.
+    Thus you must initialize your shell before using activate and deactivate.
+
+    To automatically initialize all future (cmd.exe) shells, run:
+        $ mamba shell init --shell cmd.exe --root-prefix=~/.local/share/mamba
+    If your shell was already initialized, reinitialize your shell with:
+        $ mamba shell reinit --shell cmd.exe
+    Otherwise, this may be an issue. In the meantime you can run commands. See:
+        $ mamba run --help
+
+    Supported shells are {bash, zsh, csh, posix, xonsh, cmd.exe, powershell, fish, nu}.
+
+Som den selv foreslår, så kan det fikses ved at køre kommandoen:
+
+.. code-block::
+
+    mamba shell init --shell cmd.exe --root-prefix=~/AppData/Local/miniforge3
+
+Dette gør, så Windows går ind og kører et bestemt initialiseringsscript som ligger inde i
+miniforge3 installationsmappen hver gang en terminal af typen ``cmd.exe`` åbnes, hvilket
+inkluderer både den almindelig Windows terminal samt Miniforge prompten. Scriptet gør
+bl.a. ``mamba activate`` kommandoen tilgængelig i terminalen. Det er vigtigt at
+``--root-prefix`` peger på dén mappe hvor Miniforge blev installeret. Så hvis man har
+installeret et andet sted end default-mappen, så skal stien rettes til.
+
+Luk nu terminalen og åbn den igen. Herefter skulle ``mamba activate`` gerne virke.
+
+Afinstallation af Mini/Mambaforge
++++++++++++++++++++++++++++++++++
+Det bør sjældent være nødvendigt at afinstallere Miniforge, men sommetider går noget i ged
+og så kan det være fint starte helt forfra.
+
+Afinstallationen er relativt simpel idet både Mambaforge og
+Miniforge har en uninstaller der kan køres ved at fjerne programmet på vanlige Windows manér.
+
+Man skal dog være opmærksom hvis man har foretaget "shell initialization" som beskrevet under
+:ref:`mambashellinit`. I det tilfælde skal man lige køre følgende kommando, som gør at Windows
+terminalen holder op med at lede efter mamba's initialiseringsscript:
+
+.. code-block::
+
+    mamba shell deinit --shell cmd.exe
+
+Herefter kan Miniforge afinstalleres som normalt.
 
 Linux kommandolinjeværktøjer
 ----------------------------
@@ -354,7 +436,7 @@ praksis ved at fjerne miljøet ``fire``:
 
 .. note::
 
-    Hvis ``fire``-miljøet er aktiveret, skal det først deaktivers før det er
+    Hvis ``fire``-miljøet er aktiveret, skal det først deaktiveres før det er
     muligt at slette det. Gøres med kommandoen::
 
         (fire) C:\>mamba deactivate
