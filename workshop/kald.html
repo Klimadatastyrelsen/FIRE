@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generelle kommandokald i linjen &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Præsentation af FIRE" href="workshop.html" />
+    <link rel="prev" title="Indledning" href="intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/index.html">Kommandolinjeprogrammer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Workshop</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">Indledning</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Generelle kommandokald i linjen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#navigation-i-terminalen">Navigation i terminalen</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ovelse">Øvelse</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#diverse-programmer">Diverse programmer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="workshop.html">Præsentation af FIRE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workshop.html#visualisering-i-qgis">Visualisering i QGIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="htscase.html">Case: Højdetidsserier</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Workshop</a></li>
+      <li class="breadcrumb-item active">Generelle kommandokald i linjen</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/workshop/kald.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generelle-kommandokald-i-linjen">
+<span id="kald"></span><h1>Generelle kommandokald i linjen<a class="headerlink" href="#generelle-kommandokald-i-linjen" title="Link to this heading"></a></h1>
+<section id="navigation-i-terminalen">
+<h2>Navigation i terminalen<a class="headerlink" href="#navigation-i-terminalen" title="Link to this heading"></a></h2>
+<p>Her følger en kort liste over hvordan man i Windows navigerer rundt på sin pc
+vha. en terminal (fx miniconda eller Cmder) og kommandoer på linjen her.</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Kommando</strong></p></td>
+<td><p><strong>Beskrivelse</strong></p></td>
+<td><p><strong>Eksempel på brug</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dir</span></code></p></td>
+<td><p>Oplist mapper og filer med detaljer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">dir</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">&lt;dir&gt;</span></code></p></td>
+<td><p>Skift mappe (change directory)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">Users\b031422\Desktop</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">..</span></code></p></td>
+<td><p>Skift mappe et niveau op</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">..</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cd\</span></code></p></td>
+<td><p>Hop til roden af server</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cd\</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">&lt;Drev&gt;:</span></code></p></td>
+<td><p>Skift drev (uafh. af aktuel placering)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">F:</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">md</span> <span class="pre">&lt;dir&gt;</span></code></p></td>
+<td><p>Opret ny mappe (make directory)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">md</span> <span class="pre">TEST</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vim</span> <span class="pre">&lt;fil&gt;</span></code></p></td>
+<td><p>Opret ny asciifil (her vist med vim)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vim</span> <span class="pre">TEST\test</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">&lt;fil1&gt;</span> <span class="pre">&lt;fil2&gt;</span></code></p></td>
+<td><p>Kopier (copy) en given <em>fil1</em> til <em>fil2</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">test</span> <span class="pre">..\testkopi</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mv</span> <span class="pre">&lt;fil1&gt;</span> <span class="pre">&lt;fil2&gt;</span></code></p></td>
+<td><p>Flyt (move) en given <em>fil1</em> til <em>fil2</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mv</span> <span class="pre">test</span> <span class="pre">..\.</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">&lt;fil&gt;</span></code></p></td>
+<td><p>Slet (remove) en given <em>fil</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">test</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rmdir</span> <span class="pre">&lt;dir&gt;</span></code></p></td>
+<td><p>Slet tom mappe (remove directory)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rmdir</span> <span class="pre">TEST</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">*</span></code></p></td>
+<td><p>Indikerer <em>alt</em></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">TEST\*</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.</span></code></p></td>
+<td><p>Indikerer den aktuelle placering</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">TEST\test</span> <span class="pre">.</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">|</span></code> eller <code class="docutils literal notranslate"><span class="pre">&gt;</span></code></p></td>
+<td><p>Information pipes videre i kommandokaldet</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">test1</span> <span class="pre">test2</span> <span class="pre">&gt;</span> <span class="pre">testsamlet</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>I flere terminaler kan unix-kommandoer også genkendes, fx. <code class="docutils literal notranslate"><span class="pre">ls</span></code> (<code class="docutils literal notranslate"><span class="pre">dir</span></code> i Windows), <code class="docutils literal notranslate"><span class="pre">mkdir</span></code> (<code class="docutils literal notranslate"><span class="pre">md</span></code> i Windows)
+osv., dog husk at man på unix benytter slash, <code class="docutils literal notranslate"><span class="pre">/</span></code>, mens man på Windows benytter backslash, <code class="docutils literal notranslate"><span class="pre">\</span></code>.</p>
+<p>Hvis en sti er skrevet helt ud med <code class="docutils literal notranslate"><span class="pre">/</span></code>, kan Windows dog godt genkende og oversætte
+til <code class="docutils literal notranslate"><span class="pre">\</span></code>, men autocomplete funktionen <em>tab</em> fungerer ikke.
+Det skyldes, at Windows læser <code class="docutils literal notranslate"><span class="pre">/</span></code> som en &quot;escape character&quot;-funktion, som man kan
+sætte foran specielle tegn eller mellemrum, så karakteren læses korrekt, og ikke
+fx som et mellemrum i kommandolinjen.</p>
+<p>I de fleste terminaler (fx PuTTY, UltraEdit, miniconda...) fungerer <em>tab</em> som en
+autocomplete. Dvs. man kan starte på at skrive et mappenavn eller filnavn, og
+derefter trykke på tab. Terminalen vil da liste eller cykle igennem de givne
+muligheder man har. Det er meget praktisk ved især lange fil- og mappenavne.</p>
+<section id="ovelse">
+<h3>Øvelse<a class="headerlink" href="#ovelse" title="Link to this heading"></a></h3>
+<p>Prøv selv at navigér rundt i terminalen og forsøg fx:</p>
+<ol class="arabic simple">
+<li><p>at lave to mapper</p></li>
+<li><p>at oprette filer</p></li>
+<li><p>at flytte filer rundt mellem mapper</p></li>
+<li><p>at rydde op efter jer selv ved at slette filer og mapper</p></li>
+<li><p>at kopier en hel mappe og dens undermapper med indhold over et andet sted på
+drevet (hint: <code class="docutils literal notranslate"><span class="pre">/s</span></code> er et eksempel på en parameter, der kan tilføjes kommandolinjen.
+Søg selv videre på nettet)</p></li>
+</ol>
+</section>
+</section>
+<section id="diverse-programmer">
+<h2>Diverse programmer<a class="headerlink" href="#diverse-programmer" title="Link to this heading"></a></h2>
+<p>Nedenfor følger en liste over brugbare standardprogrammers anvendelse i terminalen. Det kræver dog, at
+programmerne er installeret i dit environment, før du kan bruge dem. Til det kan man bruge <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">search</span></code>,
+og derefter <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span> <span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="o">&lt;</span><span class="n">channel</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">package</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Program</strong></p></td>
+<td><p><strong>Beskrivelse</strong></p></td>
+<td><p><strong>Eksempel på brug</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">echo</span></code></p></td>
+<td><p>Gentag input på skærmen, som kan pipes videre, fx til proj</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">12.4</span> <span class="pre">55.8</span> <span class="pre">36</span> <span class="pre">|</span> <span class="pre">cct</span> <span class="pre">+proj=cart</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">grep</span></code></p></td>
+<td><p>Søg efter bestemte udtryk i asciitekst og print til skærm</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">-n</span> <span class="pre">DK</span> <span class="pre">test1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">less</span></code></p></td>
+<td><p>Vis indholdet i en ascii-fil (ikke til redigering)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">less</span> <span class="pre">test1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">type</span></code></p></td>
+<td><p>Sammensæt flere filer til en</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">type</span> <span class="pre">test1</span> <span class="pre">test2&gt;test3</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vim</span></code></p></td>
+<td><p>Tekstbehandlingsprogram, som notesblok, Notepad++ osv.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">vim</span> <span class="pre">test1</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Alle programmer kan yderligere udforskes ved at bruge parameteren <code class="docutils literal notranslate"><span class="pre">--help</span></code>, fx</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span> <span class="n">grep</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="intro.html" class="btn btn-neutral float-left" title="Indledning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="workshop.html" class="btn btn-neutral float-right" title="Præsentation af FIRE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

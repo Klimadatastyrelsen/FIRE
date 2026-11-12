@@ -1,0 +1,249 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fire opret &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fire grafik" href="grafik.html" />
+    <link rel="prev" title="fire indlæs" href="indl%C3%A6s.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kommandolinjeprogrammer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="config.html">fire config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html">fire info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html">fire niv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="indl%C3%A6s.html">fire indlæs</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">fire opret</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fire-opret-punkt">fire opret punkt</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#eksempler">Eksempler</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="grafik.html">fire grafik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="luk.html">fire luk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html">fire ts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Kommandolinjeprogrammer</a></li>
+      <li class="breadcrumb-item active">fire opret</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apps/opret.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fire-opret">
+<span id="kommandolinjeprogrammer-opret"></span><h1>fire opret<a class="headerlink" href="#fire-opret" title="Link to this heading"></a></h1>
+<p>Kommandogruppen <strong class="program">fire opret</strong> giver adgang til information om forskellige
+typer indhold i FIRE databasen.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: fire opret [OPTIONS] COMMAND [ARGS]...
+
+  Oprettelse af objekter i databasen via kommandolinjen.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  punkt  Oprettelse af nye standardiserede fikspunkter.
+</pre></div>
+</div>
+<section id="fire-opret-punkt">
+<h2>fire opret punkt<a class="headerlink" href="#fire-opret-punkt" title="Link to this heading"></a></h2>
+<p>Oprettelse af nye standardiserede fikspunkter.</p>
+<p>Let oprettelse af fx nye GNSS-stationer eller 5D-punkter i databasen. For hver
+type fikspunkt er der lavet en skabelon, der indeholder de relevante attributter
+for den givne type. Ved kørsel af kommandoen angiver man hvilken type fikspunkt
+man vil oprette samt en lokationskoordinat til punktet. Herefter guider programmet
+brugeren gennem oprettelsen, og beder om input hvor det er nødvendigt. Fx angivelse
+af GNSS ident eller en beskrivelse af punktet.</p>
+<p>Fikspunkter kan oprettes efter følgende skabeloner:</p>
+<blockquote>
+<div><p>PERMANENT, GNET, 5D, RTKCONNECT, SMARTNET, GPSNET</p>
+</div></blockquote>
+<p>Se mere om de enkelte skabeloner med <cite>fire opret punkt --skabelon &lt;FIKSPUNKTSTYPE&gt;</cite></p>
+<p>Bemærk at alle landsnumre oprettes i GI-serien (løbenummer 0-10, 801-8999).</p>
+<section id="eksempler">
+<h3>Eksempler<a class="headerlink" href="#eksempler" title="Link to this heading"></a></h3>
+<p>Opret en permanent GNSS station i Danmark:</p>
+<blockquote>
+<div><p>&gt; fire opret punkt permanent 12.34,55.67</p>
+</div></blockquote>
+<p>Opret en GNET-station:</p>
+<blockquote>
+<div><p>&gt; fire opret punkt gnet &quot;52.23, 67.34&quot;</p>
+</div></blockquote>
+<p>Vis indholdet af en skabelon til oprettelse af punkter:</p>
+<blockquote>
+<div><p>&gt; fire opret punkt --skabelon 5D</p>
+</div></blockquote>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>opret<span class="w"> </span>punkt<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">{</span>permanent<span class="p">|</span>gnet<span class="p">|</span>5d<span class="p">|</span>rtkconnect<span class="p">|</span>smartnet<span class="p">|</span>gpsnet<span class="o">}</span>
+<span class="w">                 </span>LOKATION
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-m">
+<span id="cmdoption-fire-opret-punkt-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-I">
+<span id="cmdoption-fire-opret-punkt-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-skabelon">
+<span class="sig-name descname"><span class="pre">--skabelon</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;skabelon&gt;</span></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-skabelon" title="Link to this definition"></a></dt>
+<dd><p>Vis indhold af skabelon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PERMANENT | GNET | 5D | RTKCONNECT | SMARTNET | GPSNET</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-sagsbehandler">
+<span class="sig-name descname"><span class="pre">--sagsbehandler</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sagsbehandler&gt;</span></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-sagsbehandler" title="Link to this definition"></a></dt>
+<dd><p>Angiv andet brugernavn end den aktuelt indloggede</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-arg-FIKSPUNKTSTYPE">
+<span class="sig-name descname"><span class="pre">FIKSPUNKTSTYPE</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-arg-FIKSPUNKTSTYPE" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-opret-punkt-arg-LOKATION">
+<span class="sig-name descname"><span class="pre">LOKATION</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-opret-punkt-arg-LOKATION" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="indl%C3%A6s.html" class="btn btn-neutral float-left" title="fire indlæs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="grafik.html" class="btn btn-neutral float-right" title="fire grafik" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

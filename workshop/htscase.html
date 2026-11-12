@@ -1,0 +1,678 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case: Højdetidsserier &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Præsentation af FIRE" href="workshop.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apps/index.html">Kommandolinjeprogrammer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Workshop</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">Indledning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kald.html">Generelle kommandokald i linjen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workshop.html">Præsentation af FIRE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workshop.html#visualisering-i-qgis">Visualisering i QGIS</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Case: Højdetidsserier</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hent-seneste-version-af-fire">Hent seneste version af FIRE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ret-default-databaseforbindelsen">Ret default databaseforbindelsen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opret-sag">Opret sag</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opret-dit-eget-5d-punkt">Opret dit eget 5D-punkt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tildel-jessennummer">Tildel Jessennummer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opret-sikringspunkter">Opret sikringspunkter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#forste-opmaling">Første opmåling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opret-punktgruppe-og-tidsserier">Opret punktgruppe og tidsserier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ret-formal">Ret formål</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#beregn-forste-opmaling">Beregn første opmåling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flere-opmalinger">Flere opmålinger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#udtraek-plot-og-analyse-af-tidsserier">Udtræk, plot og analyse af tidsserier</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Workshop</a></li>
+      <li class="breadcrumb-item active">Case: Højdetidsserier</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/workshop/htscase.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="case-hojdetidsserier">
+<span id="htscase"></span><h1>Case: Højdetidsserier<a class="headerlink" href="#case-hojdetidsserier" title="Link to this heading"></a></h1>
+<p>Velkommen til denne lille case, hvor du vil blive klogere på at arbejde med
+højdetidsserier i FIRE. Undervejs vil vi gennemgå en tænkt livscyklus for et opdigtet
+5D-punkt i FIRE. Herunder bl.a. etablering af punkter og vedligeholdelsen af tidsserier
+for en punktgruppe nær 5D-punktet.</p>
+<p>Det er en fordel hvis du er bekendt med det eksisterende nivellement-workflow, som udføres
+ved hjælp af et sagsregneark i Excel. Dog er vejledningen forholdsvist udførlig, så det
+burde være muligt at kunne følge med alligevel.</p>
+<p>Hvis du undervejs har brug for yderligere hjælp eller forklaring, så er der under
+<a class="reference internal" href="../tips/punktsamlinger.html#punktsamlinger"><span class="std std-ref">Arbejde med højdetidsserier og punktsamlinger i FIRE</span></a> beskrevet mange af de samme processer som vi kommer til at gennemgå
+her. Det anbefales at man starter med at læse indledningen dér, som gør det klart hvad der
+menes med mange af de begreber der bruges.</p>
+<p>Derudover kan du altid prøve at kigge i de enkelte kommandoers hjælpetekst med flaget
+<code class="docutils literal notranslate"><span class="pre">--help</span></code> eller slå op under <a class="reference internal" href="../apps/niv.html#kommandolinjeprogrammer-niv"><span class="std std-ref">fire niv</span></a> eller
+<a class="reference internal" href="../apps/info.html#kommandolinjeprogrammer-info"><span class="std std-ref">fire info</span></a>.</p>
+<section id="hent-seneste-version-af-fire">
+<h2>Hent seneste version af FIRE<a class="headerlink" href="#hent-seneste-version-af-fire" title="Link to this heading"></a></h2>
+<p>For at følge trinnene i casen skal du minimum have version <code class="docutils literal notranslate"><span class="pre">1.8.0</span></code> af FIRE. Følg
+vejledningen om <a class="reference internal" href="../installation.html#opdatering"><span class="std std-ref">Opdatering</span></a> af FIRE til ny version, og kom tilbage hertil når du er
+færdig.
+Tjek bagefter, at du har FIRE-version <code class="docutils literal notranslate"><span class="pre">1.8.0</span></code> eller højere installeret:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span><span class="o">&gt;</span><span class="n">fire</span> <span class="o">--</span><span class="n">version</span>
+<span class="n">fire</span><span class="p">,</span> <span class="n">version</span> <span class="mf">1.8.0</span>
+</pre></div>
+</div>
+</section>
+<section id="ret-default-databaseforbindelsen">
+<span id="ret-default-db"></span><h2>Ret default databaseforbindelsen<a class="headerlink" href="#ret-default-databaseforbindelsen" title="Link to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Inden du begynder, er det vigtigt at sørge for, at du ikke forbinder til
+produktionsdatabasen ved et uheld. Gør derfor følgende:</p>
+<p>Find din FIRE-konfigurationsfil <code class="docutils literal notranslate"><span class="pre">fire.ini</span></code> og ret default databaseforbindelsen til
+<code class="docutils literal notranslate"><span class="pre">test</span></code> i stedet for <code class="docutils literal notranslate"><span class="pre">prod</span></code>. <strong>Dette gør så du slipper for at skrive</strong> <code class="docutils literal notranslate"><span class="pre">--db</span> <span class="pre">test</span></code>
+<strong>efter hver eneste kommando i denne demo case.</strong>
+I toppen af filen skal der stå (uden de tre <code class="docutils literal notranslate"><span class="pre">...</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">general</span><span class="p">]</span>
+<span class="n">default_connection</span> <span class="o">=</span> <span class="n">test</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Kontrollér desuden længere nede i <code class="docutils literal notranslate"><span class="pre">fire.ini</span></code> at test-databaseforbindelsen er som følger
+(med password og username udfyldt):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">test_connection</span><span class="p">]</span>
+<span class="n">password</span> <span class="o">=</span> <span class="o">***</span>
+<span class="n">username</span> <span class="o">=</span> <span class="o">***</span>
+<span class="n">hostname</span> <span class="o">=</span> <span class="n">exa</span><span class="o">-</span><span class="n">x10</span><span class="o">-</span><span class="n">r2</span><span class="o">-</span><span class="n">c1</span><span class="o">-</span><span class="n">scan</span><span class="o">.</span><span class="n">prod</span><span class="o">.</span><span class="n">sitad</span><span class="o">.</span><span class="n">dk</span>
+<span class="n">service</span> <span class="o">=</span> <span class="n">FIRETEST</span><span class="o">.</span><span class="n">prod</span><span class="o">.</span><span class="n">sitad</span><span class="o">.</span><span class="n">dk</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="n">fire_adm</span>
+</pre></div>
+</div>
+<p>Kør FIRE-kommandoen <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">config</span></code> for at tjekke, at FIRE kan finde din
+konfigurationsfil. Kontrollér at oplysningerne står som beskrevet ovenfor.</p>
+<p>Når du er færdig med denne demo kan du, hvis du vil, rette default-forbindelsen tilbage
+til <code class="docutils literal notranslate"><span class="pre">prod</span></code>.</p>
+</div>
+<p>Så går vi i gang!</p>
+</section>
+<section id="opret-sag">
+<h2>Opret sag<a class="headerlink" href="#opret-sag" title="Link to this heading"></a></h2>
+<p>Opret en mappe et passende sted til denne case, og stil dig i den. Kald den fx <code class="docutils literal notranslate"><span class="pre">HTS_DEMO</span></code>.</p>
+<p>Opret en sag, og kald også den for <code class="docutils literal notranslate"><span class="pre">HTS_DEMO</span></code>. Giv den evt. også en beskrivelse:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">opret</span><span class="o">-</span><span class="n">sag</span> <span class="n">HTS_DEMO</span> <span class="s2">"En sag til min demo-case om Højdetidsserier"</span>
+</pre></div>
+</div>
+<p>Du vil blive spurgt, om du er sikker på om sagen skal oprettes i databasen. <strong>Dobbelttjek
+at du opretter sagen i test-databasen</strong>. Hvis du er ved at oprette sagen i prod, skriv da <code class="docutils literal notranslate"><span class="pre">nej</span></code>, og følg trinnene under <a class="reference internal" href="#ret-default-db"><span class="std std-ref">Ret default databaseforbindelsen</span></a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Sags/projekt-navn: HTS_DEMO  (2627a3f1-13a4-40bc-8a71-73a83ce4003c)
+Sagsbehandler:     B294041
+Beskrivelse:       En sag til min demo-case om Højdetidsserier
+Opretter ny sag i test-databasen - er du sikker?  (ja/NEJ):
+ja
+Gentag svar for at bekræfte (ja/NEJ)
+ja
+Sag 'HTS_DEMO' oprettet
+Skriver sagsregneark 'HTS_DEMO.xlsx'
+Filen 'HTS_DEMO.xlsx' findes ikke.
+Skriver: {'Nyetablerede punkter', 'Filoversigt', 'Parametre', 'Sagsgang', 'Notater', 'Projektforside'}
+Til filen 'HTS_DEMO.xlsx'
+Færdig!
+</pre></div>
+</div>
+<p>Info om sagen kan til enhver tid ses ved at slå dens databaseid op (find det i output fra
+forrige kommando, eller i sagsarket under fanen <strong>Sagsgang</strong>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">info</span> <span class="n">sag</span> <span class="mi">2627</span><span class="n">a3f1</span><span class="o">-</span><span class="mi">13</span><span class="n">a4</span><span class="o">-</span><span class="mi">40</span><span class="n">bc</span><span class="o">-</span><span class="mi">8</span><span class="n">a71</span><span class="o">-</span><span class="mi">73</span><span class="n">a83ce4003c</span>
+<span class="o">&gt;&gt;</span>
+<span class="o">-------------------------</span> <span class="n">SAG</span> <span class="o">-------------------------</span>
+<span class="n">Sagsid</span>        <span class="p">:</span> <span class="mi">2627</span><span class="n">a3f1</span><span class="o">-</span><span class="mi">13</span><span class="n">a4</span><span class="o">-</span><span class="mi">40</span><span class="n">bc</span><span class="o">-</span><span class="mi">8</span><span class="n">a71</span><span class="o">-</span><span class="mi">73</span><span class="n">a83ce4003c</span>
+<span class="n">Oprettet</span>      <span class="p">:</span> <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">16</span> <span class="mi">15</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mf">27.054865</span>
+<span class="n">Sagsbehandler</span> <span class="p">:</span> <span class="n">B294041</span>
+<span class="n">Status</span>        <span class="p">:</span> <span class="n">Aktiv</span>
+<span class="n">Beskrivelse</span>   <span class="p">:</span>
+
+    <span class="n">HTS_DEMO</span><span class="p">:</span> <span class="n">En</span> <span class="n">sag</span> <span class="n">til</span> <span class="nb">min</span> <span class="n">demo</span><span class="o">-</span><span class="n">case</span> <span class="n">om</span> <span class="n">Højdetidsserier</span>
+</pre></div>
+</div>
+</section>
+<section id="opret-dit-eget-5d-punkt">
+<h2>Opret dit eget 5D-punkt<a class="headerlink" href="#opret-dit-eget-5d-punkt" title="Link to this heading"></a></h2>
+<p>Som det første, skal vi have oprettet jessenpunktet for vores nye punktgruppe. Dette gør
+vi ved først at oprette det som et almindeligt punkt, og derefter tildele det et jessennummer.</p>
+<p>Åbn QGIS eller lignende, og find et egnet sted i Danmark. Træk koordinaterne ud. I QGIS
+kan det gøres med et enkelt højreklik på kortet:</p>
+<img alt="../_images/qgis_ny5d.PNG" src="../_images/qgis_ny5d.PNG" />
+<p>Skriv koordinaterne ind i sagsarkets fane <strong>Nyetablerede punkter</strong>. Udfyld
+<strong>Fikspunktstype</strong> og <strong>Afmærkning</strong> som vist. I de andre felter <strong>Foreløbigt navn</strong> og <strong>Beskrivelse</strong> kan du skrive hvad du vil.</p>
+<img alt="../_images/nyetableret_5d.PNG" src="../_images/nyetableret_5d.PNG" />
+<p>Læg punktet i databasen, ved at lukke sagsarket og køre følgende:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">nye</span><span class="o">-</span><span class="n">punkter</span> <span class="n">HTS_DEMO</span>
+</pre></div>
+</div>
+<p>Åbn sagsarket igen og se at punktet nu er lagt i databasen og har fået tildelt et
+landsnummer. Træk punktinfo ud via det nye landsnummer, og se at punktet også har fået et
+nyt GI-nummer. Vi vil fremover bruge GI-nummeret frem for landsnummeret.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">info</span> <span class="n">punkt</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">00838</span>
+<span class="o">&gt;&gt;</span>
+<span class="o">--------------------------------------------------------------------------------</span>
+<span class="n">PUNKT</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="o">--------------------------------------------------------------------------------</span>
+<span class="n">Lokation</span>                    <span class="n">POINT</span> <span class="p">(</span><span class="mf">12.3944</span> <span class="mf">55.983371</span><span class="p">)</span>
+<span class="n">Oprettelsesdato</span>             <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">16</span> <span class="mi">16</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mf">58.544396</span>
+<span class="n">AFM</span><span class="p">:</span><span class="mi">2950</span>                    <span class="n">Skruepløk</span>
+<span class="n">ATTR</span><span class="p">:</span><span class="n">beskrivelse</span>            <span class="n">Et</span> <span class="n">kongeligt</span> <span class="n">fikspunkt</span><span class="o">.</span>
+<span class="n">REGION</span><span class="p">:</span><span class="n">DK</span>
+<span class="n">ATTR</span><span class="p">:</span><span class="n">bemærkning</span>             <span class="n">Nyetb</span><span class="o">.</span> <span class="mi">2024</span> <span class="n">B294041</span>
+<span class="n">ATTR</span><span class="p">:</span><span class="n">GI_punkt</span>
+<span class="n">IDENT</span><span class="p">:</span><span class="n">GI</span>                    <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="n">IDENT</span><span class="p">:</span><span class="n">landsnr</span>               <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">00838</span>
+
+<span class="o">---</span> <span class="n">KOORDINATER</span> <span class="o">---</span>
+</pre></div>
+</div>
+</section>
+<section id="tildel-jessennummer">
+<h2>Tildel Jessennummer<a class="headerlink" href="#tildel-jessennummer" title="Link to this heading"></a></h2>
+<p>Nu skal punktet oprettes som jessenpunkt og tildeles et jessennummer. Udtræk
+revisions-arket for punktet via det nye GI-nummer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">udtræk</span><span class="o">-</span><span class="n">revision</span> <span class="n">HTS_DEMO</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+</pre></div>
+</div>
+<p>Udtræk derefter alle nuværende punktsamlinger for at få en liste over jessennumre som allerede er i brug:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">info</span> <span class="n">punktsamling</span>
+<span class="o">&gt;&gt;</span>
+<span class="n">Navn</span>                                <span class="n">Jessenpunkt</span>  <span class="n">Antal</span> <span class="n">punkter</span>  <span class="n">Antal</span> <span class="n">tidsserier</span>
+<span class="o">----------------------------------</span>  <span class="o">-----------</span>  <span class="o">-------------</span>  <span class="o">----------------</span>
+<span class="n">PUNKTSAMLING_81001</span>                  <span class="mi">81001</span>        <span class="mi">25</span>             <span class="mi">0</span>
+<span class="n">Punktsamling</span> <span class="k">for</span> <span class="n">Jessenpunkt</span> <span class="mi">81001</span>  <span class="mi">81001</span>        <span class="mi">59</span>             <span class="mi">59</span>
+<span class="n">Punktsamling</span> <span class="k">for</span> <span class="n">Jessenpunkt</span> <span class="mi">81002</span>  <span class="mi">81002</span>        <span class="mi">50</span>             <span class="mi">50</span>
+<span class="o">...</span>
+<span class="o">...</span>
+<span class="n">Punktsamling</span> <span class="k">for</span> <span class="n">Jessenpunkt</span> <span class="mi">81158</span>  <span class="mi">81158</span>        <span class="mi">28</span>             <span class="mi">28</span>
+<span class="n">TEST_NY_PKTGRUPPE</span>                   <span class="mi">81500</span>        <span class="mi">5</span>              <span class="mi">0</span>
+<span class="n">TEST_TOM_PKTGRUPPE</span>                  <span class="mi">81500</span>        <span class="mi">4</span>              <span class="mi">4</span>
+<span class="n">TEST_SPARRING</span>                       <span class="mi">81600</span>        <span class="mi">10</span>             <span class="mi">12</span>
+<span class="n">PUNKTSAMLING_81999</span>                  <span class="mi">81999</span>        <span class="mi">5</span>              <span class="mi">4</span>
+</pre></div>
+</div>
+<p>Vælg et nyt jessennummer, som ikke fremgår af listen (kolonnen &quot;Jessenpunkt&quot;), og skriv det ind i revisionsarket som vist:</p>
+<img alt="../_images/nyt_jessennr.PNG" src="../_images/nyt_jessennr.PNG" />
+<p>Husk at slette &quot;x&quot; fra kolonnen <strong>Ikke besøgt</strong>. Luk revisions- og sagsarket, og ilæg de nye attributter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">revision</span> <span class="n">HTS_DEMO</span>
+</pre></div>
+</div>
+<p>Tjek at punktet har fået tildelt jessennummer og har attributterne <code class="docutils literal notranslate"><span class="pre">NET:jessen</span></code> og <code class="docutils literal notranslate"><span class="pre">NET:5D</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">info</span> <span class="n">punkt</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="o">&gt;&gt;</span>
+<span class="o">--------------------------------------------------------------------------------</span>
+<span class="n">PUNKT</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="o">--------------------------------------------------------------------------------</span>
+<span class="o">...</span>
+<span class="n">NET</span><span class="p">:</span><span class="n">jessen</span>
+<span class="n">IDENT</span><span class="p">:</span><span class="n">jessen</span>                <span class="mi">81800</span>
+<span class="n">NET</span><span class="p">:</span><span class="mi">5</span><span class="n">D</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="opret-sikringspunkter">
+<h2>Opret sikringspunkter<a class="headerlink" href="#opret-sikringspunkter" title="Link to this heading"></a></h2>
+<p>Nu opretter vi 4 sikringspunkter omkring det nye 5D-punkt. Du kan gøre som før, ved selv
+at indtaste nogle tilfældige koordinater ind i fanen <strong>Nyetablerede punkter</strong>. Alternativt
+burde følgende tabel kunne kopieres ind i arket:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>=C$2+0.001</p></td>
+<td><p>=D$2+0.001</p></td>
+</tr>
+<tr class="row-even"><td><p>=C$2+0.001</p></td>
+<td><p>=D$2-0.001</p></td>
+</tr>
+<tr class="row-odd"><td><p>=C$2-0.001</p></td>
+<td><p>=D$2+0.001</p></td>
+</tr>
+<tr class="row-even"><td><p>=C$2-0.001</p></td>
+<td><p>=D$2-0.001</p></td>
+</tr>
+</tbody>
+</table>
+<p>Dette gør så de 4 punkter oprettes NV, NØ, SV og SØ for jessenpunktet.</p>
+<img alt="../_images/nyetableret_sikringsgruppe.PNG" src="../_images/nyetableret_sikringsgruppe.PNG" />
+<p>Ilæg punkterne:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">nye</span><span class="o">-</span><span class="n">punkter</span> <span class="n">HTS_DEMO</span>
+</pre></div>
+</div>
+<p>Tjek at punkterne er oprettet korrekt. Du kan fx gøre flg:</p>
+<ul class="simple">
+<li><p>Find de nye landsnumre i sagsarket</p></li>
+<li><p>Slå punkterne op med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">info</span> <span class="pre">punkt</span></code></p></li>
+<li><p>Kør <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">niv</span> <span class="pre">læs-observationer</span> <span class="pre">HTS_DEMO</span></code> Der er selvfølgelig ikke nogen observationer
+endnu, men denne kommando laver også nogle geojson-filer som vi kan trække ind i QGIS.</p></li>
+<li><p>Find den oprettede geojson-fil, fx <code class="docutils literal notranslate"><span class="pre">HTS_DEMO-punkter.geojson</span></code> og træk den ind i QGIS:</p></li>
+</ul>
+<img alt="../_images/indtr%C3%A6k_geojson.gif" src="../_images/indtr%C3%A6k_geojson.gif" />
+</section>
+<section id="forste-opmaling">
+<h2>Første opmåling<a class="headerlink" href="#forste-opmaling" title="Link to this heading"></a></h2>
+<p>Der laves nu den første opmåling af vores punktgruppe. Først laver vi nogle indledende
+øvelser for at simulere nogle nivellement-observationer, foretaget igennem 2 årtier.</p>
+<p>Hent de 4 test-observationsfiler og gem dem i din test-mappe: <a class="reference download internal" download="" href="../_downloads/8d98345d6f7dfa4727dad1b648ca2498/test_obs_mgl.zip"><code class="xref download docutils literal notranslate"><span class="pre">test_obs_mgl.zip</span></code></a></p>
+<p>I filerne er gemt de observationer vi skal bruge til at udjævne og generere tidsserier i
+FIRE. Når du har hentet filerne, skulle din mappestruktur gerne se nogenlunde sådan ud:</p>
+<img alt="../_images/mappestruktur.PNG" src="../_images/mappestruktur.PNG" />
+<p>Åbn gerne nogle af mgl-filerne. Læg mærke til de generiske punktnavne som indgår:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Jessenpunkt</span><span class="p">,</span> <span class="n">Punkt</span><span class="o">-</span><span class="n">A</span><span class="p">,</span> <span class="n">Punkt</span><span class="o">-</span><span class="n">D</span><span class="p">,</span> <span class="n">Punkt</span><span class="o">-</span><span class="n">C</span><span class="p">,</span> <span class="n">Punkt</span><span class="o">-</span><span class="n">D</span>
+</pre></div>
+</div>
+<p>Disse vil vi i det følgende, via lidt søg-og-erstat gymnastik, erstatte med identerne for
+de punkter vi lige har oprettet.</p>
+<p>Her er skabelonen for søg-og-erstat kommandoerne. Kør alle kommandoerne, hvor du erstatter
+punktnavnene med dine egne punkter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Jessenpunkt/MitJessenpunkt/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Punkt-A/MitFørstePunkt/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Punkt-B/MitAndetPunkt/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Punkt-C/MitTredjePunkt/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Punkt-D/MitFjerdePunkt/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+</pre></div>
+</div>
+<p>Her et eksempel på hvordan søg-og-erstat kommandoerne kan se ud:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Jessenpunkt/G.I.2406/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Punkt-A/12-01-09158/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Punkt-B/12-01-09159/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Punkt-C/12-01-09160/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s1">'s/Punkt-D/12-01-09161/g'</span> <span class="n">test_obs_</span><span class="o">*.</span><span class="n">mgl</span>
+</pre></div>
+</div>
+<p>Indlæs nu observationerne fra den første mgl-fil. Under fanen <strong>Filoversigt</strong> i sagsarket skriver du følgende:</p>
+<img alt="../_images/filoversigt_2000.PNG" src="../_images/filoversigt_2000.PNG" />
+<p>Luk arket og indlæs observationerne med:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">læs</span><span class="o">-</span><span class="n">observationer</span> <span class="n">HTS_DEMO</span> <span class="o">--</span><span class="n">kotesystem</span> <span class="n">Jessen</span>
+</pre></div>
+</div>
+<p>Parameteren <code class="docutils literal notranslate"><span class="pre">--kotesystem</span> <span class="pre">Jessen</span></code>, gør så programmet forsøger at finde punkternes seneste
+jessenkote samt udfylder kolonnen <strong>System</strong> for dig. Hvis du glemmer at bruge denne
+parameter kan du altid bare indtaste det i arket manuelt.</p>
+<p>Tjek at punkterne nu står i fanen <strong>Punktoversigt</strong>. Du er nu klar til at oprette en punktgruppe og tidsserier.</p>
+<img alt="../_images/punktoversigt_1.PNG" src="../_images/punktoversigt_1.PNG" />
+</section>
+<section id="opret-punktgruppe-og-tidsserier">
+<h2>Opret punktgruppe og tidsserier<a class="headerlink" href="#opret-punktgruppe-og-tidsserier" title="Link to this heading"></a></h2>
+<p>Kør følgende kommando. Dette opretter fanerne <strong>Punktgruppe</strong> og <strong>Højdetidsserie</strong> i
+sagsarket.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">opret</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">HTS_DEMO</span> <span class="o">--</span><span class="n">jessenpunkt</span> <span class="mi">81800</span> <span class="o">--</span><span class="n">punktoversigt</span>
+</pre></div>
+</div>
+<p>Åbn sagsarket og rediger formål for punktsamlingen og de 5 tidsserier. Formålene er
+fritekst-felter som man kan bruge til fx at give information om hvad punktgruppen og
+tidsserierne skal bruges til. De må ikke lades være tomme, men må gerne være kortfattede:</p>
+<img alt="../_images/punktgruppe_fane_1.PNG" src="../_images/punktgruppe_fane_1.PNG" />
+<img alt="../_images/h%C3%B8jdetidsserier_fane_1.PNG" src="../_images/h%C3%B8jdetidsserier_fane_1.PNG" />
+<p>Læg mærke til, at referencekoten for punktsamlingens jessenpunkt (kolonnen <strong>Jessenkote</strong>)
+er angivet til 0. Denne kolonne er kun til info, og ignoreres ved ilægning af
+punktsamlingen. Nye punktsamlinger oprettes altid med referencekoten 0.</p>
+<p>Ilæg Punktsamlingen og Højdetidsserierne:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">HTS_DEMO</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">tidsserie</span> <span class="n">HTS_DEMO</span>
+</pre></div>
+</div>
+<p>Tjek at punktsamlingen og dens tidsserier er lagt i databasen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">info</span> <span class="n">punktsamling</span> <span class="n">PUNKTSAMLING_81800</span>
+<span class="o">&gt;&gt;</span>
+<span class="o">-------------------------</span> <span class="n">PUNKTSAMLING</span> <span class="o">-------------------------</span>
+<span class="n">Navn</span>          <span class="p">:</span> <span class="n">PUNKTSAMLING_81800</span>
+<span class="n">Formål</span>        <span class="p">:</span> <span class="n">Stabilitetskontrol</span>
+<span class="n">Jessenpunkt</span>   <span class="p">:</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="n">Jessennummer</span>  <span class="p">:</span> <span class="mi">81800</span>
+<span class="n">Jessenkote</span>    <span class="p">:</span> <span class="mi">0</span> <span class="n">m</span>
+<span class="n">Antal</span> <span class="n">punkter</span> <span class="p">:</span> <span class="mi">5</span>
+<span class="o">---</span> <span class="n">Punkter</span> <span class="o">---</span>
+<span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09158</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09159</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09160</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span>
+<span class="o">---</span> <span class="n">Tidsserier</span> <span class="o">---</span>
+<span class="n">Navn</span>                                      <span class="n">Antal</span> <span class="n">datapunkter</span>  <span class="n">Type</span>    <span class="n">Referenceramme</span>
+<span class="o">----------------------------------------</span>  <span class="o">-----------------</span>  <span class="o">------</span>  <span class="o">------------------</span>
+<span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span><span class="n">_HTS_81800</span>                        <span class="mi">0</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span>                     <span class="mi">0</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09160</span><span class="n">_HTS_81800</span>                     <span class="mi">0</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09159</span><span class="n">_HTS_81800</span>                     <span class="mi">0</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09158</span><span class="n">_HTS_81800</span>                     <span class="mi">0</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+</pre></div>
+</div>
+</section>
+<section id="ret-formal">
+<h2>Ret formål<a class="headerlink" href="#ret-formal" title="Link to this heading"></a></h2>
+<p>Du har indset, at &quot;Stabilitetskontrol&quot; var en lidt for intetsigende beskrivelse, og beslutter dig for at rette det.</p>
+<p>Gå ind i sagsarket og ret punktsamlingens formål til noget andet. Derefter kører du samme kommandoer som før:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">punktsamling</span> <span class="n">HTS_DEMO</span>
+<span class="n">fire</span> <span class="n">info</span> <span class="n">punktsamling</span> <span class="n">PUNKTSAMLING_81800</span>
+<span class="o">&gt;&gt;</span>
+<span class="o">-------------------------</span> <span class="n">PUNKTSAMLING</span> <span class="o">-------------------------</span>
+<span class="n">Navn</span>          <span class="p">:</span> <span class="n">PUNKTSAMLING_81800</span>
+<span class="n">Formål</span>        <span class="p">:</span> <span class="n">Kontrol</span> <span class="n">af</span> <span class="n">stabilitet</span>
+<span class="n">Jessenpunkt</span>   <span class="p">:</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="n">Jessennummer</span>  <span class="p">:</span> <span class="mi">81800</span>
+<span class="n">Jessenkote</span>    <span class="p">:</span> <span class="mi">0</span> <span class="n">m</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
+<section id="beregn-forste-opmaling">
+<span id="id1"></span><h2>Beregn første opmåling<a class="headerlink" href="#beregn-forste-opmaling" title="Link to this heading"></a></h2>
+<p>Som ved en normal beregning skal man vælge et fastholdt punkt og kote. Når du beskæftiger dig med
+tidsserier skal dette svare til en punktsamlings jessenpunkt og referencekote. I
+<strong>Punktoversigt</strong> og sætter du et &quot;x&quot; i kolonnen <strong>Fasthold</strong> ud for jessenpunktet, og i
+kolonnen <strong>Kote</strong> skriver du 0 som vist:</p>
+<img alt="../_images/punktoversigt_2.PNG" src="../_images/punktoversigt_2.PNG" />
+<p>Beregn nu nye koter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">regn</span> <span class="n">HTS_DEMO</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">regn</span> <span class="n">HTS_DEMO</span>
+</pre></div>
+</div>
+<p>Læg mærke til om fanerne &quot;Hvornår&quot; og &quot;Ny kote&quot; ser ud som vist efter den endelige beregning:</p>
+<img alt="../_images/endelig_beregning_1.PNG" src="../_images/endelig_beregning_1.PNG" />
+<p>Ilæg observationer og nyberegnede koter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">observationer</span> <span class="n">HTS_DEMO</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">nye</span><span class="o">-</span><span class="n">koter</span> <span class="n">HTS_DEMO</span>
+</pre></div>
+</div>
+<p>Tjek at tidsserierne har fået nye koter ved at at trække punktsamlingsinformationen ud igen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">info</span> <span class="n">punktsamling</span> <span class="n">PUNKTSAMLING_81800</span>
+<span class="o">&gt;&gt;</span>
+<span class="o">-------------------------</span> <span class="n">PUNKTSAMLING</span> <span class="o">-------------------------</span>
+<span class="n">Navn</span>          <span class="p">:</span> <span class="n">PUNKTSAMLING_81800</span>
+<span class="n">Formål</span>        <span class="p">:</span> <span class="n">Kontrol</span> <span class="n">af</span> <span class="n">stabilitet</span>
+<span class="n">Jessenpunkt</span>   <span class="p">:</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="n">Jessennummer</span>  <span class="p">:</span> <span class="mi">81800</span>
+<span class="n">Jessenkote</span>    <span class="p">:</span> <span class="mi">0</span> <span class="n">m</span>
+<span class="n">Antal</span> <span class="n">punkter</span> <span class="p">:</span> <span class="mi">5</span>
+<span class="o">---</span> <span class="n">Punkter</span> <span class="o">---</span>
+<span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09158</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09159</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09160</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span>
+<span class="o">---</span> <span class="n">Tidsserier</span> <span class="o">---</span>
+<span class="n">Navn</span>                                      <span class="n">Antal</span> <span class="n">datapunkter</span>  <span class="n">Type</span>    <span class="n">Referenceramme</span>
+<span class="o">----------------------------------------</span>  <span class="o">-----------------</span>  <span class="o">------</span>  <span class="o">------------------</span>
+<span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span><span class="n">_HTS_81800</span>                        <span class="mi">0</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span>                     <span class="mi">1</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09160</span><span class="n">_HTS_81800</span>                     <span class="mi">1</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09159</span><span class="n">_HTS_81800</span>                     <span class="mi">1</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09158</span><span class="n">_HTS_81800</span>                     <span class="mi">1</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+</pre></div>
+</div>
+<p>Læg mærke til antallet af datapunkter i tidsserierne er steget med 1.</p>
+</section>
+<section id="flere-opmalinger">
+<h2>Flere opmålinger<a class="headerlink" href="#flere-opmalinger" title="Link to this heading"></a></h2>
+<p>Nu simulerer vi at der er gået en årrække med gentagne opmålinger, så her gentager vi
+nogle af de samme skridt som før, men for nye observationsfiler. For at spare lidt tid så
+springer vi oprettelsen af nye sager for hver opmåling over.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Under normale omstændigheder så skal man efter ilægning af koter og observationer
+huske at lukke sagen med <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">niv</span> <span class="pre">luk-sag</span></code>. Dette gør så man via FIRE kan holde
+styr på hvilke sager som mangler endelig beregning og ilægning. Derudover gør det
+bl.a. også så sagsarket gemmes i FIRE.</p>
+</div>
+<ol class="arabic">
+<li><p>Slet fanerne <strong>Resultat, Endelig beregning</strong> og <strong>Kontrolberegning</strong>.
+Hvis du vil, kan du gemme en kopi af sagsarket, så det er muligt at vende tilbage til
+dette punkt i demoen. Sæt fx årstallet på som endelse: <code class="docutils literal notranslate"><span class="pre">HTS_DEMO_2000.xlsx</span></code></p></li>
+<li><p>Gå ind i arket og skriv navnet på den næste observationsfil ind:</p>
+<img alt="../_images/filoversigt_2010.PNG" src="../_images/filoversigt_2010.PNG" />
+</li>
+<li><p>Indlæs observationerne:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">læs</span><span class="o">-</span><span class="n">observationer</span> <span class="n">HTS_DEMO</span> <span class="o">--</span><span class="n">kotesystem</span> <span class="n">Jessen</span>
+</pre></div>
+</div>
+</li>
+<li><p>Fasthold jessenpunkt og referencekote på samme måde som under <a class="reference internal" href="#id1"><span class="std std-ref">Beregn første opmåling</span></a></p></li>
+<li><p>Udjævn og ilæg observationerne og beregnede koter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">regn</span> <span class="n">HTS_DEMO</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">regn</span> <span class="n">HTS_DEMO</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">observationer</span> <span class="n">HTS_DEMO</span>
+<span class="n">fire</span> <span class="n">niv</span> <span class="n">ilæg</span><span class="o">-</span><span class="n">nye</span><span class="o">-</span><span class="n">koter</span> <span class="n">HTS_DEMO</span>
+</pre></div>
+</div>
+</li>
+<li><p>Tjek at koterne er ilagt:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">info</span> <span class="n">punktsamling</span> <span class="n">PUNKTSAMLING_81800</span>
+</pre></div>
+</div>
+</li>
+<li><p>Gentag trinnene 1-6 for de to andre observationsfiler, i kronologisk rækkefølge. Når du
+beregner nye koter, så prøv at bruge parameteren <code class="docutils literal notranslate"><span class="pre">--plot</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">regn</span> <span class="n">HTS_DEMO</span> <span class="o">--</span><span class="n">plot</span>
+</pre></div>
+</div>
+<p>Dette laver et plot i stil med nedenstående, der viser tidsserierne som er ved at blive
+beregnet. De fremhævede koter med ring om er de nyberegnede koter som endnu ikke er
+lagt i databasen. De andre punkter er dem, som allerede ligger i databasen.</p>
+<img alt="../_images/regn_plot.png" src="../_images/regn_plot.png" />
+</li>
+</ol>
+<p>Når du er færdig, lukker du sagen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">niv</span> <span class="n">luk</span><span class="o">-</span><span class="n">sag</span> <span class="n">HTS_DEMO</span>
+</pre></div>
+</div>
+</section>
+<section id="udtraek-plot-og-analyse-af-tidsserier">
+<h2>Udtræk, plot og analyse af tidsserier<a class="headerlink" href="#udtraek-plot-og-analyse-af-tidsserier" title="Link to this heading"></a></h2>
+<p>Til sidst skal vi se på, hvordan man trækker data om tidsserier ud af FIRE, og laver nogle
+simple plots og standardiserede analyser på dem. Prøv at køre nogle af nedenstående
+kommandoer.</p>
+<p><strong>Udtræk punktinformation</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span>\<span class="n">HTS_DEMO</span><span class="o">&gt;</span><span class="n">fire</span> <span class="n">info</span> <span class="n">punkt</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span>
+<span class="o">&gt;&gt;</span>
+<span class="o">--------------------------------------------------------------------------------</span>
+<span class="n">PUNKT</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span>
+<span class="o">--------------------------------------------------------------------------------</span>
+<span class="n">Lokation</span>                    <span class="n">POINT</span> <span class="p">(</span><span class="mf">12.3934</span> <span class="mf">55.982371</span><span class="p">)</span>
+<span class="n">Oprettelsesdato</span>             <span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">16</span> <span class="mi">18</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mf">19.628235</span>
+<span class="n">AFM</span><span class="p">:</span><span class="mi">2950</span>                    <span class="n">Skruepløk</span>
+<span class="n">ATTR</span><span class="p">:</span><span class="n">beskrivelse</span>            <span class="n">Et</span> <span class="n">firkantet</span> <span class="n">fikspunkt</span><span class="o">.</span>
+<span class="n">REGION</span><span class="p">:</span><span class="n">DK</span>
+<span class="n">ATTR</span><span class="p">:</span><span class="n">bemærkning</span>             <span class="n">Nyetb</span><span class="o">.</span> <span class="mi">2024</span> <span class="n">B294041</span>
+<span class="n">ATTR</span><span class="p">:</span><span class="n">højdefikspunkt</span>
+<span class="n">IDENT</span><span class="p">:</span><span class="n">landsnr</span>               <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span>
+
+<span class="o">---</span> <span class="n">KOORDINATER</span> <span class="o">---</span>
+
+
+<span class="o">---</span> <span class="n">PUNKTSAMLINGER</span> <span class="o">---</span>
+<span class="n">Navn</span>                                <span class="n">Jessenpunkt</span>  <span class="n">Antal</span> <span class="n">punkter</span>  <span class="n">Antal</span> <span class="n">tidsserier</span>
+<span class="o">----------------------------------</span>  <span class="o">-----------</span>  <span class="o">-------------</span>  <span class="o">----------------</span>
+<span class="n">PUNKTSAMLING_81800</span>                  <span class="mi">81800</span>        <span class="mi">5</span>              <span class="mi">5</span>
+
+<span class="o">---</span> <span class="n">TIDSSERIER</span> <span class="o">---</span>
+<span class="n">Navn</span>                                      <span class="n">Antal</span> <span class="n">datapunkter</span>  <span class="n">Type</span>    <span class="n">Referenceramme</span>
+<span class="o">----------------------------------------</span>  <span class="o">-----------------</span>  <span class="o">------</span>  <span class="o">------------------</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span>                     <span class="mi">4</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+</pre></div>
+</div>
+<p><strong>Udtræk information om punktsamlinger</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fire</span><span class="p">)</span> <span class="n">C</span><span class="p">:</span>\<span class="n">FIRE</span>\<span class="n">HTS_DEMO</span><span class="o">&gt;</span><span class="n">fire</span> <span class="n">info</span> <span class="n">punktsamling</span> <span class="n">PUNKTSAMLING_81800</span>
+<span class="o">&gt;&gt;</span>
+<span class="o">-------------------------</span> <span class="n">PUNKTSAMLING</span> <span class="o">-------------------------</span>
+<span class="n">Navn</span>          <span class="p">:</span> <span class="n">PUNKTSAMLING_81800</span>
+<span class="n">Formål</span>        <span class="p">:</span> <span class="n">Kontrol</span> <span class="n">af</span> <span class="n">stabilitet</span>
+<span class="n">Jessenpunkt</span>   <span class="p">:</span> <span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="n">Jessennummer</span>  <span class="p">:</span> <span class="mi">81800</span>
+<span class="n">Jessenkote</span>    <span class="p">:</span> <span class="mi">0</span> <span class="n">m</span>
+<span class="n">Antal</span> <span class="n">punkter</span> <span class="p">:</span> <span class="mi">5</span>
+<span class="o">---</span> <span class="n">Punkter</span> <span class="o">---</span>
+<span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09158</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09159</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09160</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span>
+<span class="o">---</span> <span class="n">Tidsserier</span> <span class="o">---</span>
+<span class="n">Navn</span>                                      <span class="n">Antal</span> <span class="n">datapunkter</span>  <span class="n">Type</span>    <span class="n">Referenceramme</span>
+<span class="o">----------------------------------------</span>  <span class="o">-----------------</span>  <span class="o">------</span>  <span class="o">------------------</span>
+<span class="n">G</span><span class="o">.</span><span class="n">I</span><span class="mf">.2406</span><span class="n">_HTS_81800</span>                        <span class="mi">0</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span>                     <span class="mi">4</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09160</span><span class="n">_HTS_81800</span>                     <span class="mi">4</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09159</span><span class="n">_HTS_81800</span>                     <span class="mi">4</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+<span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09158</span><span class="n">_HTS_81800</span>                     <span class="mi">4</span>                  <span class="n">Højde</span>   <span class="n">Jessen</span>
+</pre></div>
+</div>
+<p><strong>Udtræk højdetidsserie</strong></p>
+<p>Prøv at udtrække en af dine højdetidsserier:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(fire-dev) C:\FIRE\HTS_DEMO&gt;fire ts hts 12-01-09161_HTS_81800
+&gt;&gt;
+
+t                     decimalår   kote     sz
+───────────────────────────────────────────────────
+2000-01-01 10:00:00   2000.0011   0.0020   0.0000
+2010-01-01 10:00:00   2010.0011   0.0000   0.0000
+2015-01-01 10:00:00   2015.0011   0.0020   0.3000
+2020-01-01 10:00:00   2020.0011   0.0000   0.0000
+</pre></div>
+</div>
+<p>Det er også muligt at gemme til regneark:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">hts</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span> <span class="o">-</span><span class="n">f</span> <span class="s2">"12-01-09161_HTS_81800.xlsx"</span>
+</pre></div>
+</div>
+<p>På denne måde kan du trække data ud og lave dine egne analyser af data.</p>
+<p><strong>Plot højdetidsserie</strong></p>
+<p>Lav nogle helt simple plots af dine højdetidsserier:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">hts</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span>
+<span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">hts</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span> <span class="o">-</span><span class="n">t</span> <span class="n">fit</span>
+<span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">hts</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span> <span class="o">-</span><span class="n">t</span> <span class="n">konf</span>
+</pre></div>
+</div>
+<p><strong>Analyse af højdetidsserier</strong></p>
+<p>Analysér dine højdetidsserier. En simpel analyse der beregner et lineært fit og beretter
+om hældningen af fittet samt forskellige statistiske egenskaber ved fittet. Vigtigst er
+hypotesetesten, som fortæller om der er belæg for at sige, om punktet er stabilt eller ej.</p>
+<p>Analysér én tidsserie:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">analyse</span><span class="o">-</span><span class="n">hts</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span>
+</pre></div>
+</div>
+<p>Analysér flere tidsserier:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">analyse</span><span class="o">-</span><span class="n">hts</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09161</span><span class="n">_HTS_81800</span> <span class="mi">12</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09160</span><span class="n">_HTS_81800</span>
+</pre></div>
+</div>
+<p>Analysér alle tidsserier i punktsamlingen:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">analyse</span><span class="o">-</span><span class="n">hts</span> <span class="n">PUNKTSAMLING_81800</span>
+</pre></div>
+</div>
+<p>Gem statistik-resultater:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">analyse</span><span class="o">-</span><span class="n">hts</span> <span class="n">PUNKTSAMLING_81800</span> <span class="o">-</span><span class="n">f</span> <span class="n">PUNKTSAMLING_81800_statistik</span><span class="o">.</span><span class="n">csv</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Alle ovenstående <code class="docutils literal notranslate"><span class="pre">ts</span></code>-kommandoer til udtræk, plot og analyse af højdetidsserier har
+tilsvarende kommandoer til GNSS-tidsserier. Udskift blot <code class="docutils literal notranslate"><span class="pre">hts</span></code> med <code class="docutils literal notranslate"><span class="pre">gnss</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">gnss</span>
+<span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">gnss</span>
+<span class="n">fire</span> <span class="n">ts</span> <span class="n">analyse</span><span class="o">-</span><span class="n">gnss</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="workshop.html" class="btn btn-neutral float-left" title="Præsentation af FIRE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fire luk &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fire ts" href="ts.html" />
+    <link rel="prev" title="fire grafik" href="grafik.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kommandolinjeprogrammer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="config.html">fire config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html">fire info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html">fire niv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="indl%C3%A6s.html">fire indlæs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opret.html">fire opret</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grafik.html">fire grafik</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">fire luk</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fire-luk-punkt">fire luk punkt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-luk-koordinat">fire luk koordinat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-luk-observation">fire luk observation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-luk-tidsserie">fire luk tidsserie</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-luk-punktsamling">fire luk punktsamling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ts.html">fire ts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Kommandolinjeprogrammer</a></li>
+      <li class="breadcrumb-item active">fire luk</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apps/luk.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fire-luk">
+<h1>fire luk<a class="headerlink" href="#fire-luk" title="Link to this heading"></a></h1>
+<p>Kommandogruppen <strong class="program">fire luk</strong> bruges til at afregistrere forskellige
+typer objekter i databasen.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: fire luk [OPTIONS] COMMAND [ARGS]...
+
+  Luk objekter i FIRE
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  koordinat     Fejlmeld en koordinat i FIRE databasen.
+  observation   Fejlmeld en observation i FIRE databasen.
+  punkt         Luk et punkt i FIRE databasen.
+  punktsamling  Luk en punktsamling i FIRE databasen.
+  tidsserie     Luk en tidsserie i FIRE databasen.
+</pre></div>
+</div>
+<section id="fire-luk-punkt">
+<h2>fire luk punkt<a class="headerlink" href="#fire-luk-punkt" title="Link to this heading"></a></h2>
+<p>Luk et punkt i FIRE databasen.</p>
+<p>Lukker et punkt, identificeret ved dets UUID, og ALLE tilhørende databaseobjekter.
+Det vil sige at punktinformationer, koordinater, observationer og så videre
+der er tilknyttet punktet VIL BLIVE LUKKET.</p>
+<p>Når først et punkt er lukket kan det ikke åbnes igen.</p>
+<blockquote>
+<div><p>BRUG DERFOR DENNE FUNKTION MED OMTANKE!</p>
+</div></blockquote>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>luk<span class="w"> </span>punkt<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>UUID
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punkt-sagsbehandler">
+<span class="sig-name descname"><span class="pre">--sagsbehandler</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sagsbehandler&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-punkt-sagsbehandler" title="Link to this definition"></a></dt>
+<dd><p>Angiv andet brugernavn end den aktuelt indloggede</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punkt-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-punkt-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punkt-m">
+<span id="cmdoption-fire-luk-punkt-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punkt-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punkt-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punkt-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punkt-I">
+<span id="cmdoption-fire-luk-punkt-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punkt-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punkt-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punkt-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punkt-arg-UUID">
+<span class="sig-name descname"><span class="pre">UUID</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punkt-arg-UUID" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-luk-koordinat">
+<h2>fire luk koordinat<a class="headerlink" href="#fire-luk-koordinat" title="Link to this heading"></a></h2>
+<p>Fejlmeld en koordinat i FIRE databasen.</p>
+<p>Når en koordinat fejlmeldes afregistreres den i databasen og
+det angives samtidigt at koordinaten ikke er gyldig i tidsserier.</p>
+<p>Koordinatens objektid skal findes ved manuelt opslag i databasen.
+Det kan fx gøres med et udtræk som følgende:</p>
+<div class="line-block">
+<div class="line">SELECT * FROM koordinat k</div>
+<div class="line">JOIN PUNKTINFO p ON p.PUNKTID = k.PUNKTID</div>
+<div class="line">JOIN SRIDTYPE s ON k.SRIDID = s.SRIDID</div>
+<div class="line">WHERE p.tekst = '147-06-00001' AND s.srid = 'EPSG:5799';</div>
+</div>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>luk<span class="w"> </span>koordinat<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>OBJEKTID
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-koordinat-sagsbehandler">
+<span class="sig-name descname"><span class="pre">--sagsbehandler</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sagsbehandler&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-koordinat-sagsbehandler" title="Link to this definition"></a></dt>
+<dd><p>Angiv andet brugernavn end den aktuelt indloggede</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-koordinat-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-koordinat-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-koordinat-m">
+<span id="cmdoption-fire-luk-koordinat-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-koordinat-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-koordinat-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-koordinat-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-koordinat-I">
+<span id="cmdoption-fire-luk-koordinat-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-koordinat-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-koordinat-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-koordinat-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-koordinat-arg-OBJEKTID">
+<span class="sig-name descname"><span class="pre">OBJEKTID</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-koordinat-arg-OBJEKTID" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-luk-observation">
+<h2>fire luk observation<a class="headerlink" href="#fire-luk-observation" title="Link to this heading"></a></h2>
+<p>Fejlmeld en observation i FIRE databasen.</p>
+<p>Når en observation fejlmeldes afregistreres den i databasen og
+det angives samtidigt at observationen er fejlbehæftet.</p>
+<p>Observationens objektid kan fx findes ved opslag med
+<code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">info</span> <span class="pre">punkt</span> <span class="pre">-O</span> <span class="pre">niv</span> <span class="pre">&lt;punkt&gt;</span></code> eller ved manuelt opslag i
+databasen. Sidstnævnte kan fx gøres med et udtræk som følgende:</p>
+<div class="line-block">
+<div class="line">SELECT * FROM observation o</div>
+<div class="line">JOIN punktinfo po ON po.punktid = o.opstillingspunktid</div>
+<div class="line">JOIN punktinfo ps ON ps.punktid = o.sigtepunktid</div>
+<div class="line">WHERE po.tekst = '41-06-09008' AND ps.tekst = '41-06-09023';</div>
+</div>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>luk<span class="w"> </span>observation<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>OBJEKTID
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-observation-sagsbehandler">
+<span class="sig-name descname"><span class="pre">--sagsbehandler</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sagsbehandler&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-observation-sagsbehandler" title="Link to this definition"></a></dt>
+<dd><p>Angiv andet brugernavn end den aktuelt indloggede</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-observation-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-observation-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-observation-m">
+<span id="cmdoption-fire-luk-observation-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-observation-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-observation-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-observation-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-observation-I">
+<span id="cmdoption-fire-luk-observation-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-observation-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-observation-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-observation-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-observation-arg-OBJEKTID">
+<span class="sig-name descname"><span class="pre">OBJEKTID</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-observation-arg-OBJEKTID" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-luk-tidsserie">
+<h2>fire luk tidsserie<a class="headerlink" href="#fire-luk-tidsserie" title="Link to this heading"></a></h2>
+<p>Luk en tidsserie i FIRE databasen.</p>
+<p>Tidsseriens objektid skal findes ved manuelt opslag i databasen.
+Det kan fx gøres med et udtræk som følgende:</p>
+<div class="line-block">
+<div class="line">SELECT * FROM tidsserie ts</div>
+<div class="line">WHERE ts.navn = 'RDIO_5D_IGb08'</div>
+</div>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>luk<span class="w"> </span>tidsserie<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>OBJEKTID
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-tidsserie-sagsbehandler">
+<span class="sig-name descname"><span class="pre">--sagsbehandler</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sagsbehandler&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-tidsserie-sagsbehandler" title="Link to this definition"></a></dt>
+<dd><p>Angiv andet brugernavn end den aktuelt indloggede</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-tidsserie-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-tidsserie-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-tidsserie-m">
+<span id="cmdoption-fire-luk-tidsserie-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-tidsserie-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-tidsserie-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-tidsserie-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-tidsserie-I">
+<span id="cmdoption-fire-luk-tidsserie-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-tidsserie-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-tidsserie-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-tidsserie-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-tidsserie-arg-OBJEKTID">
+<span class="sig-name descname"><span class="pre">OBJEKTID</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-tidsserie-arg-OBJEKTID" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-luk-punktsamling">
+<h2>fire luk punktsamling<a class="headerlink" href="#fire-luk-punktsamling" title="Link to this heading"></a></h2>
+<p>Luk en punktsamling i FIRE databasen.</p>
+<p>Punktsamlingens objektid skal findes ved manuelt opslag i databasen.
+Det kan fx gøres med et udtræk som følgende:</p>
+<div class="line-block">
+<div class="line">SELECT * FROM punktsamling ps</div>
+<div class="line">WHERE ps.navn = 'PUNKTSAMLING_81001'</div>
+</div>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>luk<span class="w"> </span>punktsamling<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>OBJEKTID
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punktsamling-sagsbehandler">
+<span class="sig-name descname"><span class="pre">--sagsbehandler</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;sagsbehandler&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-punktsamling-sagsbehandler" title="Link to this definition"></a></dt>
+<dd><p>Angiv andet brugernavn end den aktuelt indloggede</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punktsamling-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-luk-punktsamling-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punktsamling-m">
+<span id="cmdoption-fire-luk-punktsamling-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punktsamling-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punktsamling-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punktsamling-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punktsamling-I">
+<span id="cmdoption-fire-luk-punktsamling-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punktsamling-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punktsamling-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punktsamling-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-luk-punktsamling-arg-OBJEKTID">
+<span class="sig-name descname"><span class="pre">OBJEKTID</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-luk-punktsamling-arg-OBJEKTID" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="grafik.html" class="btn btn-neutral float-left" title="fire grafik" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ts.html" class="btn btn-neutral float-right" title="fire ts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

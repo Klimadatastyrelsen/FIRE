@@ -1,0 +1,1015 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="dk" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fire ts &mdash; FIRE 1.11.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=4bc12e22"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tips og tricks" href="../tips/index.html" />
+    <link rel="prev" title="fire luk" href="luk.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FIRE
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../konfiguration.html">Konfigurationsfil</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installationsvejledning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datamodel.html">FIREs Datamodel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../for_udviklere.html">Udviklingsguide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Kommandolinjeprogrammer</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="config.html">fire config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="info.html">fire info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="niv.html">fire niv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="indl%C3%A6s.html">fire indlæs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opret.html">fire opret</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grafik.html">fire grafik</a></li>
+<li class="toctree-l2"><a class="reference internal" href="luk.html">fire luk</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">fire ts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fire-ts-gnss">fire ts gnss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-ts-plot-gnss">fire ts plot-gnss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-ts-analyse-gnss">fire ts analyse-gnss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-ts-hts">fire ts hts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-ts-plot-hts">fire ts plot-hts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fire-ts-analyse-hts">fire ts analyse-hts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tips/index.html">Tips og tricks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workshop/index.html">Workshop</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Kommandolinjeprogrammer</a></li>
+      <li class="breadcrumb-item active">fire ts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/apps/ts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="fire-ts">
+<h1>fire ts<a class="headerlink" href="#fire-ts" title="Link to this heading"></a></h1>
+<p>Kommandogruppen <strong class="program">fire ts</strong> indeholder værktøjer
+til indlæsning af data fra forskellige kilder.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: fire ts [OPTIONS] COMMAND [ARGS]...
+
+  Håndtering af koordinattidsserier.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  analyse-gnss  Analysér tidsserie for én eller flere GNSS stationer.
+  analyse-hts   Analysér en eller flere Højdetidsserier.
+  gnss          Udtræk en GNSS tidsserie.
+  hts           Udtræk en Højdetidsserie.
+  plot-gnss     Plot en GNSS tidsserie.
+  plot-hts      Plot en Højdetidsserie.
+</pre></div>
+</div>
+<section id="fire-ts-gnss">
+<span id="fire-ts-gnss"></span><h2>fire ts gnss<a class="headerlink" href="#fire-ts-gnss" title="Link to this heading"></a></h2>
+<p>Udtræk en GNSS tidsserie.</p>
+<p>&quot;OBJEKT&quot; sættes til enten et punkt eller en søgetekst på tidsserienavn.
+Hvis &quot;OBJEKT&quot; er et punkt udskrives en oversigt over de tilgængelige tidsserier til
+dette punkt.
+Ellers søges der blandt alle tidsserier, hvor &quot;OBJEKT&quot; indgår i navnet. <cite>-s/--srid</cite> kan
+bruges til at filtrere yderligere på srid.
+Findes der flere tidsserier, skrives en oversigt over dem, og hvis der kun findes én
+tidsserie udskrives tidsserien på skærmen. Hvilke parametre der udskrives kan
+specificeres i en kommasepareret liste med <code class="docutils literal notranslate"><span class="pre">--parametre</span></code>. Følgende parametre kan
+vælges:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>     <span class="n">t</span>               <span class="n">Tidspunkt</span> <span class="k">for</span> <span class="n">koordinatobservation</span>
+<span class="o">|</span>     <span class="n">x</span>               <span class="n">Koordinatens</span> <span class="n">x</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">sx</span>              <span class="n">x</span><span class="o">-</span><span class="n">komponentens</span> <span class="n">spredning</span> <span class="p">(</span><span class="n">i</span> <span class="n">mm</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">y</span>               <span class="n">Koordinatens</span> <span class="n">y</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">sy</span>              <span class="n">y</span><span class="o">-</span><span class="n">komponentens</span> <span class="n">spredning</span> <span class="p">(</span><span class="n">i</span> <span class="n">mm</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">z</span>               <span class="n">Koordinatens</span> <span class="n">z</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">sz</span>              <span class="n">z</span><span class="o">-</span><span class="n">komponentens</span> <span class="n">spredning</span> <span class="p">(</span><span class="n">i</span> <span class="n">mm</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">X</span>               <span class="n">Koordinatens</span> <span class="n">x</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">,</span> <span class="n">normaliseret</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">Y</span>               <span class="n">Koordinatens</span> <span class="n">y</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">,</span> <span class="n">normaliseret</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">Z</span>               <span class="n">Koordinatens</span> <span class="n">z</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">,</span> <span class="n">normaliseret</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">n</span>               <span class="n">Normaliseret</span> <span class="n">nordlig</span> <span class="n">komponent</span> <span class="p">(</span><span class="n">topocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">e</span>               <span class="n">Normaliseret</span> <span class="n">østlig</span> <span class="n">komponent</span> <span class="p">(</span><span class="n">topocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">u</span>               <span class="n">Normaliseret</span> <span class="n">vertikal</span> <span class="n">komponent</span> <span class="p">(</span><span class="n">topocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">decimalår</span>       <span class="n">Tidspunkt</span> <span class="k">for</span> <span class="n">koordinatobservation</span> <span class="n">i</span> <span class="n">decimalår</span>
+<span class="o">|</span>     <span class="n">obslængde</span>       <span class="n">Observationslængde</span> <span class="n">givet</span> <span class="n">i</span> <span class="n">timer</span>
+<span class="o">|</span>     <span class="n">kkxx</span>            <span class="n">Koordinatkovariansmatricens</span> <span class="n">XX</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">kkxy</span>            <span class="n">Koordinatkovariansmatricens</span> <span class="n">XY</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">kkxz</span>            <span class="n">Koordinatkovariansmatricens</span> <span class="n">XZ</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">kkyy</span>            <span class="n">Koordinatkovariansmatricens</span> <span class="n">YY</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">kkyz</span>            <span class="n">Koordinatkovariansmatricens</span> <span class="n">YZ</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">kkzz</span>            <span class="n">Koordinatkovariansmatricens</span> <span class="n">ZZ</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">rkxx</span>            <span class="n">Residualkovariansmatricens</span> <span class="n">XX</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">rkxy</span>            <span class="n">Residualkovariansmatricens</span> <span class="n">XY</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">rkxz</span>            <span class="n">Residualkovariansmatricens</span> <span class="n">XZ</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">rkyy</span>            <span class="n">Residualkovariansmatricens</span> <span class="n">YY</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">rkyz</span>            <span class="n">Residualkovariansmatricens</span> <span class="n">YZ</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">rkzz</span>            <span class="n">Residualkovariansmatricens</span> <span class="n">ZZ</span><span class="o">-</span><span class="n">komponent</span>
+</pre></div>
+</div>
+<p>Tidsserien kan skrives til en fil ved brug af <code class="docutils literal notranslate"><span class="pre">--fil</span></code>, der resulterer i
+en csv-fil på den angivne placering. Denne fil kan efterfølgende åbnes
+i Excel, eller et andet passende program, til videre analyse.</p>
+<div class="line-block">
+<div class="line"><strong>EKSEMPLER</strong></div>
+</div>
+<p>Vis alle tidsserier for punktet TILS:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">gnss</span> <span class="n">TILS</span>
+</pre></div>
+</div>
+<p>Vis alle tidsserier hvor 'LS' indgår i navnet, og som har referencerammen IGb08:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">gnss</span> <span class="n">LS</span> <span class="o">--</span><span class="n">srid</span> <span class="n">IGb08</span>
+</pre></div>
+</div>
+<p>Vis tidsserien 'TILS_5D_IGb08' med standardparametre:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">gnss</span> <span class="n">TILS_5D_IGb08</span>
+</pre></div>
+</div>
+<p>Vis tidsserie med brugerdefinerede parametre:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">gnss</span> <span class="n">TILS_5D_IGb08</span> <span class="o">--</span><span class="n">parametre</span> <span class="n">decimalår</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">sx</span><span class="p">,</span><span class="n">sy</span><span class="p">,</span><span class="n">sz</span>
+</pre></div>
+</div>
+<p>Gem tidsserie med samtlige tilgængelige parametre:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">gnss</span> <span class="n">TILS_5D_IGb08</span> <span class="o">-</span><span class="n">p</span> <span class="n">alle</span> <span class="o">-</span><span class="n">f</span> <span class="n">TILS_5D_IGb08</span><span class="o">.</span><span class="n">xlsx</span>
+</pre></div>
+</div>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>ts<span class="w"> </span>gnss<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>OBJEKT<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-p">
+<span id="cmdoption-fire-ts-gnss-parametre"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--parametre</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;parametre&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-p" title="Link to this definition"></a></dt>
+<dd><p>Vælg hvilke parametre i tidsserien der skal udtrækkes. Som standard
+sat til 't,x,sx,y,sy,z,sz'. Bruges værdien 'alle' udtrækkes alle mulige parametre
+i tidsserien.  Se <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">ts</span> <span class="pre">gnss</span> <span class="pre">--help</span></code> for yderligere detaljer.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-f">
+<span id="cmdoption-fire-ts-gnss-fil"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--fil</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;fil&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-f" title="Link to this definition"></a></dt>
+<dd><p>Skriv den udtrukne tidsserie til Excel fil.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-s">
+<span id="cmdoption-fire-ts-gnss-srid"></span><span class="sig-name descname"><span class="pre">-s</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--srid</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;srid&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-s" title="Link to this definition"></a></dt>
+<dd><p>Filtrer tidsserier på srid. Fx <cite>-s IGb08</cite>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-m">
+<span id="cmdoption-fire-ts-gnss-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-I">
+<span id="cmdoption-fire-ts-gnss-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-gnss-arg-OBJEKT">
+<span class="sig-name descname"><span class="pre">OBJEKT</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-gnss-arg-OBJEKT" title="Link to this definition"></a></dt>
+<dd><p>Optional argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-ts-plot-gnss">
+<span id="fire-ts-plot-gnss"></span><h2>fire ts plot-gnss<a class="headerlink" href="#fire-ts-plot-gnss" title="Link to this heading"></a></h2>
+<p>Plot en GNSS tidsserie.</p>
+<p>Et simpelt plot der som standard viser udviklingen i nord, øst og op retningerne over tid.
+Vælges plottypen <code class="docutils literal notranslate"><span class="pre">konf</span></code> vises som standard kun Op-retningen.
+Plottes kun én enkelt tidsserieparameter vises for plottyperne <code class="docutils literal notranslate"><span class="pre">fit</span></code> og <code class="docutils literal notranslate"><span class="pre">konf</span></code> også
+værdien af fittets hældning.</p>
+<p>&quot;TIDSSERIE&quot; er et GNSS-tidsserie ID fra FIRE. Eksisterende GNSS-tidsserier kan
+fremsøges med kommandoen <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">ts</span> <span class="pre">gnss</span> <span class="pre">&lt;punktnummer&gt;</span></code>.
+Hvilke parametre der plottes kan specificeres i en kommasepareret liste med <code class="docutils literal notranslate"><span class="pre">--parametre</span></code>.
+Højst 3 parametre plottes. Følgende parametre kan vælges:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>     <span class="n">t</span>               <span class="n">Tidspunkt</span> <span class="k">for</span> <span class="n">koordinatobservation</span>
+<span class="o">|</span>     <span class="n">x</span>               <span class="n">Koordinatens</span> <span class="n">x</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">y</span>               <span class="n">Koordinatens</span> <span class="n">y</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">z</span>               <span class="n">Koordinatens</span> <span class="n">z</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">X</span>               <span class="n">Koordinatens</span> <span class="n">x</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">,</span> <span class="n">normaliseret</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">Y</span>               <span class="n">Koordinatens</span> <span class="n">y</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">,</span> <span class="n">normaliseret</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">Z</span>               <span class="n">Koordinatens</span> <span class="n">z</span><span class="o">-</span><span class="n">komponent</span> <span class="p">(</span><span class="n">geocentrisk</span><span class="p">,</span> <span class="n">normaliseret</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">n</span>               <span class="n">Normaliseret</span> <span class="n">nordlig</span> <span class="n">komponent</span> <span class="p">(</span><span class="n">topocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">e</span>               <span class="n">Normaliseret</span> <span class="n">østlig</span> <span class="n">komponent</span> <span class="p">(</span><span class="n">topocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">u</span>               <span class="n">Normaliseret</span> <span class="n">vertikal</span> <span class="n">komponent</span> <span class="p">(</span><span class="n">topocentrisk</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">decimalår</span>       <span class="n">Tidspunkt</span> <span class="k">for</span> <span class="n">koordinatobservation</span> <span class="n">i</span> <span class="n">decimalår</span>
+</pre></div>
+</div>
+<p>Typen af plot som vises kan vælges med <code class="docutils literal notranslate"><span class="pre">--plottype</span></code>. Følgende plottyper kan vælges:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>     <span class="n">rå</span>              <span class="n">Plot</span> <span class="n">rå</span> <span class="n">data</span>
+<span class="o">|</span>     <span class="n">fit</span>             <span class="n">Plot</span> <span class="n">lineær</span> <span class="n">regression</span> <span class="n">oven</span> <span class="n">på</span> <span class="n">de</span> <span class="n">rå</span> <span class="n">data</span>
+<span class="o">|</span>     <span class="n">konf</span>            <span class="n">Plot</span> <span class="n">lineær</span> <span class="n">regression</span> <span class="n">med</span> <span class="n">konfidensbånd</span>
+</pre></div>
+</div>
+<p><strong>EKSEMPLER</strong></p>
+<p>Plot af 5D-tidsserie for BUDP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">gnss</span> <span class="n">BUDP_5D_IGb08</span>
+</pre></div>
+</div>
+<p>Resulterer i visning af nedenstående plot.</p>
+<a class="reference internal image-reference" href="../_images/fire_ts_plot_gnss_BUDP_5D_IGb08.png"><img alt="Eksempel på plot af 5D-tidsserie for BUDP." src="../_images/fire_ts_plot_gnss_BUDP_5D_IGb08.png" width="800" />
+</a>
+<p>Plot af 5D-tidsserie for SMID:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">gnss</span> <span class="n">SMID_5D_IGb08</span> <span class="o">-</span><span class="n">p</span> <span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">-</span><span class="n">t</span> <span class="n">fit</span>
+</pre></div>
+</div>
+<p>Resulterer i visning af nedenstående plot.</p>
+<a class="reference internal image-reference" href="../_images/fire_ts_plot_gnss_SMID_5D_IGb08_XY_fit.png"><img alt="Eksempel på plot af 5D-tidsserie for SMID." src="../_images/fire_ts_plot_gnss_SMID_5D_IGb08_XY_fit.png" width="800" />
+</a>
+<p>Plot af 5D-tidsserie for TEJH:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">gnss</span> <span class="n">TEJH_5D_IGb08</span> <span class="o">-</span><span class="n">t</span> <span class="n">konf</span>
+</pre></div>
+</div>
+<p>Resulterer i visning af nedenstående plot.</p>
+<a class="reference internal image-reference" href="../_images/fire_ts_plot_gnss_TEJH_5D_IGb08_konf.png"><img alt="Eksempel på plot af 5D-tidsserie for TEJH." src="../_images/fire_ts_plot_gnss_TEJH_5D_IGb08_konf.png" width="800" />
+</a>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>ts<span class="w"> </span>plot-gnss<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>TIDSSERIE
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-gnss-t">
+<span id="cmdoption-fire-ts-plot-gnss-plottype"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--plottype</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;plottype&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-plot-gnss-t" title="Link to this definition"></a></dt>
+<dd><p>Hvilken type plot vil man se?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>rå | fit | konf</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-gnss-p">
+<span id="cmdoption-fire-ts-plot-gnss-parametre"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--parametre</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;parametre&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-plot-gnss-p" title="Link to this definition"></a></dt>
+<dd><p>Hvilken parameter skal plottes? Vælges flere plottes max de tre første.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-gnss-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-plot-gnss-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-gnss-m">
+<span id="cmdoption-fire-ts-plot-gnss-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-gnss-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-gnss-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-gnss-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-gnss-I">
+<span id="cmdoption-fire-ts-plot-gnss-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-gnss-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-gnss-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-gnss-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-gnss-arg-TIDSSERIE">
+<span class="sig-name descname"><span class="pre">TIDSSERIE</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-gnss-arg-TIDSSERIE" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-ts-analyse-gnss">
+<span id="fire-ts-analyse-gnss"></span><h2>fire ts analyse-gnss<a class="headerlink" href="#fire-ts-analyse-gnss" title="Link to this heading"></a></h2>
+<p>Analysér tidsserie for én eller flere GNSS stationer.</p>
+<p>Der beregnes som udgangspunkt et lineært fit til tidsserierne, der sammenlignes med en
+uplift-model og derefter vises i et detaljeret plot med konfidensbånd og diverse andre
+kvalitetsparametre for fittet. Resultaterne gemmes i csv-format hvis en sti angives
+med <code class="docutils literal notranslate"><span class="pre">--fil</span></code>.</p>
+<p>Alle tidsserieparametre som er indeholdt i FIRE kan analyseres. Af størst relevans er
+Op-retningen (<code class="docutils literal notranslate"><span class="pre">u</span></code>), men der kan også vælges de andre geografiske dimensioner nord og
+øst, samt de geocentriske x, y eller z. Vælger man at analysere Op-retningen, så
+sammenligner programmet hældningen af den fittede linje med en reference-hældning
+givet ved uplift-modellen &quot;DTU 2016&quot; af Per Knudsen. En alternativ uplift-model kan
+angives enten for hvert punkt på listeform eller i griddet format (tif-fil).</p>
+<p>Idéen med at sammenligne med en uplift-model er, at identificere eventuelle lokale
+bevægelser som ikke indfanges af uplift-modellen.</p>
+<p>Sammenligningen foretages ved statistisk hypotesetest, som vurderer sandsynligheden
+for om den modellerede hældning er lig referencehældningen. Hertil anvendes
+signifikansniveauet <code class="docutils literal notranslate"><span class="pre">alpha</span></code>.</p>
+<p>Konfidensintervaller- og bånd for regressionsparametrene hhv. -linjen anvender
+ligeledes signifikansniveauet <code class="docutils literal notranslate"><span class="pre">alpha</span></code>.</p>
+<p>Analyseres mere end 1 tidsserie betegnes samlingen af disse som et tidsserie-ensemble
+og der beregnes en samlet usikkerhed af ensemblets observationer. Den &quot;samlede&quot;
+usikkerhed anvendes så til genberegning af statistiske tests og parametre. Kun
+tidsserier som er i samme <code class="docutils literal notranslate"><span class="pre">referenceramme</span></code> kan analyseres (default er IGb08).</p>
+<p><strong>Tuning</strong>:</p>
+<p>Analyseresultaterne kan tunes med parametrene:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>     <span class="n">binsize</span>             <span class="n">Tag</span> <span class="n">gennemsnit</span> <span class="n">af</span> <span class="n">datapunkter</span> <span class="n">som</span> <span class="n">er</span> <span class="n">tættere</span> <span class="n">på</span> <span class="n">hinanden</span> <span class="n">end</span>
+<span class="o">|</span>                         <span class="n">binsize</span><span class="o">.</span> <span class="n">For</span> <span class="n">detaljer</span> <span class="n">se</span> <span class="n">dokumentation</span> <span class="n">af</span>
+<span class="o">|</span>                         <span class="n">GNSSTidsserie</span><span class="o">.</span><span class="n">binning</span><span class="o">.</span>
+<span class="o">|</span>     <span class="n">min_antal_punkter</span>   <span class="n">Minimum</span> <span class="n">antal</span> <span class="n">punkter</span> <span class="n">i</span> <span class="n">tidsserien</span><span class="o">.</span>
+<span class="o">|</span>     <span class="n">alpha</span>               <span class="n">Signifikansniveau</span> <span class="k">for</span> <span class="n">konfidensintervaller</span> <span class="n">og</span> <span class="n">hypotesetests</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><strong>Rationale bag binning:</strong></p>
+<p>Tidsserierne består af data ujævnt spredt i tid. Derfor kan man komme ud for at en
+tidsserie består en gruppe af data som er tæt på hinanden i tid, samt af nogle få
+punkter som ligger mere spredt. Tidsperioden med den lille gruppe punkter som ligger
+tæt vil derfor have en større vægt en resten af punkterne, når man estimerer sin
+lineære model. Binning-proceduren er derfor en måde at reducere data/downsample de
+perioder hvor der er mange punkter. Derudover vil midlingen af punkterne inden for en
+&quot;bin&quot; også udjævne tilfældige fejl i data.</p>
+<p>Bemærk at der <strong>ikke</strong> er tale om interpolation eller gridding af data.</p>
+<p><strong>Rationale bag tidsserie-ensembler:</strong></p>
+<p>Idet at man på kort tidsskala (år) antager en lineær trend i et givent punkts
+bevægelse (inklusive modelleret landbevægelse og lokale sætninger), kan afvigelserne
+(residualerne) mellem observationerne og den fittede linje, tolkes som
+måleusikkerheden forbundet med observationerne. (<em>NB! Tager ikke højde for eventuelle
+periodiske signaler eller (sjovt nok) ulinære tendenser.</em>) Dette kræver, at
+observationerne som indgår i tidsserien så vidt muligt er målt på samme måde og efter
+samme standarder, herunder GNSS-antenne/modtager, måletid etc.</p>
+<p>Denne antagelse er vigtig for at kunne analysere et tidsserie-ensemble som helhed.
+Idéen med dette er, at bruge residualerne fra alle tidsserierne i ensemblet til at
+estimere en generel, <em>samlet</em> måleusikkerhed for observationerne i ensemblet. (se også
+<a class="reference external" href="https://en.wikipedia.org/wiki/Pooled_variance">https://en.wikipedia.org/wiki/Pooled_variance</a>). <em>NB! Igen er det vigtigt at man sikrer
+sig at hver observation i hver tidsserie som indgår i ensemblet er målt på samme
+måde.</em></p>
+<p>Idet flere observationer indgår i estimeringen af denne samlede varians, vil denne
+være &quot;bedre bestemt&quot; end variansen for den enkelte tidsserne, og dette betyder at man
+med større statistisk sikkerhed kan drage konklusioner om GNSS-punkternes bevægelser.</p>
+<p><strong>Formler bag analyse-gnss:</strong></p>
+<p>Generelt søges der på et lineært ligningssystem et estimat:
+<span class="math notranslate nohighlight">\(\hat{\beta}=\begin{bmatrix} \hat{\beta}_0 &amp; \hat{\beta}_1 &amp; ··· &amp;
+\hat{\beta}_{M-1}\end{bmatrix}^T\)</span>, hvor <span class="math notranslate nohighlight">\(M\)</span> er antallet af modelparametre (i
+kildekoden bruges betegnelsen <code class="docutils literal notranslate"><span class="pre">ddof</span></code>, efter det engelske &quot;delta degrees of freedom&quot;,
+for at skabe konsistens med de anvendte biblioteker numpy og scipy).</p>
+<p>Det lineære ligningssystem repræsenteres på matrixform som:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{A}\,\beta = \mathbf{y}\]</div>
+<p>Det følgende tager udgangspunkt i, at der fittes en ret linje, dvs. <span class="math notranslate nohighlight">\(M=2\)</span>,
+hvilket er programmets standardindstilling. I så fald ser designmatricen
+<span class="math notranslate nohighlight">\(\mathbf{A}\)</span> ud på følgende måde:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{A}= \begin{bmatrix}
+1 &amp; x_1 \\
+1 &amp; x_2 \\
+⋮  &amp;  ⋮  \\
+1 &amp; x_N
+\end{bmatrix}\end{split}\]</div>
+<p>hvor <span class="math notranslate nohighlight">\({x_i}\)</span> er den forklarende variabel og <span class="math notranslate nohighlight">\({N}\)</span> er antallet af
+datapunkter.</p>
+<p>Observationerne er givet ved vektoren <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{y}= \begin{bmatrix} y_1 \\ y_2 \\ ⋮ \\ y_N \end{bmatrix}\end{split}\]</div>
+<p>Residualerne er da:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{r}=\mathbf{A}\mathbf{x} -\mathbf{b}\]</div>
+<p>Summen af kvadrerede residualer betegnes som:</p>
+<div class="math notranslate nohighlight">
+\[\text{SSR} = \mathbf{r}^T \, \mathbf{r}\]</div>
+<p>Løsningen vurderes ud fra bestemmelseskoefficienten <span class="math notranslate nohighlight">\({R^2}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[R^2=1-\frac{\text{SSR}}{\sum_i\left(y_i - \bar{y} \right)^2}\]</div>
+<p>Antallet af frihedsgrader angives <span class="math notranslate nohighlight">\(\text{dof}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\text{dof} = N-M\]</div>
+<p>Den estimerede varians af residualerne <span class="math notranslate nohighlight">\(\sigma_0^2\)</span> bestemmes ud fra
+<span class="math notranslate nohighlight">\(\text{MSE}\)</span> (Mean Squared Error):</p>
+<div class="math notranslate nohighlight">
+\[\sigma_0^2 = \text{MSE} = \frac{\text{SSR}}{\text{dof}}\]</div>
+<p>Kovariansmatricen af de estimerede parametre <span class="math notranslate nohighlight">\(\mathbf{\Sigma} (\hat{\beta})\)</span>
+er bestemt ved:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{\Sigma} = \sigma_0^2\,(\mathbf{A}^T\mathbf{A})^{-1} =
+\begin{bmatrix}
+\sigma_{\hat{\beta}_0}^2 &amp; \text{Cov}(\hat{\beta}_0,\hat{\beta}_1) \\
+\text{Cov}(\hat{\beta}_1, \hat{\beta}_0) &amp; \sigma_{\hat{\beta}_1}^2
+\end{bmatrix}\end{split}\]</div>
+<p>Konfidensintervallet <span class="math notranslate nohighlight">\(\text{KI}\)</span> for de estimerede parametre kan nu beregnes
+med signifikansniveau <span class="math notranslate nohighlight">\(\alpha\)</span> som:</p>
+<div class="math notranslate nohighlight">
+\[\text{KI} = \hat{\beta}_i \pm T_{1-\alpha/2} \, \sigma_{\hat{\beta}_i}\]</div>
+<p>hvor <span class="math notranslate nohighlight">\(T_{1-\alpha/2}\)</span> er <span class="math notranslate nohighlight">\(100·(1-\alpha/2)\)</span> -fraktilen for en
+t-fordeling med <span class="math notranslate nohighlight">\(\text{dof}\)</span> antal frihedsgrader.</p>
+<p><strong>Konfidensbånd</strong></p>
+<p>Prædiktioner med modellen for et vilkårligt prædiktionspunkt <span class="math notranslate nohighlight">\(x_p\)</span> er givet ved:</p>
+<div class="math notranslate nohighlight">
+\[y_p = \hat{\beta}_0 + \hat{\beta}_1\,x_p\]</div>
+<p>Et mål for sikkerheden af prædiktionen er <em>konfidensbåndet</em>. Denne beregnes for
+punktet <span class="math notranslate nohighlight">\(x_p\)</span> som:</p>
+<div class="math notranslate nohighlight">
+\[y_p \pm T_{1-\alpha/2} \,
+\left(
+    \begin{bmatrix} 1 &amp; x_p \end{bmatrix}
+    \mathbf{\Sigma}
+    \begin{bmatrix} 1 &amp; x_p \end{bmatrix}^T
+\right)^{1/2}\]</div>
+<p><strong>Hypotesetest</strong></p>
+<p>Hypotesetests foretages med følgende nulhypotese:</p>
+<blockquote>
+<div><p><em>Den modellerede terrænhastighed</em> <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> <em>er lig
+reference-hastigheden</em> <span class="math notranslate nohighlight">\(v\)</span></p>
+</div></blockquote>
+<p>For Op-retningen er <span class="math notranslate nohighlight">\(v\)</span> givet ved en uplift-model. Den alternative hypotese er
+nulhypotesens inverse:</p>
+<blockquote>
+<div><p><em>Den modellerede terrænhastighed</em> <span class="math notranslate nohighlight">\(\hat{\beta}_1\)</span> <em>er forskellig fra
+reference-hastigheden</em> <span class="math notranslate nohighlight">\(v\)</span></p>
+</div></blockquote>
+<p>Dette formuleres matematisk som:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}H_0: \hat{\beta_1} = v\\H_1: \hat{\beta_1} \neq v\end{aligned}\end{align} \]</div>
+<p>Test-scoren betegnes enten som <span class="math notranslate nohighlight">\(t\)</span> eller <span class="math notranslate nohighlight">\(z\)</span> afhængigt af om der foretages
+t- eller z-test. Begge test-scorer beregnes som:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\hat{\beta_1} - v }{\sigma_{\hat{\beta_1}}}\]</div>
+<p>Nulhypotesen <span class="math notranslate nohighlight">\(H_0\)</span> accepteres hvis <span class="math notranslate nohighlight">\(t\lt T_{1-\alpha/2}\)</span> (eller
+<span class="math notranslate nohighlight">\(z\lt Z_{1-\alpha/2}\)</span>). Ellers forkastes nulhypotesen og den alternative
+hypotese må accepteres.</p>
+<p><strong>Samlet varians</strong></p>
+<p>Den samlede varians <span class="math notranslate nohighlight">\(\sigma_{samlet}^2\)</span> beregnes som et vægtet gennemsnit af
+den estimerede varians <span class="math notranslate nohighlight">\(\sigma_{0,j}^2\)</span> for hver tidsserie
+<span class="math notranslate nohighlight">\(j=1\,..N_{ts}\)</span> som indgår i ensemblet:</p>
+<div class="math notranslate nohighlight">
+\[\sigma_{samlet}^2 = \frac{\sum_{j=1}^{N_{ts}} \text{dof}_j \,
+\sigma_{0,j}^2}{\sum_{j=1}^{N_{ts}} \text{dof}_j} =
+\frac{\sum_{j=1}^{N_{ts}} \text{SSR}_j}{\sum_{j=1}^{N_{ts}} \text{dof}_j}\]</div>
+<p>hvor <span class="math notranslate nohighlight">\(\text{dof}_j\)</span> er antallet af frihedsgrader for hver tidsserie <span class="math notranslate nohighlight">\(j\)</span>.
+Den samlede varians kan nu erstatte <span class="math notranslate nohighlight">\(\sigma_0^2\)</span> i de ovenstående formler,
+hvorved de statistiske størrelsers &quot;samlede&quot; udgave opnås. Dette indebærer antagelsen
+om, at <span class="math notranslate nohighlight">\(\sigma_{samlet}^2\)</span> er estimatet af <em>populationens</em> varians og ikke
+<em>sample</em>-variansen som er <span class="math notranslate nohighlight">\(\sigma_{0}^2\)</span>. Dette gør os i stand til, i
+hypotesetest og konfidensintervaller at anvende en normalfordeling med fraktilen
+<span class="math notranslate nohighlight">\(Z_{1-\alpha/2}\)</span> som er uafhængig af antal frihedsgrader, i stedet for en
+t-fordeling med fraktilen <span class="math notranslate nohighlight">\(T_{1-\alpha/2}\)</span>.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>ts<span class="w"> </span>analyse-gnss<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span><span class="o">[</span>TS_LISTE<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-ts-fil">
+<span class="sig-name descname"><span class="pre">--ts-fil</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;ts_fil&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-ts-fil" title="Link to this definition"></a></dt>
+<dd><p>Sti til fil med liste af tidsserier som skal analyseres. TidsserieID'erne i filen skal være adskilt af linjeskift. (\n)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-parameter">
+<span class="sig-name descname"><span class="pre">--parameter</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;parameter&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-parameter" title="Link to this definition"></a></dt>
+<dd><p>Vælg hvilken tidsserieparameter der skal undersøges, fx u for ellipsoidehøjde.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-f">
+<span id="cmdoption-fire-ts-analyse-gnss-fil"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--fil</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;fil&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-f" title="Link to this definition"></a></dt>
+<dd><p>Skriv beregnet tidsseriestatistik til csv-fil.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-uplift-station">
+<span class="sig-name descname"><span class="pre">--uplift-station</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;uplift_station&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-uplift-station" title="Link to this definition"></a></dt>
+<dd><p>Sti til uplift-data for hver station. Hvis de(n) valgte station ikke findes, interpoleres uplift-raten ud fra <code class="docutils literal notranslate"><span class="pre">--uplift-grid</span></code>. Formatet af filen skal være <code class="docutils literal notranslate"><span class="pre">GNSSNR,</span> <span class="pre">LON,</span> <span class="pre">LAT,</span> <span class="pre">UPLIFTRATE</span> <span class="pre">\n</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-uplift-grid">
+<span class="sig-name descname"><span class="pre">--uplift-grid</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;uplift_grid&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-uplift-grid" title="Link to this definition"></a></dt>
+<dd><p>Sti til griddet uplift-data. NB! Default-modellen &quot;DTU 2016&quot; af Per Knudsen dækker området fra 54.1-58°N og 7.7-13.1°E og er dermed ikke gyldig over Bornholm.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-min-antal-punkter">
+<span class="sig-name descname"><span class="pre">--min-antal-punkter</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;min_antal_punkter&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-min-antal-punkter" title="Link to this definition"></a></dt>
+<dd><p>Minimum antal punkter i tidsserien.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-alpha">
+<span class="sig-name descname"><span class="pre">--alpha</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;alpha&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-alpha" title="Link to this definition"></a></dt>
+<dd><p>Signifikansniveau for statistiske tests og konfidensintervaller.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-binsize">
+<span class="sig-name descname"><span class="pre">--binsize</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;binsize&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-binsize" title="Link to this definition"></a></dt>
+<dd><p>Hvis antal dage mellem datapunkter er mindre end binsize findes gennemsnit af datapunkterne.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-grad">
+<span class="sig-name descname"><span class="pre">--grad</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;grad&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-grad" title="Link to this definition"></a></dt>
+<dd><p>Vælg graden af polynomiet som fittes til data. Bruges sjældent.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-referenceramme">
+<span class="sig-name descname"><span class="pre">--referenceramme</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;referenceramme&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-referenceramme" title="Link to this definition"></a></dt>
+<dd><p>Vælg tidseriernes referenceramme.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-alle">
+<span class="sig-name descname"><span class="pre">--alle</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-alle" title="Link to this definition"></a></dt>
+<dd><p>Sættes dette flag, bliver <code class="docutils literal notranslate"><span class="pre">--ts-liste</span></code> og <code class="docutils literal notranslate"><span class="pre">--ts-fil</span></code> ignoreret og alle GNSS-stationer med 5D tidsserier i den valgte referenceramme analyseres.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-plot">
+<span id="cmdoption-fire-ts-analyse-gnss-no-plot"></span><span class="sig-name descname"><span class="pre">--plot</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-plot</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-plot" title="Link to this definition"></a></dt>
+<dd><p>Vælg om plots skal vises eller ej.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-m">
+<span id="cmdoption-fire-ts-analyse-gnss-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-I">
+<span id="cmdoption-fire-ts-analyse-gnss-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-gnss-arg-TS_LISTE">
+<span class="sig-name descname"><span class="pre">TS_LISTE</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-gnss-arg-TS_LISTE" title="Link to this definition"></a></dt>
+<dd><p>Optional argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-ts-hts">
+<span id="fire-ts-hts"></span><h2>fire ts hts<a class="headerlink" href="#fire-ts-hts" title="Link to this heading"></a></h2>
+<p>Udtræk en Højdetidsserie.</p>
+<p>&quot;OBJEKT&quot; sættes til enten et punkt eller en søgetekst på tidsserienavn.
+Hvis &quot;OBJEKT&quot; er et punkt udskrives en oversigt over de tilgængelige tidsserier til
+dette punkt.
+Ellers søges der blandt alle tidsserier, hvor &quot;OBJEKT&quot; indgår i navnet. Findes der
+flere tidsserier, skrives en oversigt over dem, og hvis der kun findes én tidsserie
+udskrives tidsserien på skærmen. Hvilke parametre der udskrives kan specificeres i en
+kommasepareret liste med <code class="docutils literal notranslate"><span class="pre">--parametre</span></code>. Følgende parametre kan vælges:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>     <span class="n">t</span>               <span class="n">Tidspunkt</span> <span class="k">for</span> <span class="n">koordinatobservation</span>
+<span class="o">|</span>     <span class="n">decimalår</span>       <span class="n">Tidspunkt</span> <span class="k">for</span> <span class="n">koordinatobservation</span> <span class="n">i</span> <span class="n">decimalår</span>
+<span class="o">|</span>     <span class="n">kote</span>            <span class="n">Koordinatens</span> <span class="n">z</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">sz</span>              <span class="n">z</span><span class="o">-</span><span class="n">komponentens</span> <span class="p">(</span><span class="n">kotens</span><span class="p">)</span> <span class="n">spredning</span> <span class="p">(</span><span class="n">i</span> <span class="n">mm</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Tidsserien kan skrives til en fil ved brug af <code class="docutils literal notranslate"><span class="pre">--fil</span></code>, der resulterer i
+en csv-fil på den angivne placering. Denne fil kan efterfølgende åbnes
+i Excel, eller et andet passende program, til videre analyse.</p>
+<div class="line-block">
+<div class="line"><strong>EKSEMPLER</strong></div>
+</div>
+<p>Vis alle tidsserier for punktet SUL3:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">fire</span> <span class="n">ts</span> <span class="n">hts</span> <span class="n">SUL3</span>
+
+<span class="n">Vis</span> <span class="n">alle</span> <span class="n">tidsserier</span> <span class="n">hvor</span> <span class="s1">'81103'</span> <span class="n">indgår</span> <span class="n">i</span> <span class="n">navnet</span><span class="p">::</span>
+
+   <span class="n">fire</span> <span class="n">ts</span> <span class="n">hts</span> <span class="mi">81103</span>
+</pre></div>
+</div>
+<p>Vis tidsserien SUL3_HTS_81103 med standardparametre:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">hts</span> <span class="n">SUL3_HTS_81103</span>
+</pre></div>
+</div>
+<p>Vis tidsserie med brugerdefinerede parametre:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">hts</span> <span class="n">SUL3_HTS_81103</span> <span class="o">--</span><span class="n">parametre</span> <span class="n">decimalår</span><span class="p">,</span><span class="n">kote</span><span class="p">,</span><span class="n">sz</span>
+</pre></div>
+</div>
+<p>Gem tidsserie med samtlige tilgængelige parametre:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">hts</span> <span class="n">SUL3_HTS_81103</span> <span class="o">-</span><span class="n">p</span> <span class="n">alle</span> <span class="o">-</span><span class="n">f</span> <span class="n">SUL3_HTS_81103</span><span class="o">.</span><span class="n">xlsx</span>
+</pre></div>
+</div>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>ts<span class="w"> </span>hts<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>OBJEKT
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-hts-p">
+<span id="cmdoption-fire-ts-hts-parametre"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--parametre</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;parametre&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-hts-p" title="Link to this definition"></a></dt>
+<dd><p>Vælg hvilke parametre i tidsserien der skal udtrækkes. Som standard
+sat til 't,decimalår,kote,sz'. Bruges værdien 'alle' udtrækkes alle mulige parametre
+i tidsserien.  Se <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">ts</span> <span class="pre">hts</span> <span class="pre">--help</span></code> for yderligere detaljer.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-hts-f">
+<span id="cmdoption-fire-ts-hts-fil"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--fil</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;fil&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-hts-f" title="Link to this definition"></a></dt>
+<dd><p>Skriv den udtrukne tidsserie til Excel fil.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-hts-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-hts-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-hts-m">
+<span id="cmdoption-fire-ts-hts-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-hts-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-hts-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-hts-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-hts-I">
+<span id="cmdoption-fire-ts-hts-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-hts-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-hts-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-hts-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-hts-arg-OBJEKT">
+<span class="sig-name descname"><span class="pre">OBJEKT</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-hts-arg-OBJEKT" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-ts-plot-hts">
+<span id="fire-ts-plot-hts"></span><h2>fire ts plot-hts<a class="headerlink" href="#fire-ts-plot-hts" title="Link to this heading"></a></h2>
+<p>Plot en Højdetidsserie.</p>
+<p>Et simpelt plot der som standard viser kotens udvikling over tid.</p>
+<p>&quot;TIDSSERIE&quot; er et Højdetidsserienavn fra FIRE. Eksisterende Højdetidsserier kan
+fremsøges med kommandoen <code class="docutils literal notranslate"><span class="pre">fire</span> <span class="pre">ts</span> <span class="pre">hts</span> <span class="pre">&lt;punktnummer&gt;</span></code>.
+Hvilke parametre der plottes kan specificeres i en kommasepareret liste med
+<code class="docutils literal notranslate"><span class="pre">--parametre</span></code>. Højst 3 parametre plottes. Følgende parametre kan vælges:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>     <span class="n">t</span>               <span class="n">Tidspunkt</span> <span class="k">for</span> <span class="n">koordinatobservation</span>
+<span class="o">|</span>     <span class="n">kote</span>            <span class="n">Koordinatens</span> <span class="n">z</span><span class="o">-</span><span class="n">komponent</span>
+<span class="o">|</span>     <span class="n">sz</span>              <span class="n">z</span><span class="o">-</span><span class="n">komponentens</span> <span class="p">(</span><span class="n">kotens</span><span class="p">)</span> <span class="n">spredning</span> <span class="p">(</span><span class="n">i</span> <span class="n">mm</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">decimalår</span>       <span class="n">Tidspunkt</span> <span class="k">for</span> <span class="n">koordinatobservation</span> <span class="n">i</span> <span class="n">decimalår</span>
+</pre></div>
+</div>
+<p>Typen af plot som vises kan vælges med <code class="docutils literal notranslate"><span class="pre">--plottype</span></code>. Følgende plottyper kan vælges:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>     <span class="n">rå</span>              <span class="n">Plot</span> <span class="n">rå</span> <span class="n">data</span>
+<span class="o">|</span>     <span class="n">fit</span>             <span class="n">Plot</span> <span class="n">lineær</span> <span class="n">regression</span> <span class="n">oven</span> <span class="n">på</span> <span class="n">de</span> <span class="n">rå</span> <span class="n">data</span>
+<span class="o">|</span>     <span class="n">konf</span>            <span class="n">Plot</span> <span class="n">lineær</span> <span class="n">regression</span> <span class="n">med</span> <span class="n">konfidensbånd</span>
+</pre></div>
+</div>
+<p><strong>EKSEMPLER:</strong></p>
+<p>Plot af højdetidsserie for GED3:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">hts</span> <span class="n">GED3_HTS_81005</span>
+</pre></div>
+</div>
+<p>Resulterer i visning af nedenstående plot.</p>
+<a class="reference internal image-reference" href="../_images/fire_ts_plot_hts_GED3_HTS_81005.png"><img alt="Eksempel på plot af højde-tidsserie for GED3." src="../_images/fire_ts_plot_hts_GED3_HTS_81005.png" width="800" />
+</a>
+<p>Plot af højdetidsserie for GED2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">hts</span> <span class="n">GED2_HTS_81050</span> <span class="o">-</span><span class="n">t</span> <span class="n">fit</span>
+</pre></div>
+</div>
+<p>Resulterer i visning af nedenstående plot.</p>
+<a class="reference internal image-reference" href="../_images/fire_ts_plot_hts_GED2_HTS_81050_fit.png"><img alt="Eksempel på plot af højde-tidsserie for GED2." src="../_images/fire_ts_plot_hts_GED2_HTS_81050_fit.png" width="800" />
+</a>
+<p>Plot af højdetidsserie for GED5:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fire</span> <span class="n">ts</span> <span class="n">plot</span><span class="o">-</span><span class="n">hts</span> <span class="n">GED5_HTS_81068</span> <span class="o">-</span><span class="n">t</span> <span class="n">konf</span>
+</pre></div>
+</div>
+<p>Resulterer i visning af nedenstående plot.</p>
+<a class="reference internal image-reference" href="../_images/fire_ts_plot_hts_GED5_HTS_81068_konf.png"><img alt="Eksempel på plot af højde-tidsserie for GED5." src="../_images/fire_ts_plot_hts_GED5_HTS_81068_konf.png" width="800" />
+</a>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>ts<span class="w"> </span>plot-hts<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>TIDSSERIE
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-hts-t">
+<span id="cmdoption-fire-ts-plot-hts-plottype"></span><span class="sig-name descname"><span class="pre">-t</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--plottype</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;plottype&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-plot-hts-t" title="Link to this definition"></a></dt>
+<dd><p>Hvilken type plot vil man se?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>rå | fit | konf</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-hts-p">
+<span id="cmdoption-fire-ts-plot-hts-parametre"></span><span class="sig-name descname"><span class="pre">-p</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--parametre</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;parametre&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-plot-hts-p" title="Link to this definition"></a></dt>
+<dd><p>Hvilken parameter skal plottes?</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-hts-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-plot-hts-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-hts-m">
+<span id="cmdoption-fire-ts-plot-hts-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-hts-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-hts-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-hts-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-hts-I">
+<span id="cmdoption-fire-ts-plot-hts-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-hts-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-hts-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-hts-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-plot-hts-arg-TIDSSERIE">
+<span class="sig-name descname"><span class="pre">TIDSSERIE</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-plot-hts-arg-TIDSSERIE" title="Link to this definition"></a></dt>
+<dd><p>Required argument</p>
+</dd></dl>
+
+</section>
+<section id="fire-ts-analyse-hts">
+<span id="fire-ts-analyse-hts"></span><h2>fire ts analyse-hts<a class="headerlink" href="#fire-ts-analyse-hts" title="Link to this heading"></a></h2>
+<p>Analysér en eller flere Højdetidsserier.</p>
+<p>Der beregnes for hver af de valgte højdetidsserier et lineært fit til tidsserien.</p>
+<p>Der vises et plot af alle tidsseriernes normaliserede koter. Dernæst vises et
+detaljeret plot af hver tidsserie med konfidensbånd og diverse andre
+kvalitetsparametre for fittet. Plots kan til/fravælges med <code class="docutils literal notranslate"><span class="pre">--plot/--no-plot</span></code>.</p>
+<p>Analyseresultaterne gemmes i csv-format hvis en sti angives med <code class="docutils literal notranslate"><span class="pre">--fil</span></code>. Se
+nedenfor, for detaljer om analysen.</p>
+<p><code class="docutils literal notranslate"><span class="pre">OBJEKT</span></code> kan enten være en Punktsamling eller en liste indeholdende én eller flere
+Højdetidsserier.</p>
+<p>Hvis <code class="docutils literal notranslate"><span class="pre">OBJEKT</span></code> angiver flere Højdetidsserier, skal alle tidsserierne være givet over
+det samme jessenpunkt. Hvis <code class="docutils literal notranslate"><span class="pre">OBJEKT</span></code> angiver en Punktsamling analyseres alle
+Højdetidsserierne i punktsamlingen.</p>
+<p>Tidsserier med meget få datapunkter filtreres fra i søgningen. Antallet kan vælges med
+<code class="docutils literal notranslate"><span class="pre">--nmin</span></code>. Default-værdien er 3 datapunkter.</p>
+<p>Parameteren <code class="docutils literal notranslate"><span class="pre">--nyt-jessenpunkt</span></code> angiver identen for det punkt som i analysen bruges
+som nyt referencepunkt. Tidsserien for det valgte punkt trækkes fra de andre
+tidsserier, hvilket dermed giver højdeforskellene ift. det valgte punkt. Bemærk at
+dette er rent &quot;beregningsteknisk&quot;, og altså bliver der ikke gemt nye koter i
+databasen!</p>
+<p><strong>Statistisk analyse:</strong></p>
+<p>Programmet beregner som nævnt et lineært fit ved brug af mindste kvadraters metode
+(LS). Følgende er en beskrivelse af de nogle af statistiske parametre som programmet
+beregner og som fortjener forklaring:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">|</span>     <span class="n">std_0</span>               <span class="n">Standardafvigelse</span> <span class="n">af</span> <span class="n">residualer</span>
+<span class="o">|</span>     <span class="n">var_0</span>               <span class="n">Varians</span> <span class="n">af</span> <span class="n">residualer</span>
+<span class="o">|</span>     <span class="n">std_hældning</span>        <span class="n">Estimeret</span> <span class="n">varians</span> <span class="n">af</span> <span class="n">estimeret</span> <span class="n">hældning</span>
+<span class="o">|</span>     <span class="n">var_hældning</span>        <span class="n">Estimeret</span> <span class="n">varians</span> <span class="n">af</span> <span class="n">estimeret</span> <span class="n">hældning</span>
+<span class="o">|</span>     <span class="n">ki_hældning</span>         <span class="n">Nedre</span><span class="o">/</span><span class="n">øvre</span> <span class="n">grænse</span> <span class="k">for</span> <span class="n">konfidensinterval</span> <span class="k">for</span> <span class="n">estimeret</span>
+<span class="o">|</span>                         <span class="n">hældning</span><span class="o">.</span> <span class="n">Konfidensintervallet</span> <span class="n">er</span> <span class="n">bestemt</span> <span class="n">ved</span>
+<span class="o">|</span>                         <span class="n">signifikansniveau</span> <span class="n">på</span> <span class="mi">5</span><span class="o">%</span>
+<span class="o">|</span>     <span class="n">mex</span>                 <span class="n">Middelepoke</span> <span class="k">for</span> <span class="n">tidsserien</span> <span class="p">(</span><span class="n">Gennemsnit</span> <span class="n">af</span> <span class="n">x</span><span class="o">-</span><span class="n">værdier</span><span class="p">)</span>
+<span class="o">|</span>     <span class="n">mey</span>                 <span class="n">Tidsseriens</span> <span class="n">fittede</span> <span class="n">værdi</span> <span class="n">ved</span> <span class="n">middelepoken</span>
+<span class="o">|</span>     <span class="n">er_bevægelse_signifikant</span>    <span class="n">Resultat</span> <span class="n">af</span> <span class="n">hypotesetest</span> <span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="n">test</span><span class="p">)</span> <span class="k">for</span> <span class="n">om</span>
+<span class="o">|</span>                                 <span class="n">bevægelsen</span> <span class="n">er</span> <span class="n">signifikant</span> <span class="n">forskellig</span> <span class="n">fra</span> <span class="mi">0</span>
+<span class="o">|</span>     <span class="n">alpha_bevægelse_signifikant</span> <span class="n">Signifikansniveau</span> <span class="n">anvendt</span> <span class="n">i</span> <span class="n">T</span><span class="o">-</span><span class="n">test</span> <span class="p">(</span><span class="n">default</span> <span class="mi">1</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>I de detaljerede plots vises som nævnt konfidensbånd for fittet. Hertil anvendes
+signifikansniveau på 5%.</p>
+<p class="rubric">Usage</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>fire<span class="w"> </span>ts<span class="w"> </span>analyse-hts<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>OBJEKT...
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-f">
+<span id="cmdoption-fire-ts-analyse-hts-fil"></span><span class="sig-name descname"><span class="pre">-f</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--fil</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;fil&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-f" title="Link to this definition"></a></dt>
+<dd><p>Skriv beregnet tidsseriestatistik til csv-fil.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-nmin">
+<span class="sig-name descname"><span class="pre">--nmin</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;nmin&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-nmin" title="Link to this definition"></a></dt>
+<dd><p>Minimum antal punkter i tidsserien.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-nyt-jessenpunkt">
+<span class="sig-name descname"><span class="pre">--nyt-jessenpunkt</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;nyt_jessenpunkt&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-nyt-jessenpunkt" title="Link to this definition"></a></dt>
+<dd><p>Angiv ident for nyt referencepunkt som skal bruges i analysen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-plot">
+<span id="cmdoption-fire-ts-analyse-hts-no-plot"></span><span class="sig-name descname"><span class="pre">--plot</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--no-plot</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-plot" title="Link to this definition"></a></dt>
+<dd><p>Vælg om plots skal vises eller ej.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-db">
+<span class="sig-name descname"><span class="pre">--db</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;db&gt;</span></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-db" title="Link to this definition"></a></dt>
+<dd><p>Vælg en specifik databaseforbindelse - default_connection i fire.ini bruges hvis intet vælges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options<span class="colon">:</span></dt>
+<dd class="field-odd"><p>prod | test</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-m">
+<span id="cmdoption-fire-ts-analyse-hts-monokrom"></span><span class="sig-name descname"><span class="pre">-m</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--monokrom</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-m" title="Link to this definition"></a></dt>
+<dd><p>Vis ikke farver i terminalen</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-debug">
+<span class="sig-name descname"><span class="pre">--debug</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-debug" title="Link to this definition"></a></dt>
+<dd><p>Vis debug output fra FIRE-databasen.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-I">
+<span id="cmdoption-fire-ts-analyse-hts-interaktiv"></span><span class="sig-name descname"><span class="pre">-I</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--interaktiv</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-I" title="Link to this definition"></a></dt>
+<dd><p>Slå interaktiv mode til.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-help">
+<span class="sig-name descname"><span class="pre">--help</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-help" title="Link to this definition"></a></dt>
+<dd><p>Vis denne hjælpetekst</p>
+</dd></dl>
+
+<p class="rubric">Arguments</p>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-fire-ts-analyse-hts-arg-OBJEKT">
+<span class="sig-name descname"><span class="pre">OBJEKT</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-fire-ts-analyse-hts-arg-OBJEKT" title="Link to this definition"></a></dt>
+<dd><p>Required argument(s)</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="luk.html" class="btn btn-neutral float-left" title="fire luk" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tips/index.html" class="btn btn-neutral float-right" title="Tips og tricks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2026 SDFI, Septima.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
